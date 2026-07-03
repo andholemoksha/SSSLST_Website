@@ -1,28 +1,114 @@
 @import "tailwindcss";
 
+/*
+ * ============================================================
+ * DESIGN SYSTEM — THEME TOKENS
+ * ============================================================
+ * Single source of truth for the site's visual theme.
+ * See ../DESIGN_SYSTEM.md for the design rules these values implement.
+ *
+ * To re-theme the entire website, edit ONLY the values in :root below.
+ * Never hardcode colors, fonts, or radii inside components — always
+ * consume the semantic tokens this file exposes as Tailwind utilities
+ * (bg-primary, text-foreground, font-heading, etc).
+ */
 :root {
-  --color-text: #6b6375;
-  --color-text-h: #08060d;
-  --color-bg: #ffffff;
-  --color-border: #e5e4e7;
-  --color-muted: #f4f3ec;
-  --color-accent: #aa3bff;
+  /* Base surfaces */
+  --background: #ffffff; /* page background */
+  --surface: #f7f6fa; /* raised/alternate surfaces (cards on white sections, etc.) */
+  --foreground: #1f1b24; /* default text color */
 
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  /* Brand */
+  --primary: #6d28d9; /* Royal Purple */
+  --primary-foreground: #ffffff;
+  --secondary: #ede9fe; /* Soft Lavender */
+  --secondary-foreground: #4c1d95;
+  --accent: #f97316; /* Warm Orange — accents only, never primary buttons */
+  --accent-foreground: #ffffff;
+
+  /* Neutral */
+  --muted: #f1f0f4; /* Soft Gray */
+  --muted-foreground: #6b7280;
+  --border: #e4e2e8;
+  --ring: var(--primary);
+
+  /* Status */
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+  --info: #2563eb;
+  --info-foreground: #ffffff;
+
+  /* Gradient — highlight/statistic/feature cards ONLY. Never navbar, footer,
+     buttons, or full-page backgrounds. See DESIGN_SYSTEM.md "Gradient Usage". */
+  --gradient-highlight: linear-gradient(135deg, #fde2e4 0%, #e9d8fd 50%, #ffe8d6 100%);
+
+  /* Fonts */
+  --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme {
-  --color-text: var(--color-text);
-  --color-text-h: var(--color-text-h);
-  --color-border: var(--color-border);
-  --color-muted: var(--color-muted);
-  --color-muted-foreground: var(--color-text);
-  --color-accent: var(--color-accent);
+/*
+ * Wire the tokens above into Tailwind's theme so they become utilities
+ * (bg-primary, text-muted-foreground, ring-ring, font-heading, ...).
+ * This is the only place that bridges CSS variables <-> Tailwind classes.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  --font-heading: var(--font-heading);
+  --font-sans: var(--font-sans);
 }
 
-body {
-  margin: 0;
-  font-family: var(--sans);
-  color: var(--color-text);
-  background: var(--color-bg);
+/*
+ * Global typography. Font sizes are NOT set here — components pick sizes
+ * from the Typography Scale in DESIGN_SYSTEM.md (text-3xl, md:text-4xl, ...).
+ */
+@layer base {
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-semibold tracking-tight text-foreground;
+  }
+}
+
+/*
+ * Sparingly-used gradient for highlight/statistic/feature cards.
+ * Usage: <div className="bg-gradient-highlight"> ... </div>
+ */
+.bg-gradient-highlight {
+  background-image: var(--gradient-highlight);
 }
