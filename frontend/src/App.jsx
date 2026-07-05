@@ -11,6 +11,8 @@ import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
+import { TestimonialsPage } from "@/pages/TestimonialsPage";
+import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 function App() {
@@ -27,6 +29,11 @@ function App() {
           <Route path="/programme/dhyana-vahini" element={<DhyanaVahiniPage />} />
           <Route path="/programme/samithi-connect" element={<SamithiConnectPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route
+            path="/testimonials/:year/:stateSlug"
+            element={<StateTestimonialsPage />}
+          />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -17,7 +17,7 @@ export const navigation = {
     {
       title: "Digital Archives",
       children: [
-        { title: "Testimonials", href: "/projects" },
+        { title: "Testimonials", href: "/testimonials" },
         { title: "Photo Gallery", href: "/projects" },
         { title: "Satsangs", href: "/projects" },
       ],
