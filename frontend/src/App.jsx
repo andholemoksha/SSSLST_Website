@@ -7,6 +7,7 @@ import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
+import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/course" element={<CoursePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/satsang" element={<SatsangPage />} />
+          <Route path="/dhyana-vahini" element={<DhyanaVahiniPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
