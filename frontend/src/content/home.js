@@ -45,5 +45,27 @@ export const home = {
     icon: "users",
   },
 ],
+exploreSections: [
+  {
+    title: "Dhyana Vahini",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644",
+    link: "/programme/dhyana-vahini",
+  },
+  {
+    title: "Projects",
+    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952",
+    link: "/projects",
+  },
+  {
+    title: "Curriculum",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7",
+    link: "/curriculum",
+  },
+  {
+    title: "Projects",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    link: "/projects",
+  },
+],
   
 };
