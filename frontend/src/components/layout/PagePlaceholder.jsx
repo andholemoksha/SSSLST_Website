@@ -1,18 +1,45 @@
+import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
+import { Container } from "@/components/layout/Container";
 
 /**
  * PagePlaceholder
  *
- * Minimal header + "coming soon" body for routes that exist for
- * navigation purposes but don't have real content yet.
+ * Shared layout for routes that exist for navigation but don't have real
+ * content yet: header + optional back-link + a "coming soon" body.
+ *
+ * Props:
+ * - title, description   page header text
+ * - backTo, backLabel    optional back-link (e.g. to a hub page)
+ * - message              body text (defaults to "Content coming soon.")
+ * - children             optional custom body (overrides `message`)
  */
-export function PagePlaceholder({ title, description }) {
+export function PagePlaceholder({
+  title,
+  description,
+  backTo,
+  backLabel = "Back",
+  message = "Content coming soon.",
+  children,
+}) {
   return (
     <>
       <PageHeader title={title} description={description} />
       <Section>
-        <p className="text-muted-foreground">Content coming soon.</p>
+        {backTo ? (
+          <Container className="px-0">
+            <Link
+              to={backTo}
+              className="text-sm font-medium text-accent hover:underline"
+            >
+              &larr; {backLabel}
+            </Link>
+          </Container>
+        ) : null}
+        {children ?? (
+          <p className="py-16 text-center text-muted-foreground">{message}</p>
+        )}
       </Section>
     </>
   );
