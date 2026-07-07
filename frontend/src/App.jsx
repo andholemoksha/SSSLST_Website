@@ -8,6 +8,7 @@ import { WeeklySessionsPage } from "@/pages/WeeklySessionsPage";
 import { SathvamPage } from "@/pages/SathvamPage";
 import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
 import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
+import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
@@ -28,6 +29,10 @@ function App() {
           <Route path="/programme/sathvam" element={<SathvamPage />} />
           <Route path="/programme/dhyana-vahini" element={<DhyanaVahiniPage />} />
           <Route path="/programme/samithi-connect" element={<SamithiConnectPage />} />
+          <Route
+            path="/programme/samithi-connect/:sectionSlug/:activitySlug"
+            element={<SamithiActivityPage />}
+          />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route

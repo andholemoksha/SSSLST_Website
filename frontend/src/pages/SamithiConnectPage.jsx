@@ -1,10 +1,17 @@
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Section } from "@/components/layout/Section";
+import { SamithiSections } from "@/features/samithi/components/SamithiSections";
 
 export function SamithiConnectPage() {
   return (
-    <PagePlaceholder
-      title="Samithi Connect"
-      description="Details about Samithi Connect will be published here soon."
-    />
+    <>
+      <PageHeader
+        title="Samithi Connect Programme"
+        description="Spiritual, educational and service activities — connect and take part."
+      />
+      <Section>
+        <SamithiSections />
+      </Section>
+    </>
   );
 }
