@@ -1,0 +1,47 @@
+name: PR Review
+
+# Runs automatically on every pull request into develop.
+# These checks are meant to be REQUIRED in branch protection so a PR cannot be
+# merged until they pass (see pr-review-agent/README.md > Production / CI).
+on:
+  pull_request:
+    branches: [develop]
+
+# If a PR gets new pushes, cancel the older in-progress run.
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Lint, build & team checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history so we can diff against the base)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # Team-convention checks (stale tokens, conflict markers, console.log,
+      # large binaries, deep imports, axios-outside-service, …) on the PR diff.
+      - name: PR Review Agent (team conventions)
+        run: node pr-review-agent/review.mjs "${{ github.event.pull_request.base.sha }}" --skip-lint --skip-build
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
