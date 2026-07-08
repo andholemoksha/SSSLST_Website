@@ -7,12 +7,12 @@ export function ExploreSection() {
 
   return (
     <section className="py-0">
-      <div className="flex h-[600px] w-full overflow-hidden">
+      <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 overflow-hidden">
         {exploreSections.map((item) => (
           <Link
             key={item.title}
             to={item.link}
-            className="group relative flex-1 overflow-hidden"
+            className="group relative h-[320px] sm:h-[420px] lg:h-[600px] overflow-hidden"
           >
             {/* Background Image */}
             <img
@@ -21,12 +21,12 @@ export function ExploreSection() {
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
 
-            {/* Default Overlay */}
+            {/* Overlay */}
             <div className="absolute inset-0 bg-black/45 transition-all duration-500 group-hover:bg-primary/70" />
 
             {/* Content */}
             <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
-              <h2 className="font-heading text-3xl font-semibold uppercase tracking-wider text-primary-foreground transition-all duration-500 group-hover:-translate-y-2">
+              <h2 className="font-heading text-2xl sm:text-3xl font-semibold uppercase tracking-wide text-primary-foreground transition-all duration-500 group-hover:-translate-y-2">
                 {item.title}
               </h2>
 
