@@ -23,4 +23,27 @@ export const home = {
         "Grow alongside a cohort of people who are just as committed to change as you are.",
     },
   ],
+  programmeNumbers: [
+  {
+    value: "2400+",
+    label: "Graduates",
+    icon: "graduation",
+  },
+  {
+    value: "28",
+    label: "States Covered",
+    icon: "location",
+  },
+  {
+    value: "12",
+    label: "Batches Completed",
+    icon: "book",
+  },
+  {
+    value: "340+",
+    label: "Current Participants",
+    icon: "users",
+  },
+],
+  
 };

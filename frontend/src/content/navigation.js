@@ -1,11 +1,27 @@
 export const navigation = {
-  logoText: "Leadership Institute",
+  logoText: "SSSLST",
+  logoSubtitle: "Sri Sathya Sai Leadership Through Self Transformation",
   links: [
-    { label: "Home", to: "/" },
-    { label: "Course", to: "/course" },
-    { label: "Projects", to: "/projects" },
-    { label: "Dhyana Vahini", to: "/dhyana-vahini" },
-    { label: "FAQ", to: "/faq" },
-    { label: "Contact", to: "/contact" },
+    { title: "Home", href: "/" },
+    {
+      title: "Programme",
+      children: [
+        { title: "Weekly Sessions", href: "/programme/weekly-sessions" },
+        { title: "Sathvam", href: "/satsang" },
+        { title: "Dhyana Vahini", href: "/programme/dhyana-vahini" },
+        { title: "Samithi Connect", href: "/programme/samithi-connect" },
+        { title: "Project", href: "/projects" },
+      ],
+    },
+    { title: "Curriculum", href: "/curriculum" },
+    {
+      title: "Digital Archives",
+      children: [
+        { title: "Testimonials", href: "/testimonials" },
+        { title: "Photo Gallery", href: "/projects" },
+      ],
+    },
+    { title: "Reach Us", href: "/contact" },
+    { title: "FAQs", href: "/faq" },
   ],
 };

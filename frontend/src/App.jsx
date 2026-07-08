@@ -3,11 +3,19 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HomePage } from "@/pages/HomePage";
 import { CoursePage } from "@/pages/CoursePage";
+import { CurriculumPage } from "@/pages/CurriculumPage";
+import { WeeklySessionsPage } from "@/pages/WeeklySessionsPage";
+import { SathvamPage } from "@/pages/SathvamPage";
+import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
+import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
+import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
-import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
+import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
+import { TestimonialsPage } from "@/pages/TestimonialsPage";
+import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 function App() {
@@ -18,9 +26,23 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/curriculum" element={<CurriculumPage />} />
+          <Route path="/programme/weekly-sessions" element={<WeeklySessionsPage />} />
+          <Route path="/programme/sathvam" element={<SathvamPage />} />
+          <Route path="/programme/dhyana-vahini" element={<DhyanaVahiniPage />} />
+          <Route path="/programme/samithi-connect" element={<SamithiConnectPage />} />
+          <Route
+            path="/programme/samithi-connect/:sectionSlug/:activitySlug"
+            element={<SamithiActivityPage />}
+          />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:categorySlug" element={<ProjectCategoryPage />} />
+          <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route
+            path="/testimonials/:year/:stateSlug"
+            element={<StateTestimonialsPage />}
+          />
           <Route path="/satsang" element={<SatsangPage />} />
-          <Route path="/dhyana-vahini" element={<DhyanaVahiniPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
