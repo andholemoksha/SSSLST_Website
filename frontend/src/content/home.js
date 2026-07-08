@@ -1,10 +1,40 @@
 export const home = {
   hero: {
-    heading: "Leadership begins with self-transformation.",
-    subheading:
-      "We help individuals become the kind of leaders worth following — starting from the inside out.",
-    ctaLabel: "Explore the course",
-    ctaTo: "/course",
+    eyebrow: "Welcome to",
+    heading: "Sri Sathya Sai Leadership Through ",
+    headingHighlight: "Self Transformation",
+    supporting: "Transform Within. Lead Beyond.",
+    description:
+      "A journey of self-discovery and inner transformation to awaken the leader within and serve the world with purpose and compassion.",
+    quote: {
+      text: "Real transformation begins from within. When the individual changes, the world is changed.",
+      attribution: "– Sri Sathya Sai Baba",
+    },
+    ctaPrimary: { label: "Explore Programme", to: "/course" },
+    ctaSecondary: { label: "View Curriculum", to: "/curriculum" },
+    features: [
+      { icon: "calendar", label: "Weekly Sessions" },
+      { icon: "lotus", label: "Self Transformation" },
+      { icon: "community", label: "Community Learning" },
+      { icon: "book", label: "Structured Curriculum" },
+      { icon: "graduation", label: "UGC Approved" },
+      { icon: "certificate", label: "Certificate Upon Completion" },
+    ],
+    associations: [
+      {
+        name: "SSSIHL",
+        description: "Sri Sathya Sai Institute of Higher Learning",
+      },
+      {
+        name: "SSSSO",
+        description: "Sri Sathya Sai Seva Organisations",
+      },
+    ],
+    ugc: {
+      title: "UGC Approved",
+      subtitle: "University Grants Commission Approved Course",
+    },
+    scrollLabel: "Scroll to explore",
   },
   highlights: [
     {

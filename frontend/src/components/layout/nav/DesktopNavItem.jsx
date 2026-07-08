@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavUnderlineLink } from "@/components/layout/nav/NavUnderlineLink";
+import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
 
 /**
  * One top-level desktop nav item. Renders a plain underline link when it
@@ -14,6 +15,7 @@ export function DesktopNavItem({ item }) {
   const closeTimer = useRef(null);
   const menuId = useId();
   const rootRef = useRef(null);
+  const { transparent } = useNavTheme();
 
   const hasChildren = Boolean(item.children?.length);
 
@@ -60,7 +62,12 @@ export function DesktopNavItem({ item }) {
         {item.href ? (
           <NavUnderlineLink to={item.href}>{item.title}</NavUnderlineLink>
         ) : (
-          <span className="relative inline-flex py-2 text-sm font-medium text-primary">
+          <span
+            className={cn(
+              "relative inline-flex py-2 text-sm font-medium transition-colors",
+              transparent ? "text-white" : "text-primary"
+            )}
+          >
             {item.title}
             <span
               aria-hidden="true"
@@ -78,7 +85,10 @@ export function DesktopNavItem({ item }) {
           aria-controls={menuId}
           aria-label={`Toggle ${item.title} submenu`}
           onClick={() => setOpen((prev) => !prev)}
-          className="rounded p-0.5 text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className={cn(
+            "rounded p-0.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+            transparent ? "text-white" : "text-primary"
+          )}
         >
           <ChevronDown
             className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-180")}
