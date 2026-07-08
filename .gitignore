@@ -17,7 +17,7 @@ frontend/dist/
 .DS_Store
 Thumbs.db
 
-# source photos
+# source photos (copied into src/assets/categories)
 /Photos for project page/
 
 # stray TS build artifacts
