@@ -12,7 +12,7 @@ export function HighlightsSection() {
           <CardHeader>
             <CardTitle>{highlight.title}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-text">
+          <CardContent className="text-sm">
             {highlight.description}
           </CardContent>
         </Card>

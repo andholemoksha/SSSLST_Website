@@ -17,7 +17,7 @@ export function HeroSection() {
 
   return (
     <section className="relative -mt-20 overflow-hidden text-white lg:flex lg:h-screen lg:items-center">
-      <HeroBackgroundVideo src="/hero/hero-background.mp4" />
+      <HeroBackgroundVideo src={hero.backgroundMedia?.src} poster={hero.backgroundMedia?.poster} />
 
       <Container className="w-full pt-28 pb-16 lg:pt-24 lg:pb-20">
         <TwoColumnLayout

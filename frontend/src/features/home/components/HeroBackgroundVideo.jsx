@@ -5,12 +5,13 @@
  * order, so hero content stays readable either way.
  */
 export function HeroBackgroundVideo({ src, poster }) {
+  const resolvedSrc = src || null;
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden bg-hero-bg">
       {src && (
         <video
           className="h-full w-full object-cover"
-          src={src}
+          src={resolvedSrc}
           poster={poster}
           autoPlay
           muted

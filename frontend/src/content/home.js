@@ -35,6 +35,11 @@ export const home = {
       subtitle: "University Grants Commission Approved Course",
     },
     scrollLabel: "Scroll to explore",
+    backgroundMedia: {
+      src: "https://hackend.in/bgvideo.mp4",
+      poster: null,
+      fallbackSrc: "/hero/hero-background.mp4",
+    },
   },
   highlights: [
     {
