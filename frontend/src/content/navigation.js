@@ -7,7 +7,7 @@ export const navigation = {
       title: "Programme",
       children: [
         { title: "Weekly Sessions", href: "/programme/weekly-sessions" },
-        { title: "Sathvam", href: "/programme/sathvam" },
+        { title: "Sathvam", href: "/satsang" },
         { title: "Dhyana Vahini", href: "/programme/dhyana-vahini" },
         { title: "Samithi Connect", href: "/programme/samithi-connect" },
         { title: "Project", href: "/projects" },
@@ -19,7 +19,6 @@ export const navigation = {
       children: [
         { title: "Testimonials", href: "/testimonials" },
         { title: "Photo Gallery", href: "/projects" },
-        { title: "Satsangs", href: "/projects" },
       ],
     },
     { title: "Reach Us", href: "/contact" },
