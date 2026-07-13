@@ -49,6 +49,20 @@
   /* Fonts */
   --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Hero (dark/glass context) — scoped to the Hero and future dark sections
+     only. Does not replace or loosen the rules above (--primary stays the
+     only "primary button" color outside this context). */
+  --hero-bg: #14110f;
+  --hero-overlay: rgba(10, 8, 6, 0.55);
+  --hero-overlay-soft: rgba(60, 55, 50, 0.25);
+  --hero-overlay-darker: rgba(24, 20, 13, 0.699);
+  --hero-orange-from: #f97316;
+  --hero-orange-to: #fb923c;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-hover: rgba(249, 115, 22, 0.45);
+  --glass-glow: rgba(24, 23, 22, 0.521);
 }
 
 /*
@@ -87,6 +101,20 @@
 }
 
 /*
+ * Hero-scoped color tokens as Tailwind utilities (bg-hero-bg, etc). Kept in
+ * a separate @theme block since they're deliberately not part of the
+ * general semantic palette above.
+ */
+@theme inline {
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-overlay: var(--hero-overlay);
+  --color-hero-overlay-soft: var(--hero-overlay-soft);
+  --color-hero-overlay-darker: var(--hero-overlay-darker);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-hover: var(--glass-border-hover);
+}
+
+/*
  * Global typography. Font sizes are NOT set here — components pick sizes
  * from the Typography Scale in DESIGN_SYSTEM.md (text-3xl, md:text-4xl, ...).
  */
@@ -111,4 +139,26 @@
  */
 .bg-gradient-highlight {
   background-image: var(--gradient-highlight);
+}
+
+/*
+ * Glassmorphism system — the ONE glass surface style for dark/hero
+ * contexts. Consumed by `GlassCard` (components/ui/glass-card.jsx).
+ * Never define a second glass style elsewhere; extend these two classes.
+ */
+.glass-surface {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+.glow-accent {
+  box-shadow: 0 0 24px var(--glass-glow);
+}
+
+.bg-gradient-hero-accent {
+  background-image: linear-gradient(135deg, var(--hero-orange-from) 0%, var(--hero-orange-to) 100%);
 }

@@ -12,6 +12,7 @@ import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
+import { SatsangPage } from "@/pages/SatsangPage";
 import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:categorySlug" element={<ProjectCategoryPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />

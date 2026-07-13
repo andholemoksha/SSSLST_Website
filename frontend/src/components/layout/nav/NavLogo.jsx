@@ -1,45 +1,40 @@
 import { NavLink } from "react-router-dom";
 import { navigation } from "@/content/navigation";
+import { cn } from "@/lib/utils";
+import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
+import ssslstLogo from "@/assets/logos/SSSLST.jpg";
 
-/**
- * Placeholder brand mark. Swap the <svg> for the real logo asset when
- * it's available — the surrounding layout/spacing won't need to change.
- */
 function LogoMark() {
   return (
-    <svg
-      viewBox="0 0 40 40"
-      className="h-10 w-10 shrink-0"
-      aria-hidden="true"
-      fill="none"
-    >
-      <circle cx="20" cy="20" r="19" stroke="var(--accent)" strokeWidth="1.5" />
-      {Array.from({ length: 8 }).map((_, i) => (
-        <ellipse
-          key={i}
-          cx="20"
-          cy="9"
-          rx="3.2"
-          ry="6.5"
-          fill="var(--accent)"
-          opacity="0.85"
-          transform={`rotate(${i * 45} 20 20)`}
-        />
-      ))}
-      <circle cx="20" cy="20" r="4" fill="var(--primary)" />
-    </svg>
+    <img // TODO: consume transparent prop
+      src={ssslstLogo}
+      alt="SSSLST logo"
+      className="h-10 w-10 shrink-0 rounded object-contain"
+    />
   );
 }
 
 export function NavLogo() {
+  const { transparent } = useNavTheme();
+
   return (
     <NavLink to="/" className="flex shrink-0 items-center gap-3" end>
-      <LogoMark />
+      <LogoMark transparent={transparent} />
       <span className="leading-tight">
-        <span className="block font-heading text-xl font-bold text-primary">
+        <span
+          className={cn(
+            "block font-heading text-xl font-bold transition-colors",
+            transparent ? "text-white" : "text-primary"
+          )}
+        >
           {navigation.logoText}
         </span>
-        <span className="hidden max-w-[220px] text-xs text-muted-foreground sm:block">
+        <span
+          className={cn(
+            "hidden max-w-55 text-xs transition-colors sm:block",
+            transparent ? "text-white/75" : "text-muted-foreground"
+          )}
+        >
           {navigation.logoSubtitle}
         </span>
       </span>
