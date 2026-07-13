@@ -13,6 +13,12 @@ export const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         outline: "border border-border bg-transparent text-foreground hover:bg-muted",
         ghost: "bg-transparent text-foreground hover:bg-muted",
+        // Scoped to dark/glass contexts (the Hero and future dark sections)
+        // ONLY — do not use these as general-purpose primary buttons.
+        heroPrimary:
+          "bg-gradient-hero-accent text-white shadow-lg shadow-black/20 hover:-translate-y-0.5 hover:glow-accent",
+        heroOutline:
+          "border border-accent/70 bg-transparent text-white hover:-translate-y-0.5 hover:bg-white/10",
       },
       size: {
         default: "h-11 px-5 py-2", // 44px min touch target
