@@ -12,6 +12,7 @@ import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
 import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
 import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
+import { SatsangPage } from "@/pages/SatsangPage";
 import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/course" element={<CoursePage />} />
           <Route path="/curriculum" element={<CurriculumPage />} />
+
           <Route
             path="/programme/weekly-sessions"
             element={<WeeklySessionsPage />}
@@ -52,6 +54,7 @@ function App() {
             path="/programme/samithi-connect/:sectionSlug/:activitySlug"
             element={<SamithiActivityPage />}
           />
+
           <Route
             path="/projects"
             element={<ProjectsPage />}
@@ -60,6 +63,7 @@ function App() {
             path="/projects/:categorySlug"
             element={<ProjectCategoryPage />}
           />
+
           <Route
             path="/testimonials"
             element={<TestimonialsPage />}
@@ -68,14 +72,22 @@ function App() {
             path="/testimonials/:year/:stateSlug"
             element={<StateTestimonialsPage />}
           />
+
+          <Route
+            path="/satsang"
+            element={<SatsangPage />}
+          />
+
           <Route
             path="/faq"
             element={<FaqPage />}
           />
+
           <Route
             path="/contact"
             element={<ContactPage />}
           />
+
           <Route
             path="*"
             element={<NotFoundPage />}

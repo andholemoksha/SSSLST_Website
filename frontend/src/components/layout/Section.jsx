@@ -16,9 +16,9 @@ import { Container } from "@/components/layout/Container";
  * @param {string} [containerClassName] - extra classes for the inner Container
  * @param {string} [className] - extra classes for the outer <section>
  */
-export function Section({ className, containerClassName, ...props }) {
+export function Section({ className, containerClassName, id, ...props }) {
   return (
-    <section className={cn("py-12 sm:py-16 xl:py-24", className)}>
+    <section id={id} className={cn("py-12 sm:py-16 xl:py-24", className)}>
       <Container className={containerClassName} {...props} />
     </section>
   );
