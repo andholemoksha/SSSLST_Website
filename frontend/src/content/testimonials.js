@@ -1,45 +1,40 @@
-// Testimonials hub data.
-//
-// Each year lists the SLUGS of states to show. Names come from the canonical
-// list in indianStates.js and are sorted alphabetically automatically.
-//
-// Currently every year shows all 28 states (`stateSlugs`). Union territories are
-// excluded. To customise a year, use a specific list, e.g.
-//   { year: 2022, stateSlugs: ["telangana", "andhra-pradesh"] }
-// To also include UTs, import and use `allRegionSlugs` instead.
-// To add a brand-new state: add it once in indianStates.js.
-//
-// Participant lists per (year, state) will come from Django later
-// (see AGENT.md: Component -> Hook -> Service -> API).
+// Testimonials content: participant reflections + filter options + copy.
+// Filtering is client-side now; the useTestimonials hook is shaped so it later
+// becomes a single API call with the selected filters as query params
+// (only the matching data is fetched). See AGENT.md.
 
-import { stateSlugs, getStatesBySlugs } from "@/content/indianStates";
+import { indianStates } from "@/content/indianStates";
 
-const yearsRaw = [
-  { year: 2025, stateSlugs: stateSlugs },
-  { year: 2024, stateSlugs: stateSlugs },
-  { year: 2023, stateSlugs: stateSlugs },
-];
+// Filter options shown in the sidebar.
+export const testimonialFilters = {
+  states: indianStates, // { slug, name } — multi-select
+  years: [2025, 2024, 2023], // batches — multi-select
+  genders: [
+    { value: "women", label: "Women" },
+    { value: "men", label: "Men" },
+  ],
+};
 
-// Resolve slugs -> full, alphabetically-sorted state objects for each year.
-export const testimonialYears = yearsRaw.map((entry) => ({
-  year: entry.year,
-  states: getStatesBySlugs(entry.stateSlugs),
-}));
+// Participant reflections. state = slug from indianStates.
+// Populated later from the API (see useTestimonials). Empty until then.
+export const participants = [];
 
-// All user-facing text for the Testimonials feature (keep copy out of components).
+// All user-facing copy for the Testimonials feature.
 export const testimonialsContent = {
   page: {
     title: "Testimonials",
     description:
-      "Reflections from our participants, year by year and state by state.",
+      "Reflections from our participants. Filter by state, batch, and more.",
   },
-  batchLabel: "Batch",
-  emptyMessage: "Testimonials aren't available yet. Check back soon.",
-  backLabel: "Back to Testimonials",
-  statePage: {
-    // templated copy — component passes the dynamic state/year
-    description: (year) => `Participant reflections · ${year}`,
-    comingSoon: (state, year) =>
-      `Testimonials for ${state} (${year}) are coming soon.`,
+  searchPlaceholder: "Search by name or place…",
+  filters: {
+    heading: "Filters",
+    states: "States",
+    years: "Batch",
+    gender: "Gender",
+    clearAll: "Clear all",
+    stateSearch: "Filter states…",
   },
+  resultsCount: (n) => `${n} ${n === 1 ? "testimonial" : "testimonials"}`,
+  empty: "No testimonials match your filters. Try clearing a few.",
 };

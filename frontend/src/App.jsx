@@ -15,7 +15,6 @@ import { ProjectsPage } from "@/pages/ProjectsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
-import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 function App() {
@@ -38,10 +37,6 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:categorySlug" element={<ProjectCategoryPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
-          <Route
-            path="/testimonials/:year/:stateSlug"
-            element={<StateTestimonialsPage />}
-          />
           <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
