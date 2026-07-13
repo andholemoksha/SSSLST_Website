@@ -4,17 +4,25 @@ export function DhyanaVahiniResources() {
   const { resources } = useDhyanaVahiniContent();
 
   return (
-    <section className="rounded-lg border border-border bg-white p-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-        {resources.eyebrow}
-      </p>
-      <h2 className="mt-3 text-2xl font-semibold text-text-h">{resources.title}</h2>
-      <p className="mt-3 text-sm text-text">{resources.description}</p>
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+    <section className="rounded-[2rem] border border-border bg-surface p-6 shadow-[0_20px_60px_rgba(75,54,29,0.06)] sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+      <div className="max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+          {resources.eyebrow}
+        </p>
+        <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+          {resources.title}
+        </h2>
+        <p className="mt-4 text-base leading-8 text-muted-foreground">{resources.description}</p>
+      </div>
+
+      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {resources.items.map((item) => (
-          <div key={item.title} className="rounded-lg border border-border bg-muted/40 p-6">
-            <h3 className="text-lg font-semibold text-text-h">{item.title}</h3>
-            <p className="mt-2 text-sm text-text">{item.description}</p>
+          <div key={item.title} className={`rounded-[1.4rem] bg-gradient-to-br ${item.accent} p-6 text-foreground shadow-[0_10px_30px_rgba(95,74,50,0.12)]`}>
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/70 text-lg shadow-sm">
+              ✧
+            </div>
+            <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
           </div>
         ))}
       </div>

@@ -11,10 +11,10 @@ export function SatsangYearGrid() {
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
           {yearsSection.eyebrow}
         </p>
-        <h2 className="mt-3 text-3xl font-semibold leading-tight text-text-h sm:text-5xl">
+        <h2 className="mt-3 text-3xl font-semibold leading-tight text-foreground sm:text-5xl">
           {yearsSection.title}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-text">
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
           {yearsSection.description}
         </p>
       </div>

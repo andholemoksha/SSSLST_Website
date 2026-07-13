@@ -18,7 +18,7 @@ export function SatsangYearCard({ item, className }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-text-h/85 via-text-h/25 to-transparent opacity-95" />
           <div className="absolute left-4 top-4">
-            <Badge className="border-transparent bg-white text-text-h shadow-sm">
+            <Badge className="border-transparent bg-white text-foreground shadow-sm">
               {item.year}
             </Badge>
           </div>
@@ -30,7 +30,7 @@ export function SatsangYearCard({ item, className }) {
             <span
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                "mt-5 border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-text-h"
+                "mt-5 border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-foreground"
               )}
             >
               View Details

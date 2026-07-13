@@ -4,7 +4,7 @@ export const satsang = {
     title: "Satsangs",
     description:
       "Placeholder subtitle for the Satsang module. This text will be replaced with approved SSSNLP content later.",
-    video: "/assets/satsang/hero/satsang-hero.mp4",
+    heroImage: "/assets/satsang/hero/satsang-hero.jpg",
   },
   about: {
     eyebrow: "Devotional Reflections",

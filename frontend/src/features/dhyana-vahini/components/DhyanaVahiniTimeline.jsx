@@ -4,18 +4,35 @@ export function DhyanaVahiniTimeline() {
   const { timeline } = useDhyanaVahiniContent();
 
   return (
-    <section className="rounded-lg border border-border bg-white p-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-        {timeline.eyebrow}
-      </p>
-      <h2 className="mt-3 text-2xl font-semibold text-text-h">{timeline.title}</h2>
-      <div className="mt-6 space-y-4">
-        {timeline.items.map((item) => (
-          <div key={item.title} className="rounded-lg border border-border bg-muted/40 p-4">
-            <h3 className="text-lg font-semibold text-text-h">{item.title}</h3>
-            <p className="mt-2 text-sm text-text">{item.description}</p>
-          </div>
-        ))}
+    <section className="rounded-[2rem] border border-border bg-background p-6 shadow-[0_20px_60px_rgba(75,54,29,0.06)] sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+      <div className="max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+          {timeline.eyebrow}
+        </p>
+        <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+          {timeline.title}
+        </h2>
+      </div>
+
+      <div className="mt-8 overflow-x-auto pb-2">
+        <div className="flex min-w-[720px] items-start gap-4">
+          {timeline.items.map((item, index) => (
+            <div key={item.title} className="flex flex-1 items-start gap-3">
+              <div className="flex flex-col items-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-accent bg-surface text-sm font-semibold text-accent shadow-sm">
+                  {index + 1}
+                </div>
+                {index < timeline.items.length - 1 ? (
+                  <div className="mt-2 h-16 w-px bg-gradient-to-b from-accent to-transparent" />
+                ) : null}
+              </div>
+              <div className="rounded-[1.2rem] border border-border bg-white/85 p-4 shadow-sm">
+                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-muted-foreground">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
