@@ -14,7 +14,6 @@ import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
-import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
@@ -62,10 +61,7 @@ function App() {
           />
 
           <Route path="/testimonials" element={<TestimonialsPage />} />
-          <Route
-            path="/testimonials/:year/:stateSlug"
-            element={<StateTestimonialsPage />}
-          />
+          
 
           <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/faq" element={<FaqPage />} />
