@@ -12,10 +12,10 @@ import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
 import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
 import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
-import { SatsangPage } from "@/pages/SatsangPage";
 import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { StateTestimonialsPage } from "@/pages/StateTestimonialsPage";
+import { SatsangPage } from "@/pages/SatsangPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
@@ -55,43 +55,22 @@ function App() {
             element={<SamithiActivityPage />}
           />
 
-          <Route
-            path="/projects"
-            element={<ProjectsPage />}
-          />
+          <Route path="/projects" element={<ProjectsPage />} />
           <Route
             path="/projects/:categorySlug"
             element={<ProjectCategoryPage />}
           />
 
-          <Route
-            path="/testimonials"
-            element={<TestimonialsPage />}
-          />
+          <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route
             path="/testimonials/:year/:stateSlug"
             element={<StateTestimonialsPage />}
           />
 
-          <Route
-            path="/satsang"
-            element={<SatsangPage />}
-          />
-
-          <Route
-            path="/faq"
-            element={<FaqPage />}
-          />
-
-          <Route
-            path="/contact"
-            element={<ContactPage />}
-          />
-
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
+          <Route path="/satsang" element={<SatsangPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
 
