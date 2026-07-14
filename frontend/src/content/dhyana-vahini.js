@@ -56,47 +56,6 @@ export const dhyanaVahini = {
       { title: "Self Reflection", description: "Carry the peace forward into daily life." },
     ],
   },
-  chapters: {
-    eyebrow: "Chapters",
-    title: "A guided path through the practice",
-    description:
-      "Placeholder chapter cards that will later include rich summaries, thumbnails, and downloadable resources.",
-    chapters: [
-      {
-        id: 1,
-        title: "Chapter 1",
-        description: "An introduction to the spirit and purpose of the practice.",
-        status: "Coming Soon",
-        thumbnailLabel: "Introduction",
-      },
-      {
-        id: 2,
-        title: "Chapter 2",
-        description: "A deeper look at reflection, posture, and mindful presence.",
-        status: "Coming Soon",
-        thumbnailLabel: "Practice",
-      },
-      {
-        id: 3,
-        title: "Chapter 3",
-        description: "A contemplative guide to devotion, peace, and inner transformation.",
-        status: "Coming Soon",
-        thumbnailLabel: "Reflection",
-      },
-    ],
-  },
-  resources: {
-    eyebrow: "Resources",
-    title: "Resources for continued practice",
-    description:
-      "Placeholder resources designed to grow into a rich library of reading, listening, and guided practice.",
-    items: [
-      { title: "Read Dhyana Vahini", description: "Coming Soon", accent: "from-[#f4d8a5] to-[#e8bf71]" },
-      { title: "Audio Version", description: "Coming Soon", accent: "from-[#e7c5a4] to-[#c79260]" },
-      { title: "PDF", description: "Coming Soon", accent: "from-[#d9c5ff] to-[#b28ce2]" },
-      { title: "Guided Meditation", description: "Coming Soon", accent: "from-[#cde8d6] to-[#8cc6a0]" },
-    ],
-  },
   gallery: {
     eyebrow: "Gallery",
     title: "A glimpse of the journey",
@@ -118,18 +77,6 @@ export const dhyanaVahini = {
         caption: "Peaceful glow",
         image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-02.jpg",
       },
-    ],
-  },
-  journey: {
-    eyebrow: "Continue Your Journey",
-    title: "Stay connected to the practice",
-    description:
-      "Placeholder call to action inviting visitors to continue exploring the path ahead.",
-    items: [
-      { title: "Satsangs", href: "/satsang", icon: "✧" },
-      { title: "Projects", href: "/projects", icon: "◌" },
-      { title: "Testimonials", href: "/contact", icon: "❋" },
-      { title: "Course Overview", href: "/course", icon: "✺" },
     ],
   },
 };
