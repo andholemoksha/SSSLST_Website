@@ -6,13 +6,13 @@ export function HighlightsSection() {
   const { highlights } = useHomeContent();
 
   return (
-    <Section containerClassName="grid gap-6 sm:grid-cols-3">
+    <Section id="highlights" className="scroll-mt-24" containerClassName="grid gap-6 sm:grid-cols-3">
       {highlights.map((highlight) => (
         <Card key={highlight.title}>
           <CardHeader>
             <CardTitle>{highlight.title}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-text">
+          <CardContent className="text-sm">
             {highlight.description}
           </CardContent>
         </Card>

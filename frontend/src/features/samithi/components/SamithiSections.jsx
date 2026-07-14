@@ -1,0 +1,32 @@
+import { Loader } from "@/components/ui/loader";
+import { useSamithiSections } from "@/features/samithi/hooks/useSamithiSections";
+import { SectionRow } from "@/features/samithi/components/SectionRow";
+import { samithiContent } from "@/content/samithiConnect";
+
+export function SamithiSections() {
+  const { data: sections, isLoading, isError } = useSamithiSections();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <p className="py-12 text-center text-muted-foreground">
+        {samithiContent.emptyMessage}
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-10">
+      {sections.map((section) => (
+        <SectionRow key={section.slug} section={section} />
+      ))}
+    </div>
+  );
+}

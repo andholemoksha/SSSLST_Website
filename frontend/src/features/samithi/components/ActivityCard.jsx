@@ -1,9 +1,10 @@
 import { TileCard } from "@/components/ui/tile-card";
 
-/** Initials from a state name, e.g. "Andhra Pradesh" -> "AP". */
+/** Initials from an activity name, e.g. "Nagar Sankeertan" -> "NS". */
 function initials(name) {
   return name
-    .split(" ")
+    .split(/\s+/)
+    .filter((word) => /[a-zA-Z]/.test(word)) // skip "/" and stray symbols
     .map((word) => word[0])
     .join("")
     .slice(0, 2)
@@ -11,15 +12,15 @@ function initials(name) {
 }
 
 /**
- * A single state tile inside a year's horizontal row.
+ * A single activity tile inside a section row.
  * Thin wrapper over the shared TileCard (fixed width so the row scrolls).
  */
-export function StateCard({ year, state }) {
-  const { slug, name } = state;
+export function ActivityCard({ sectionSlug, activity }) {
+  const { slug, name } = activity;
 
   return (
     <TileCard
-      to={`/testimonials/${year}/${slug}`}
+      to={`/programme/samithi-connect/${sectionSlug}/${slug}`}
       title={name}
       initials={initials(name)}
       className="w-60 shrink-0 snap-start"
