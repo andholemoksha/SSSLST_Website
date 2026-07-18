@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/Button/button";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 // Example usage for hero-style CTAs that still support normal routing.
 // <Button variant="heroPrimary" to="/courses" pill>Explore</Button>

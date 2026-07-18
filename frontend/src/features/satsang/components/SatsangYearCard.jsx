@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/Button/button-variants";
 
 export function SatsangYearCard({ item, className }) {
   return (
