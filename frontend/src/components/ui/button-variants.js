@@ -1,33 +1,36 @@
 import { cva } from "class-variance-authority";
 
 /**
- * Button style variants (see DESIGN_SYSTEM.md "Buttons").
- * `default` is the Primary button — brand purple, never orange.
+ * Shared button style variants used across the app.
+ *
+ * The default visual language is the same as the hero section so every action
+ * feels consistent across the interface.
+ *
+ * Supported variants:
+ * - primary
+ * - outline
+ * - ghost
  */
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+  "inline-flex w-full items-center justify-center gap-2 rounded-full text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:w-auto",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        outline: "border border-border bg-transparent text-foreground hover:bg-muted",
-        ghost: "bg-transparent text-foreground hover:bg-muted",
-        // Scoped to dark/glass contexts (the Hero and future dark sections)
-        // ONLY — do not use these as general-purpose primary buttons.
-        heroPrimary:
+        primary:
           "bg-gradient-hero-accent text-white shadow-lg shadow-black/20 hover:-translate-y-0.5 hover:glow-accent",
-        heroOutline:
-          "border border-accent/70 bg-transparent text-white hover:-translate-y-0.5 hover:bg-white/10",
+        outline:
+          "border border-accent/80 bg-transparent text-accent hover:-translate-y-0.5 hover:bg-accent/10 hover:text-accent",
+        ghost:
+          "bg-transparent text-accent hover:-translate-y-0.5 hover:bg-accent/10 hover:text-accent",
       },
       size: {
-        default: "h-11 px-5 py-2", // 44px min touch target
-        sm: "h-9 px-3",
-        lg: "h-12 px-8",
+        default: "h-11 px-5 py-2 text-sm", // 44px min touch target
+        sm: "h-9 px-3 text-xs",
+        lg: "h-12 px-8 text-sm sm:text-base",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "default",
     },
   }

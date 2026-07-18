@@ -1,24 +1,23 @@
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button-variants";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
+// Example usage for hero-style CTAs that still support normal routing.
+// <Button variant="heroPrimary" to="/courses" pill>Explore</Button>
 export function HeroButtons({ ctaPrimary, ctaSecondary }) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row">
-      <Link
+      <Button
         to={ctaPrimary.to}
-        className={cn(buttonVariants({ variant: "heroPrimary", size: "lg" }), "rounded-full")}
+        variant="primary"
+        size="lg"
+        icon={<ArrowRight className="h-4 w-4" />}
+        iconPosition="right"
       >
         {ctaPrimary.label.toUpperCase()}
-        <ArrowRight className="h-4 w-4" />
-      </Link>
-      <Link
-        to={ctaSecondary.to}
-        className={cn(buttonVariants({ variant: "heroOutline", size: "lg" }), "rounded-full")}
-      >
+      </Button>
+      <Button to={ctaSecondary.to} variant="outline" size="lg">
         {ctaSecondary.label.toUpperCase()}
-      </Link>
+      </Button>
     </div>
   );
 }
