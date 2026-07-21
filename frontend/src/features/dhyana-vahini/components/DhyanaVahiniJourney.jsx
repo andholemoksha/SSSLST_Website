@@ -20,7 +20,7 @@ export function DhyanaVahiniJourney() {
           <a
             key={item.title}
             href={item.href}
-            className="group rounded-[1.4rem] border border-border bg-white/80 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
+            className="group rounded-[1.4rem] border border-border bg-background/80 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-xl text-heading shadow-inner">
               {item.icon}

@@ -4,7 +4,7 @@ export function DhyanaVahiniGallery() {
   const { gallery } = useDhyanaVahiniContent();
 
   return (
-    <section className="rounded-[2rem] border border-border bg-white p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+    <section className="rounded-[2rem] border border-border bg-background p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">

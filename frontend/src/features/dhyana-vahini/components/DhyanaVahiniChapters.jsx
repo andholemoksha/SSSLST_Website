@@ -4,7 +4,7 @@ export function DhyanaVahiniChapters() {
   const { chapters } = useDhyanaVahiniContent();
 
   return (
-    <section className="rounded-[2rem] border border-border bg-white p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+    <section className="rounded-[2rem] border border-border bg-background p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
@@ -23,8 +23,8 @@ export function DhyanaVahiniChapters() {
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {chapters.chapters.map((chapter) => (
           <div key={chapter.id} className="overflow-hidden rounded-[1.4rem] border border-border bg-surface shadow-sm">
-            <div className="flex h-36 items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.7),_transparent)]">
-              <div className="rounded-2xl border border-white/70 bg-white/80 px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+            <div className="flex h-36 items-center justify-center bg-gradient-to-b from-background/70 to-transparent">
+              <div className="rounded-2xl border border-background/70 bg-background/80 px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-accent">
                 {chapter.thumbnailLabel}
               </div>
             </div>
@@ -36,7 +36,7 @@ export function DhyanaVahiniChapters() {
                 </span>
               </div>
               <p className="mt-3 text-sm leading-7 text-foreground">{chapter.description}</p>
-              <button className="mt-5 inline-flex items-center rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-white">
+              <button className="mt-5 inline-flex items-center rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-background">
                 View Details
               </button>
             </div>

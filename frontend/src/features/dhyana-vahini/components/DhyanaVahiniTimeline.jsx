@@ -26,7 +26,7 @@ export function DhyanaVahiniTimeline() {
                   <div className="mt-2 h-16 w-px bg-gradient-to-b from-accent to-transparent" />
                 ) : null}
               </div>
-              <div className="rounded-[1.2rem] border border-border bg-white/85 p-4 shadow-sm">
+              <div className="rounded-[1.2rem] border border-border bg-background/85 p-4 shadow-sm">
                 <h3 className="text-lg font-semibold text-heading">{item.title}</h3>
                 <p className="mt-2 text-sm leading-7 text-foreground">{item.description}</p>
               </div>

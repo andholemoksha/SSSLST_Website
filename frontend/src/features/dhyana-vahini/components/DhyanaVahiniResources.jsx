@@ -18,7 +18,7 @@ export function DhyanaVahiniResources() {
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {resources.items.map((item) => (
           <div key={item.title} className={`rounded-[1.4rem] bg-gradient-to-br ${item.accent} p-6 text-heading shadow-sm`}>
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/70 text-lg shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-background/70 text-lg shadow-sm">
               ✧
             </div>
             <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>

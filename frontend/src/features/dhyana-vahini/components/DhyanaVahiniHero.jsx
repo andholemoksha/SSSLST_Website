@@ -14,7 +14,7 @@ export function DhyanaVahiniHero() {
         />
       </div>
       <div className={`absolute inset-0 z-10 ${hero.overlay}`} />
-      <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-white via-white/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-background via-background/40 to-transparent" />
 
       <Container className="relative z-20 flex min-h-[75vh] items-center py-16 sm:min-h-[80vh] sm:py-20 lg:min-h-[85vh] lg:py-24 xl:py-28 max-w-[1700px]">
         <div className="grid w-full items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
@@ -35,7 +35,7 @@ export function DhyanaVahiniHero() {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <div className="w-full max-w-sm overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-3 shadow-2xl shadow-black/25 backdrop-blur-sm">
+            <div className="w-full max-w-sm overflow-hidden rounded-[2rem] border border-background/15 bg-background/10 p-3 shadow-2xl shadow-black/25 backdrop-blur-sm">
               <img
                 src={hero.accentImage}
                 alt=""

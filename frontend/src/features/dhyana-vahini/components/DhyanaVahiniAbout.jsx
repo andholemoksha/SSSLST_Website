@@ -5,7 +5,7 @@ export function DhyanaVahiniAbout() {
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] border border-border bg-surface p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.75),_transparent_55%)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-background/75 to-transparent" />
       <div className="relative grid items-center gap-8 sm:gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 xl:gap-16 2xl:gap-20">
         <div className="max-w-2xl">
           <div className="flex items-center gap-4">
@@ -30,15 +30,15 @@ export function DhyanaVahiniAbout() {
             {about.description}
           </p>
 
-          <button className="mt-8 inline-flex items-center rounded-full border border-accent/60 bg-white/80 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-white hover:shadow-lg">
+          <button className="mt-8 inline-flex items-center rounded-full border border-accent/60 bg-background/80 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-background hover:shadow-lg">
             {about.buttonLabel || "Learn More"}
           </button>
         </div>
 
         <div className="flex justify-center lg:justify-end">
           <div className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-border bg-secondary p-4 shadow-md">
-            <div className="absolute inset-4 rounded-[1.5rem] border border-white/70" />
-            <div className="relative overflow-hidden rounded-[1.5rem] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.85),_transparent)] p-3 sm:p-4">
+            <div className="absolute inset-4 rounded-[1.5rem] border border-background/70" />
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-gradient-to-b from-background/85 to-transparent p-3 sm:p-4">
               <img
                 src={about.image}
                 alt={about.title}
