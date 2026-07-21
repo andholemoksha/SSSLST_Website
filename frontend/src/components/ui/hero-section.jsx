@@ -10,7 +10,7 @@ export function HeroSection({
   overlay,
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-[#0f0b16] text-white">
+    <section className="relative isolate overflow-hidden bg-text-h text-white">
       {/* Background Image */}
       <div className="absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2">
         <img
@@ -31,7 +31,7 @@ export function HeroSection({
       <Container className="relative z-20 grid min-h-[720px] max-w-[1700px] items-center gap-12 py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[0.95fr_0.9fr] lg:gap-20 lg:py-20">
         {/* Left Content */}
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f6d98a] sm:text-base">
+          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-accent sm:text-base">
             {label}
           </p>
 
@@ -39,13 +39,13 @@ export function HeroSection({
             {title}
           </h1>
 
-          <div className="mt-6 h-px w-24 bg-[#f6d98a]" />
+          <div className="mt-6 h-px w-24 bg-accent" />
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-white/90 sm:text-lg">
             {subtitle}
           </p>
 
-          <p className="mt-8 max-w-xl border-l border-[#f6d98a]/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
+          <p className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
             “{quote}”
           </p>
         </div>
