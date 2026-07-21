@@ -16,7 +16,7 @@ export function SatsangYearCard({ item, className }) {
             className="h-full w-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-text-h/85 via-text-h/25 to-transparent opacity-95" />
+          <div className="absolute inset-0 bg-gradient-to-t from-hero-bg/85 via-hero-bg/25 to-transparent opacity-95" />
           <div className="absolute left-4 top-4">
             <Badge className="border-transparent bg-white text-foreground shadow-sm">
               {item.year}
@@ -26,7 +26,7 @@ export function SatsangYearCard({ item, className }) {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
               {item.year}
             </p>
-            <h3 className="mt-2 text-lg font-semibold leading-none">{item.title}</h3>
+            <h3 className="mt-2 text-lg font-semibold leading-none text-white">{item.title}</h3>
             <span
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),

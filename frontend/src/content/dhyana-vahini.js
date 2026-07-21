@@ -8,7 +8,7 @@ export const dhyanaVahini = {
     quote: "A quiet mind opens the way to divine light.",
     backgroundImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
     accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
-    overlay: "bg-gradient-to-r from-[#0f0b16]/80 via-[#0f0b16]/55 to-[#0f0b16]/25",
+    overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",
   },
   about: {
     eyebrow: "About Dhyana Vahini",

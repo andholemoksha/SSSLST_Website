@@ -29,7 +29,7 @@ export function ApplyNowBadge() {
         Admissions Open
       </div>
 
-      <h2 className="mt-3 text-sm leading-6 opacity-95">
+      <h2 className="mt-3 text-sm leading-6 text-inherit opacity-95">
         {applyNow.title}
       </h2>
 

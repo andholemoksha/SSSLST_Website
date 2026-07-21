@@ -12,7 +12,7 @@ export function CourseModules() {
           <CardHeader>
             <CardTitle>{module.title}</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-text">{module.description}</CardContent>
+          <CardContent className="text-sm text-foreground">{module.description}</CardContent>
         </Card>
       ))}
     </Section>

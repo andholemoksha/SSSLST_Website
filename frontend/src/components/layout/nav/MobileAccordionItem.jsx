@@ -17,7 +17,7 @@ export function MobileAccordionItem({ item, isOpen, onToggle, onNavigate }) {
         aria-expanded={isOpen}
         aria-controls={panelId}
         onClick={onToggle}
-        className="flex w-full items-center justify-between py-4 text-left text-base font-medium text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex w-full items-center justify-between py-4 text-left text-base font-medium text-link outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {item.title}
         <ChevronDown
@@ -37,7 +37,7 @@ export function MobileAccordionItem({ item, isOpen, onToggle, onNavigate }) {
                 key={child.href + child.title}
                 to={child.href}
                 onClick={onNavigate}
-                className="rounded-lg px-3 py-2 text-sm text-primary transition-colors hover:bg-muted"
+                className="rounded-lg px-3 py-2 text-sm text-link transition-colors hover:bg-muted"
               >
                 {child.title}
               </NavLink>

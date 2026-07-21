@@ -25,7 +25,7 @@ export function ProgrammeNumbersSection() {
           Programme by the Numbers
         </h2>
 
-        <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-orange-500" />
+        <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-accent" />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4">
@@ -38,11 +38,11 @@ export function ProgrammeNumbersSection() {
               className={`flex flex-col items-center px-6 py-8
               ${
                 index !== programmeNumbers.length - 1
-                  ? "md:border-r border-gray-200"
+                  ? "md:border-r border-border"
                   : ""
               }`}
             >
-              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-gray-300">
+              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-border">
                 <Icon className="h-9 w-9 text-primary" />
               </div>
 
@@ -50,7 +50,7 @@ export function ProgrammeNumbersSection() {
                 {item.value}
               </h3>
 
-              <p className="mt-3 text-center text-text">
+              <p className="mt-3 text-center text-foreground">
                 {item.label}
               </p>
             </div>

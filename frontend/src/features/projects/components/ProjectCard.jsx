@@ -8,7 +8,7 @@ export function ProjectCard({ project }) {
         <CardTitle>{project.title}</CardTitle>
         {project.tag ? <Badge>{project.tag}</Badge> : null}
       </CardHeader>
-      <CardContent className="text-sm text-text">{project.description}</CardContent>
+      <CardContent className="text-sm text-foreground">{project.description}</CardContent>
     </Card>
   );
 }

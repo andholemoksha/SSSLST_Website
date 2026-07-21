@@ -5,7 +5,7 @@ export function DhyanaVahiniHero() {
   const { hero } = useDhyanaVahiniContent();
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0f0b16] text-white">
+    <section className="relative isolate overflow-hidden bg-hero-bg text-white">
       <div className="absolute inset-0 z-0">
         <img
           src={hero.backgroundImage}
@@ -19,17 +19,17 @@ export function DhyanaVahiniHero() {
       <Container className="relative z-20 flex min-h-[75vh] items-center py-16 sm:min-h-[80vh] sm:py-20 lg:min-h-[85vh] lg:py-24 xl:py-28 max-w-[1700px]">
         <div className="grid w-full items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f6d98a] sm:text-base">
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-accent sm:text-base">
               {hero.label}
             </p>
-            <h1 className="mt-6 font-serif text-5xl font-semibold leading-[0.95] tracking-[0.01em] text-white sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.95] tracking-[0.01em] text-white sm:text-6xl lg:text-7xl">
               {hero.title}
             </h1>
-            <div className="mt-6 h-px w-24 bg-[#f6d98a]" />
+            <div className="mt-6 h-px w-24 bg-accent" />
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/90 sm:text-lg">
               {hero.subtitle}
             </p>
-            <p className="mt-8 max-w-xl border-l border-[#f6d98a]/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
+            <p className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
               “{hero.quote}”
             </p>
           </div>

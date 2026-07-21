@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { navigation } from "@/content/navigation";
 import { MobileAccordionItem } from "@/components/layout/nav/MobileAccordionItem";
-import { cn } from "@/lib/utils";
 
 /**
  * Full-width slide-down mobile menu. Only one accordion section can be
@@ -46,12 +45,7 @@ export function MobileNav({ open, onClose }) {
                   to={item.href}
                   end={item.href === "/"}
                   onClick={closeAll}
-                  className={({ isActive }) =>
-                    cn(
-                      "border-b border-border py-4 text-base font-medium text-primary last:border-b-0",
-                      isActive && "text-primary"
-                    )
-                  }
+                  className="border-b border-border py-4 text-base font-medium text-link last:border-b-0"
                 >
                   {item.title}
                 </NavLink>

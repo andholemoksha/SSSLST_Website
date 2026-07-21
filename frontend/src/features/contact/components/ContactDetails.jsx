@@ -7,9 +7,9 @@ export function ContactDetails() {
 
   return (
     <Section>
-      <p className="max-w-xl text-text">{contact.description}</p>
+      <p className="max-w-xl text-foreground">{contact.description}</p>
       <Card className="mt-6 max-w-sm">
-        <CardContent className="space-y-2 pt-6 text-sm text-text">
+        <CardContent className="space-y-2 pt-6 text-sm text-foreground">
           <p>Email: {contact.email}</p>
           <p>Phone: {contact.phone}</p>
           <p>Address: {contact.address}</p>
