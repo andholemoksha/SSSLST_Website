@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { footer } from "@/content/footer";
 import { Container } from "@/components/layout/Container";
+import { Button } from "@/components/ui/Button/button";
 
 export function Footer() {
   return (
@@ -13,9 +13,9 @@ export function Footer() {
             <ul className="mt-3 space-y-2">
               {column.links.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="text-sm text-text hover:text-text-h">
+                  <Button to={link.to} variant="link" size="sm">
                     {link.label}
-                  </Link>
+                  </Button>
                 </li>
               ))}
             </ul>

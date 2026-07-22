@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
+import { Button } from "@/components/ui/Button/button";
 
 /**
  * PagePlaceholder
@@ -29,12 +29,9 @@ export function PagePlaceholder({
       <Section>
         {backTo ? (
           <Container className="px-0">
-            <Link
-              to={backTo}
-              className="text-sm font-medium text-accent hover:underline"
-            >
+            <Button to={backTo} variant="link" size="sm">
               &larr; {backLabel}
-            </Link>
+            </Button>
           </Container>
         ) : null}
         {children ?? (

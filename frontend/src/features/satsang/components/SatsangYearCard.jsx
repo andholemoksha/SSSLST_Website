@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/Button/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/Button/button-variants";
 
 export function SatsangYearCard({ item, className }) {
   return (
@@ -27,15 +27,14 @@ export function SatsangYearCard({ item, className }) {
               {item.year}
             </p>
             <h3 className="mt-2 text-lg font-semibold leading-none">{item.title}</h3>
-            <span
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "mt-5 border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-foreground"
-              )}
+            <Button
+              to={`/satsang/${item.year}`}
+              variant="outline"
+              size="sm"
+              icon={<ArrowRight className="h-4 w-4" />}
             >
               View Details
-              <ArrowRight className="h-4 w-4" />
-            </span>
+            </Button>
           </div>
         </div>
       </Link>
