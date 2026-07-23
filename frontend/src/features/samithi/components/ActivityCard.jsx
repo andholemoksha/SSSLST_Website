@@ -23,7 +23,7 @@ export function ActivityCard({ sectionSlug, activity }) {
       to={`/programme/samithi-connect/${sectionSlug}/${slug}`}
       title={name}
       initials={initials(name)}
-      className="w-60 shrink-0 snap-start"
+      className="w-40 shrink-0 snap-start sm:w-60"
     />
   );
 }
