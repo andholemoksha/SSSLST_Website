@@ -1,3 +1,4 @@
+import { TileCard } from "@/components/ui/tile-card";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
 
 export function DhyanaVahiniWhy() {
@@ -14,18 +15,16 @@ export function DhyanaVahiniWhy() {
         </h2>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
         {why.items.map((item) => (
-          <div
+          <TileCard
             key={item.title}
-            className="group rounded-[1.4rem] border border-[#e6d2af] bg-white/80 p-6 shadow-[0_10px_30px_rgba(95,74,50,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(95,74,50,0.14)]"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#f6e1b0_0%,_#d9a75a_100%)] text-xl text-[#5c3a17] shadow-inner">
-              {item.icon}
-            </div>
-            <h3 className="mt-5 text-xl font-semibold text-[#3c2c1d]">{item.title}</h3>
-            <p className="mt-3 text-sm leading-7 text-[#5f4a32]">{item.description}</p>
-          </div>
+            title={item.title}
+            description={item.description}
+            media={<span className="text-4xl">{item.icon}</span>}
+            showFooter={false}
+            className="w-full sm:w-60"
+          />
         ))}
       </div>
     </section>
