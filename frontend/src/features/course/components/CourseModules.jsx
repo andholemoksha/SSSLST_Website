@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout/Section";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { TileCard } from "@/components/ui/tile-card";
 import { useCourseContent } from "@/features/course/hooks/useCourseContent";
 
 export function CourseModules() {
@@ -8,12 +8,13 @@ export function CourseModules() {
   return (
     <Section containerClassName="grid gap-6 sm:grid-cols-2">
       {modules.map((module) => (
-        <Card key={module.title}>
-          <CardHeader>
-            <CardTitle>{module.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-text">{module.description}</CardContent>
-        </Card>
+        <TileCard
+          key={module.title}
+          title={module.title}
+          description={module.description}
+          initials={module.title.slice(0, 2).toUpperCase()}
+          showFooter={false}
+        />
       ))}
     </Section>
   );

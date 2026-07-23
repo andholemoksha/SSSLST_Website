@@ -1,14 +1,16 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { TileCard } from "@/components/ui/tile-card";
 import { Badge } from "@/components/ui/badge";
 
 export function ProjectCard({ project }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{project.title}</CardTitle>
-        {project.tag ? <Badge>{project.tag}</Badge> : null}
-      </CardHeader>
-      <CardContent className="text-sm text-text">{project.description}</CardContent>
-    </Card>
+    <TileCard
+      to={project.slug ? `/projects/${project.slug}` : undefined}
+      title={project.title}
+      description={project.description}
+      initials={project.title.slice(0, 2).toUpperCase()}
+      meta={project.tag ? <Badge>{project.tag}</Badge> : undefined}
+      cta="Read more"
+      className="w-full"
+    />
   );
 }
