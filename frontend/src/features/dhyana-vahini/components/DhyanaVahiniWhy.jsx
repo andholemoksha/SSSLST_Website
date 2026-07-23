@@ -5,12 +5,12 @@ export function DhyanaVahiniWhy() {
   const { why } = useDhyanaVahiniContent();
 
   return (
-    <section className="rounded-[2rem] border border-[#e8dcc9] bg-[linear-gradient(145deg,_#fcf8ee_0%,_#f6ebd8_100%)] p-6 shadow-[0_20px_60px_rgba(75,54,29,0.08)] sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+    <section className="rounded-[2rem] border border-border bg-surface p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#9b6b2f]">
+        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
           {why.eyebrow}
         </p>
-        <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-[#3c2c1d] sm:text-4xl">
+        <h2 className="mt-4 font-heading text-3xl font-semibold leading-tight text-heading sm:text-4xl">
           {why.title}
         </h2>
       </div>

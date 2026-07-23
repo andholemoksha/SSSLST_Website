@@ -6,7 +6,6 @@ export const navigation = {
     {
       title: "Programme",
       children: [
-        { title: "Weekly Sessions", href: "/programme/weekly-sessions" },
         { title: "Sathvam", href: "/satsang" },
         { title: "Dhyana Vahini", href: "/programme/dhyana-vahini" },
         { title: "Samithi Connect", href: "/programme/samithi-connect" },

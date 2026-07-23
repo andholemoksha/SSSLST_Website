@@ -14,37 +14,32 @@
  */
 :root {
   /* Base surfaces */
-  --background: #ffffff; /* page background */
-  --surface: #f7f6fa; /* raised/alternate surfaces (cards on white sections, etc.) */
-  --foreground: #1f1b24; /* default text color */
+  --background: #ffffff; /* page background — palette Neutral #FFFFFF */
+  --surface: #f5f2ff; /* raised/alternate surfaces — palette Neutral #F5F2FF */
+  --foreground: #5f5f6b; /* default/body text — palette Body Text #5F5F6B */
 
   /* Brand */
-  --primary: #6d28d9; /* Royal Purple */
+  --primary: #4b1f82; /* Royal Purple — palette Primary 1 (#4B1F82) */
   --primary-foreground: #ffffff;
-  --secondary: #ede9fe; /* Soft Lavender */
-  --secondary-foreground: #4c1d95;
-  --accent: #f97316; /* Warm Orange — accents only, never primary buttons */
+  --secondary: #eee6ff; /* Soft Lavender — palette Neutral #EEE6FF */
+  --secondary-foreground: #4b1f82;
+  --accent: #d87334; /* Warm Orange — palette Secondary #D87334; accents only, never primary buttons */
   --accent-foreground: #ffffff;
 
-  /* Neutral */
-  --muted: #f1f0f4; /* Soft Gray */
-  --muted-foreground: #6b7280;
-  --border: #e4e2e8;
-  --ring: var(--primary);
+  /* Text roles (palette section 2): headings use Primary 1, links use Primary 2.
+     Body text stays grey (--foreground), muted stays grey (--muted-foreground). */
+  --heading: #4b1f82; /* all headings — palette Primary 1 (#4B1F82) */
+  --link: #7b36a8; /* links / interactive text — palette Primary 2 (#5B2CBF) */
 
-  /* Status */
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --success: #16a34a;
-  --success-foreground: #ffffff;
-  --warning: #d97706;
-  --warning-foreground: #ffffff;
-  --info: #2563eb;
-  --info-foreground: #ffffff;
+  /* Neutral */
+  --muted: #f5f2ff; /* Soft lavender-grey surface — palette Neutral #F5F2FF */
+  --muted-foreground: #8b8b99; /* palette Muted Text #8B8B99 */
+  --border: #e9e6f2; /* palette Neutral #E9E6F2 */
+  --ring: var(--primary);
 
   /* Gradient — highlight/statistic/feature cards ONLY. Never navbar, footer,
      buttons, or full-page backgrounds. See DESIGN_SYSTEM.md "Gradient Usage". */
-  --gradient-highlight: linear-gradient(135deg, #fde2e4 0%, #e9d8fd 50%, #ffe8d6 100%);
+  --gradient-highlight: linear-gradient(135deg, #feeff8 0%, #eee6ff 50%, #fff2e8 100%);
 
   /* Fonts */
   --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
@@ -57,8 +52,8 @@
   --hero-overlay: rgba(10, 8, 6, 0.55);
   --hero-overlay-soft: rgba(60, 55, 50, 0.25);
   --hero-overlay-darker: rgba(24, 20, 13, 0.699);
-  --hero-orange-from: #f97316;
-  --hero-orange-to: #fb923c;
+  --hero-orange-from: #d66b3a;
+  --hero-orange-to: #d87334;
   --glass-bg: rgba(255, 255, 255, 0.06);
   --glass-border: rgba(255, 255, 255, 0.14);
   --glass-border-hover: rgba(249, 115, 22, 0.45);
@@ -82,19 +77,13 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
+  --color-heading: var(--heading);
+  --color-link: var(--link);
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-success: var(--success);
-  --color-success-foreground: var(--success-foreground);
-  --color-warning: var(--warning);
-  --color-warning-foreground: var(--warning-foreground);
-  --color-info: var(--info);
-  --color-info-foreground: var(--info-foreground);
 
   --font-heading: var(--font-heading);
   --font-sans: var(--font-sans);
@@ -129,7 +118,7 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-semibold tracking-tight text-foreground;
+    @apply font-heading font-semibold tracking-tight text-heading;
   }
 }
 

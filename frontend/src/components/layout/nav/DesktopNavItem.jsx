@@ -65,14 +65,14 @@ export function DesktopNavItem({ item }) {
           <span
             className={cn(
               "relative inline-flex py-2 text-sm font-medium transition-colors",
-              transparent ? "text-white" : "text-primary"
+              transparent ? "text-white" : "text-link"
             )}
           >
             {item.title}
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-accent transition-all duration-200 ease-out",
+                "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-link transition-all duration-200 ease-out",
                 "group-hover:w-full",
                 open && "w-full"
               )}
@@ -87,7 +87,7 @@ export function DesktopNavItem({ item }) {
           onClick={() => setOpen((prev) => !prev)}
           className={cn(
             "rounded p-0.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
-            transparent ? "text-white" : "text-primary"
+            transparent ? "text-white" : "text-link"
           )}
         >
           <ChevronDown
@@ -113,7 +113,7 @@ export function DesktopNavItem({ item }) {
               to={child.href}
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm text-primary transition-colors hover:bg-muted"
+              className="block rounded-lg px-3 py-2 text-sm text-link transition-colors hover:bg-muted"
             >
               {child.title}
             </NavLink>

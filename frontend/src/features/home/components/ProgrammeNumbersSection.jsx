@@ -25,15 +25,13 @@ export function ProgrammeNumbersSection() {
     threshold: 0.3,
   });
 
-  const [counts, setCounts] = useState(
-    programmeNumbers.map(() => 0)
-  );
+  const [counts, setCounts] = useState(programmeNumbers.map(() => 0));
 
   useEffect(() => {
     if (!inView) return;
 
-    const duration = 2000; // Total animation time (2 seconds)
-    const interval = 25; // Update every 25ms
+    const duration = 2000;
+    const interval = 25;
     const steps = duration / interval;
 
     programmeNumbers.forEach((item, index) => {

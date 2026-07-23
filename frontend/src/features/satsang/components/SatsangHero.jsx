@@ -8,7 +8,7 @@ export function SatsangHero() {
       <p className="text-sm font-semibold uppercase tracking-[0.22em] text-accent">
         {hero.eyebrow}
       </p>
-      <h1 className="mt-4 text-5xl font-semibold leading-tight sm:text-7xl lg:text-[5.75rem]">
+      <h1 className="mt-4 text-5xl font-semibold leading-tight text-white sm:text-7xl lg:text-[5.75rem]">
         {hero.title}
       </h1>
       <div className="mt-6 h-px w-24 bg-accent" />

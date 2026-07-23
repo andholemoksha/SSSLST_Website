@@ -4,7 +4,7 @@ import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
 
 /**
  * A nav link with the shared hover/active underline treatment:
- * an orange underline that grows outward from the center.
+ * a purple (link) underline that grows outward from the center.
  */
 export function NavUnderlineLink({ to, children, className, onClick, ...props }) {
   const { transparent } = useNavTheme();
@@ -16,7 +16,7 @@ export function NavUnderlineLink({ to, children, className, onClick, ...props })
       onClick={onClick}
       className={cn(
         "group relative inline-flex py-2 text-sm font-medium outline-none transition-colors",
-        transparent ? "text-white" : "text-primary",
+        transparent ? "text-white" : "text-link",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
         className
       )}
@@ -28,7 +28,7 @@ export function NavUnderlineLink({ to, children, className, onClick, ...props })
           <span
             aria-hidden="true"
             className={cn(
-              "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-accent transition-all duration-200 ease-out",
+              "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-link transition-all duration-200 ease-out",
               "group-hover:w-full",
               state.isActive && "w-full"
             )}
