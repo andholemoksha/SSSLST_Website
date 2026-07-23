@@ -8,9 +8,13 @@ import { DhyanaVahiniWhy } from "@/features/dhyana-vahini/components/DhyanaVahin
 export function DhyanaVahiniPage() {
   return (
     <>
-      <Section className="bg-white py-6 sm:py-10 lg:py-14 xl:py-18" containerClassName="max-w-[1700px] px-3 sm:px-5 lg:px-7 xl:px-8 2xl:px-10">
+      <DhyanaVahiniHero />
+
+      <Section
+        className="bg-white pt-0 pb-6 sm:pb-10 lg:pb-14 xl:pb-18"
+        containerClassName="max-w-[1700px] px-3 sm:px-5 lg:px-7 xl:px-8 2xl:px-10"
+      >
         <div className="space-y-6 sm:space-y-8 lg:space-y-10">
-          <DhyanaVahiniHero />
           <DhyanaVahiniAbout />
           <DhyanaVahiniWhy />
           <DhyanaVahiniTimeline />
