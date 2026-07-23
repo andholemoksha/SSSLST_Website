@@ -1,4 +1,5 @@
 import { applyNow } from "@/content/applynow";
+import { Text } from "@/components/ui/Text/text";
 
 export function ApplyNowBadge() {
   return (
@@ -25,17 +26,17 @@ export function ApplyNowBadge() {
         sm:w-80
       "
     >
-      <div className="mx-auto mb-4 inline-flex rounded-full bg-accent px-4 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground">
+      <Text as="div" variant="label" size="xs" color="text-accent-foreground" className="mx-auto mb-4 inline-flex rounded-full bg-accent px-4 py-1 tracking-wide">
         Admissions Open
-      </div>
+      </Text>
 
-      <h2 className="mt-3 text-sm leading-6 text-inherit opacity-95">
+      <Text as="h2" size="sm" color="text-inherit" leading="relaxed" className="mt-3 opacity-95">
         {applyNow.title}
-      </h2>
+      </Text>
 
-      <div className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground">
+      <Text as="div" variant="button" size="sm" color="text-accent-foreground" className="mt-6 inline-flex rounded-full bg-accent px-6 py-3">
         {applyNow.buttonText} →
-      </div>
+      </Text>
     </a>
   );
 }

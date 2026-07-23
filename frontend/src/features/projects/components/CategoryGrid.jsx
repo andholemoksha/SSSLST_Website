@@ -2,6 +2,7 @@ import { Loader } from "@/components/ui/loader";
 import { useProjectCategories } from "@/features/projects/hooks/useProjectCategories";
 import { CategoryCard } from "@/features/projects/components/CategoryCard";
 import { projectsContent } from "@/content/projects";
+import { Text } from "@/components/ui/Text/text";
 
 export function CategoryGrid() {
   const { data: categories, isLoading, isError } = useProjectCategories();
@@ -16,9 +17,9 @@ export function CategoryGrid() {
 
   if (isError) {
     return (
-      <p className="py-12 text-center text-muted-foreground">
+      <Text variant="muted" className="py-12 text-center">
         {projectsContent.emptyMessage}
-      </p>
+      </Text>
     );
   }
 

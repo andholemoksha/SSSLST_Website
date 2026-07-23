@@ -1,4 +1,5 @@
 import { Container } from "@/components/layout/Container";
+import { Text } from "@/components/ui/Text/text";
 
 export function HeroSection({
   label,
@@ -31,23 +32,23 @@ export function HeroSection({
       <Container className="relative z-20 grid min-h-[720px] max-w-[1700px] items-center gap-12 py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[0.95fr_0.9fr] lg:gap-20 lg:py-20">
         {/* Left Content */}
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-accent sm:text-base">
+          <Text variant="eyebrow" size="sm">
             {label}
-          </p>
+          </Text>
 
-          <h1 className="mt-6 font-serif text-5xl font-semibold leading-[0.95] tracking-[0.01em] text-white sm:text-6xl lg:text-7xl">
+          <Text as="h1" variant="heading" size="5xl" color="text-white" className="mt-6 font-serif leading-[0.95] tracking-[0.01em] sm:text-6xl lg:text-7xl">
             {title}
-          </h1>
+          </Text>
 
           <div className="mt-6 h-px w-24 bg-accent" />
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/90 sm:text-lg">
+          <Text size="base" color="text-white/90" leading="relaxed" className="mt-6 max-w-2xl sm:text-lg">
             {subtitle}
-          </p>
+          </Text>
 
-          <p className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
+          <Text variant="quote" size="lg" color="text-white/85" leading="relaxed" className="mt-8 max-w-xl border-l border-accent/70 pl-5 sm:text-xl">
             “{quote}”
-          </p>
+          </Text>
         </div>
 
         {/* Right Image */}

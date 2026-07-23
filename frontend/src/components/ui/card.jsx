@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Text } from "@/components/ui/Text/text";
 
 export function Card({ className, ...props }) {
   return (
@@ -18,12 +19,12 @@ export function CardHeader({ className, ...props }) {
 
 export function CardTitle({ className, ...props }) {
   return (
-    <h3 className={cn("text-lg font-semibold leading-none", className)} {...props} />
+    <Text as="h3" variant="heading" size="lg" leading="none" className={className} {...props} />
   );
 }
 
 export function CardDescription({ className, ...props }) {
-  return <p className={cn("text-sm text-muted-foreground", className)} {...props} />;
+  return <Text variant="muted" size="sm" className={className} {...props} />;
 }
 
 export function CardContent({ className, ...props }) {
