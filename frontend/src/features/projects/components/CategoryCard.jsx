@@ -14,6 +14,7 @@ export function CategoryCard({ category }) {
       description={description}
       image={image}
       meta={`${count} ${projectsContent.countNoun}`}
+      className="w-full sm:w-60"
     />
   );
 }

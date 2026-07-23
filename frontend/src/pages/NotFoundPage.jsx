@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "@/components/layout/Section";
-import { buttonVariants } from "@/components/ui/button-variants";
+import { buttonVariants } from "@/components/ui/Button/button-variants";
 import { cn } from "@/lib/utils";
 
 export function NotFoundPage() {
