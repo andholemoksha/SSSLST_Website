@@ -29,23 +29,13 @@
   /* Text roles (palette section 2): headings use Primary 1, links use Primary 2.
      Body text stays grey (--foreground), muted stays grey (--muted-foreground). */
   --heading: #4b1f82; /* all headings — palette Primary 1 (#4B1F82) */
-  --link: #5b2cbf; /* links / interactive text — palette Primary 2 (#5B2CBF) */
+  --link: #7b36a8; /* links / interactive text — palette Primary 2 (#5B2CBF) */
 
   /* Neutral */
   --muted: #f5f2ff; /* Soft lavender-grey surface — palette Neutral #F5F2FF */
   --muted-foreground: #8b8b99; /* palette Muted Text #8B8B99 */
   --border: #e9e6f2; /* palette Neutral #E9E6F2 */
   --ring: var(--primary);
-
-  /* Status */
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --success: #16a34a;
-  --success-foreground: #ffffff;
-  --warning: #d97706;
-  --warning-foreground: #ffffff;
-  --info: #2563eb;
-  --info-foreground: #ffffff;
 
   /* Gradient — highlight/statistic/feature cards ONLY. Never navbar, footer,
      buttons, or full-page backgrounds. See DESIGN_SYSTEM.md "Gradient Usage". */
@@ -94,15 +84,6 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-success: var(--success);
-  --color-success-foreground: var(--success-foreground);
-  --color-warning: var(--warning);
-  --color-warning-foreground: var(--warning-foreground);
-  --color-info: var(--info);
-  --color-info-foreground: var(--info-foreground);
 
   --font-heading: var(--font-heading);
   --font-sans: var(--font-sans);
