@@ -19,12 +19,11 @@ export function SatsangYearGrid() {
         </p>
       </div>
 
-      <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12">
-        {yearsSection.years.map((item, index) => (
+      <div className="mt-12 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
+        {yearsSection.years.map((item) => (
           <SatsangYearCard
             key={item.year}
             item={item}
-            className={index === 4 ? "xl:col-span-3 xl:col-start-3" : "xl:col-span-3"}
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout/Section";
-import { TileCard } from "@/components/ui/tile-card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useHomeContent } from "@/features/home/hooks/useHomeContent";
 
 export function HighlightsSection() {
@@ -8,13 +8,16 @@ export function HighlightsSection() {
   return (
     <Section id="highlights" className="scroll-mt-24" containerClassName="grid gap-6 sm:grid-cols-3">
       {highlights.map((highlight) => (
-        <TileCard
+        <Card
           key={highlight.title}
-          title={highlight.title}
-          description={highlight.description}
-          initials={highlight.title.slice(0, 2).toUpperCase()}
-          showFooter={false}
-        />
+        >
+          <CardHeader>
+            <CardTitle>{highlight.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm">
+            {highlight.description}
+          </CardContent>
+        </Card>
       ))}
     </Section>
   );
