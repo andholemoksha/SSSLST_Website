@@ -1,3 +1,4 @@
+import { TileCard } from "@/components/ui/tile-card";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
 
 export function DhyanaVahiniGallery() {
@@ -20,15 +21,16 @@ export function DhyanaVahiniGallery() {
         </button>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
         {gallery.items.map((item) => (
-          <div key={item.title} className="overflow-hidden rounded-[1.4rem] border border-border bg-surface shadow-sm">
-            <img src={item.image} alt={item.title} className="h-56 w-full object-cover sm:h-64 lg:h-72 xl:h-80" loading="lazy" />
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-heading">{item.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-foreground">{item.caption}</p>
-            </div>
-          </div>
+          <TileCard
+            key={item.title}
+            title={item.title}
+            description={item.caption}
+            image={item.image}
+            showFooter={false}
+            className="w-full sm:w-60"
+          />
         ))}
       </div>
     </section>

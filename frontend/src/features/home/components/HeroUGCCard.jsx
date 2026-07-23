@@ -1,19 +1,16 @@
 import { Landmark } from "lucide-react";
-import { TileCard } from "@/components/ui/tile-card";
+import { GlassCard } from "@/components/ui/glass-card";
 
 export function HeroUGCCard({ ugc }) {
   return (
-    <TileCard
-      title={ugc.title}
-      description={ugc.subtitle}
-      media={
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/15">
+    <GlassCard className="flex items-center gap-4 p-5 text-white">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full glow-accent">
           <Landmark className="h-6 w-6 text-accent" aria-hidden="true" />
-        </div>
-      }
-      showFooter={false}
-      cta={null}
-      cardClassName="border-primary/20 bg-white/10 text-white shadow-lg backdrop-blur-sm"
-    />
+      </div>
+      <div>
+        <p className="font-heading text-lg font-bold">{ugc.title}</p>
+        <p className="text-sm text-white/75">{ugc.subtitle}</p>
+      </div>
+    </GlassCard>
   );
 }
