@@ -15,7 +15,7 @@ export function ProjectsGrid() {
 
   if (isError) {
     return (
-      <p className="py-12 text-center text-text">
+      <p className="py-12 text-center text-foreground">
         Projects aren't available yet. Check back soon.
       </p>
     );

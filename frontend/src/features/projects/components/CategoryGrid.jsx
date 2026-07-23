@@ -1,5 +1,4 @@
 import { Loader } from "@/components/ui/loader";
-import { CardGrid } from "@/components/ui/card-grid";
 import { useProjectCategories } from "@/features/projects/hooks/useProjectCategories";
 import { CategoryCard } from "@/features/projects/components/CategoryCard";
 import { projectsContent } from "@/content/projects";
@@ -24,10 +23,10 @@ export function CategoryGrid() {
   }
 
   return (
-    <CardGrid>
+    <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
       {categories.map((category) => (
         <CategoryCard key={category.slug} category={category} />
       ))}
-    </CardGrid>
+    </div>
   );
 }
