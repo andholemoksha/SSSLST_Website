@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button/button";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
 
 export function DhyanaVahiniAbout() {
@@ -30,9 +31,12 @@ export function DhyanaVahiniAbout() {
             {about.description}
           </p>
 
-          <button className="mt-8 inline-flex items-center rounded-full border border-[#b58b4d]/60 bg-white/80 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#7b5524] transition hover:bg-white hover:shadow-lg">
+          <Button
+            variant="outline"
+            size="lg"
+          >
             {about.buttonLabel || "Learn More"}
-          </button>
+          </Button>
         </div>
 
         <div className="flex justify-center lg:justify-end">

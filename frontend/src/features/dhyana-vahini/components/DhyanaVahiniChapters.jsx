@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button/button";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
 
 export function DhyanaVahiniChapters() {
@@ -15,9 +16,12 @@ export function DhyanaVahiniChapters() {
           </h2>
           <p className="mt-4 text-base leading-8 text-[#5f4a32]">{chapters.description}</p>
         </div>
-        <button className="inline-flex items-center justify-center rounded-full border border-[#b58b4d]/60 bg-[#fff7e8] px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#7b5524] transition hover:bg-[#fef3d8]">
+        <Button
+          variant="outline"
+          size="lg"
+        >
           View All Chapters
-        </button>
+        </Button>
       </div>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -36,9 +40,9 @@ export function DhyanaVahiniChapters() {
                 </span>
               </div>
               <p className="mt-3 text-sm leading-7 text-[#5f4a32]">{chapter.description}</p>
-              <button className="mt-5 inline-flex items-center rounded-full border border-[#b58b4d]/60 px-4 py-2 text-sm font-semibold text-[#7b5524] transition hover:bg-white">
+              <Button variant="outline" size="sm">
                 View Details
-              </button>
+              </Button>
             </div>
           </div>
         ))}
