@@ -20,7 +20,7 @@ export function SatsangYearGrid() {
         </Text>
       </div>
 
-      <div className="mt-12 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
+      <div className="mt-12 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
         {yearsSection.years.map((item) => (
           <SatsangYearCard
             key={item.year}
