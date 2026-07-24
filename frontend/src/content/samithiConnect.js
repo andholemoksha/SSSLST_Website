@@ -1,9 +1,4 @@
-// Samithi Connect Programme (SCP) content.
-// Sections, each with a list of activity cards. Clicking a card opens that
-// activity's page (placeholder for now).
-// Detail content will come from Django later
-// (see AGENT.md: Component -> Hook -> Service -> API).
-
+// User-facing text for the Samithi Connect feature
 export const samithiSections = [
   {
     slug: "spiritual",
@@ -49,9 +44,22 @@ export const samithiSections = [
   },
 ];
 
-// User-facing text for the Samithi Connect feature (keep copy out of components).
 export const samithiContent = {
-  emptyMessage: "Samithi Connect activities aren't available yet. Check back soon.",
+  hero: {
+    label: "SAMITHI CONNECT",
+    title: "Samithi Connect Programme",
+    subtitle:
+      "Spiritual, educational and service activities — connect and take part.",
+    quote:
+      "Selfless service, devotion and learning transform both the individual and society.",
+    backgroundImage: "/assets/satsang/hero/satsang-hero.jpg",
+    accentImage: "/assets/satsang/hero/satsang-hero.jpg",
+    overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",
+  },
+
+  emptyMessage:
+    "Samithi Connect activities aren't available yet. Check back soon.",
+
   activityPage: {
     backLabel: "Back to Samithi Connect",
     description: (section) => `Samithi Connect · ${section}`,

@@ -1,31 +1,20 @@
-import { Container } from "@/components/layout/Container";
-import { SatsangAbout } from "@/features/satsang/components/SatsangAbout";
+import { Section } from "@/components/layout/Section";
 import { SatsangHero } from "@/features/satsang/components/SatsangHero";
 import { SatsangYearGrid } from "@/features/satsang/components/SatsangYearGrid";
-import { useSatsangContent } from "@/features/satsang/hooks/useSatsangContent";
 
 export function SatsangPage() {
-  const { hero } = useSatsangContent();
-
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-hero-bg text-white">
-        <img
-          src={hero.heroImage}
-          alt="Satsang Hero"
-          className="absolute inset-0 z-0 h-full w-full object-cover object-[58%_24%] sm:object-[58%_20%] lg:object-[60%_18%]"
-        />
+      {/* Full-width Hero */}
+      <SatsangHero />
 
-        <div className="absolute inset-0 z-10 bg-hero-bg/68" />
-        <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-white via-white/35 to-transparent" />
-
-        <Container className="relative z-20 grid min-h-[720px] max-w-6xl items-center gap-12 py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[0.95fr_0.9fr] lg:gap-20 lg:py-20">
-          <SatsangAbout />
-          <SatsangHero />
-        </Container>
-      </section>
-
-      <SatsangYearGrid />
+      {/* Remaining page content */}
+      <Section
+        className="bg-background py-6 sm:py-10 lg:py-14 xl:py-18"
+        containerClassName="max-w-[1700px] px-3 sm:px-5 lg:px-7 xl:px-8 2xl:px-10"
+      >
+        <SatsangYearGrid />
+      </Section>
     </>
   );
 }
