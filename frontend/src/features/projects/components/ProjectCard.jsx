@@ -10,7 +10,7 @@ export function ProjectCard({ project }) {
       initials={project.title.slice(0, 2).toUpperCase()}
       meta={project.tag ? <Badge>{project.tag}</Badge> : undefined}
       cta="Read more"
-      className="w-full"
+      className="w-full sm:w-[calc(50%-0.75rem)]"
     />
   );
 }
