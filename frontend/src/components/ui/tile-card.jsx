@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
+import { Text } from "@/components/ui/Text/text";
 import { cn } from "@/lib/utils";
 
 /**
@@ -68,27 +69,27 @@ export function TileCard({
 
         {/* Body */}
         <div className="flex flex-1 flex-col p-4">
-          <h3 className="text-base font-semibold text-foreground">{title}</h3>
+          <Text as="h3" variant="heading" size="base">{title}</Text>
           {description ? (
-            <div className="mt-1 text-sm text-muted-foreground">
-              {typeof description === "string" ? <p className="line-clamp-2">{description}</p> : description}
+            <div className="mt-1">
+              {typeof description === "string" ? <Text variant="muted" size="sm" className="line-clamp-2">{description}</Text> : description}
             </div>
           ) : null}
 
           {showFooter ? (
             <div className="mt-auto flex items-center justify-between pt-3">
               {meta ? (
-                <div className="text-sm font-medium text-primary">{meta}</div>
+                <Text variant="body" size="sm" weight="medium" color="text-primary">{meta}</Text>
               ) : (
                 <span />
               )}
               {cta ? (
-                <span className="inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                <Text as="span" variant="body" size="sm" weight="semibold" color="text-accent" className="inline-flex items-center gap-1">
                   {cta}
                   <span className="transition-transform duration-200 group-hover:translate-x-1">
                     &rarr;
                   </span>
-                </span>
+                </Text>
               ) : null}
             </div>
           ) : null}

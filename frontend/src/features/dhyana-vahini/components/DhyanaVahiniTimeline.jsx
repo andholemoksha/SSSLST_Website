@@ -1,4 +1,5 @@
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function DhyanaVahiniTimeline() {
   const { timeline } = useDhyanaVahiniContent();
@@ -6,12 +7,12 @@ export function DhyanaVahiniTimeline() {
   return (
     <section className="rounded-[2rem] border border-border bg-surface p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+        <Text variant="eyebrow" size="sm">
           {timeline.eyebrow}
-        </p>
-        <h2 className="mt-4 font-heading text-3xl font-semibold leading-tight text-heading sm:text-4xl">
+        </Text>
+        <Text as="h2" variant="heading" size="3xl" leading="tight" className="mt-4 sm:text-4xl">
           {timeline.title}
-        </h2>
+        </Text>
       </div>
 
       <div className="mt-8 overflow-x-auto pb-2">
@@ -27,8 +28,8 @@ export function DhyanaVahiniTimeline() {
                 ) : null}
               </div>
               <div className="rounded-[1.2rem] border border-border bg-background/85 p-4 shadow-sm">
-                <h3 className="text-lg font-semibold text-heading">{item.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-foreground">{item.description}</p>
+                <Text as="h3" variant="heading" size="lg">{item.title}</Text>
+                <Text size="sm" leading="relaxed" className="mt-2">{item.description}</Text>
               </div>
             </div>
           ))}

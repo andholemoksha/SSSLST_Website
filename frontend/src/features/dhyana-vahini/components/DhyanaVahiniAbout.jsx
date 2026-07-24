@@ -1,4 +1,5 @@
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function DhyanaVahiniAbout() {
   const { about } = useDhyanaVahiniContent();
@@ -17,21 +18,21 @@ export function DhyanaVahiniAbout() {
                 <path d="M24 34h10" />
               </svg>
             </div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+            <Text variant="eyebrow" size="sm">
               {about.eyebrow}
-            </p>
+            </Text>
           </div>
 
-          <h2 className="mt-7 font-heading text-3xl font-semibold leading-tight text-heading sm:text-4xl">
+          <Text as="h2" variant="heading" size="3xl" leading="tight" className="mt-7 sm:text-4xl">
             {about.title}
-          </h2>
+          </Text>
 
-          <p className="mt-5 max-w-xl text-base leading-8 text-foreground sm:text-lg">
+          <Text size="base" leading="relaxed" className="mt-5 max-w-xl sm:text-lg">
             {about.description}
-          </p>
+          </Text>
 
           <button className="mt-8 inline-flex items-center rounded-full border border-accent/60 bg-background/80 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-background hover:shadow-lg">
-            {about.buttonLabel || "Learn More"}
+            <Text as="span" variant="label" size="sm" color="text-accent">{about.buttonLabel || "Learn More"}</Text>
           </button>
         </div>
 

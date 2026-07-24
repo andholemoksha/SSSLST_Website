@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { useHomeContent } from "@/features/home/hooks/useHomeContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function ExploreSection() {
   const { exploreSections } = useHomeContent();
@@ -26,9 +27,9 @@ export function ExploreSection() {
 
             {/* Content */}
             <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
-              <h2 className="font-heading text-2xl sm:text-3xl font-semibold uppercase tracking-wide text-primary-foreground transition-all duration-500 group-hover:-translate-y-2">
+              <Text as="h2" variant="heading" size="2xl" color="text-primary-foreground" className="font-heading uppercase tracking-wide transition-all duration-500 group-hover:-translate-y-2 sm:text-3xl">
                 {item.title}
-              </h2>
+              </Text>
 
               <div className="mt-6 h-1 w-16 rounded-full bg-accent transition-all duration-500 group-hover:w-24" />
             </div>

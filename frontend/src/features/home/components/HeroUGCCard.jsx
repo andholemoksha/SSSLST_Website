@@ -1,5 +1,6 @@
 import { Landmark } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
+import { Text } from "@/components/ui/Text/text";
 
 export function HeroUGCCard({ ugc }) {
   return (
@@ -8,8 +9,8 @@ export function HeroUGCCard({ ugc }) {
           <Landmark className="h-6 w-6 text-accent" aria-hidden="true" />
       </div>
       <div>
-        <p className="font-heading text-lg font-bold">{ugc.title}</p>
-        <p className="text-sm text-white/75">{ugc.subtitle}</p>
+        <Text variant="heading" size="lg" weight="bold" color="text-white">{ugc.title}</Text>
+        <Text size="sm" color="text-white/75">{ugc.subtitle}</Text>
       </div>
     </GlassCard>
   );

@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button/button";
+import { Text } from "@/components/ui/Text/text";
 
 /**
  * PagePlaceholder
@@ -35,7 +36,7 @@ export function PagePlaceholder({
           </Container>
         ) : null}
         {children ?? (
-          <p className="py-16 text-center text-muted-foreground">{message}</p>
+          <Text variant="muted" className="py-16 text-center">{message}</Text>
         )}
       </Section>
     </>

@@ -1,20 +1,21 @@
 import { useSatsangContent } from "@/features/satsang/hooks/useSatsangContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function SatsangHero() {
   const { hero } = useSatsangContent();
 
   return (
     <div className="max-w-2xl lg:justify-self-end">
-      <p className="text-sm font-semibold uppercase tracking-[0.22em] text-accent">
+      <Text variant="eyebrow" size="sm">
         {hero.eyebrow}
-      </p>
-      <h1 className="mt-4 text-5xl font-semibold leading-tight text-white sm:text-7xl lg:text-[5.75rem]">
+      </Text>
+      <Text as="h1" variant="heading" size="5xl" color="text-white" leading="tight" className="mt-4 sm:text-7xl lg:text-[5.75rem]">
         {hero.title}
-      </h1>
+      </Text>
       <div className="mt-6 h-px w-24 bg-accent" />
-      <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
+      <Text size="base" color="text-white/85" leading="relaxed" className="mt-6 max-w-2xl sm:text-lg">
         {hero.description}
-      </p>
+      </Text>
     </div>
   );
 }

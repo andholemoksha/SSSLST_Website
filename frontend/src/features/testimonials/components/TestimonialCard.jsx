@@ -1,5 +1,6 @@
 import { TileCard } from "@/components/ui/tile-card";
 import { Badge } from "@/components/ui/badge";
+import { Text } from "@/components/ui/Text/text";
 
 function initials(name) {
   return name
@@ -19,13 +20,13 @@ export function TestimonialCard({ participant, stateName }) {
       title={name}
       description={
         <div className="space-y-3">
-          <p className="text-sm leading-relaxed text-muted-foreground">&ldquo;{experience}&rdquo;</p>
+          <Text variant="quote" size="sm" leading="relaxed">&ldquo;{experience}&rdquo;</Text>
           <div className="flex items-center gap-2">
             <Badge variant="outline">Batch {year}</Badge>
           </div>
-          <p className="truncate text-xs text-muted-foreground">
+          <Text variant="muted" size="xs" truncate>
             {place} · {stateName}
-          </p>
+          </Text>
         </div>
       }
       media={

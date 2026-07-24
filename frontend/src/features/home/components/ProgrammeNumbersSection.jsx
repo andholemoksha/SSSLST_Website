@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Section } from "@/components/layout/Section";
+import { Text } from "@/components/ui/Text/text";
 import { useHomeContent } from "@/features/home/hooks/useHomeContent";
 import { useInView } from "react-intersection-observer";
 
@@ -61,9 +62,9 @@ export function ProgrammeNumbersSection() {
     <Section>
       <div ref={ref}>
         <div className="mb-14 text-center">
-          <h2 className="text-4xl font-bold text-primary">
+          <Text as="h2" variant="heading" size="4xl" weight="bold" color="text-primary">
             Programme by the Numbers
-          </h2>
+          </Text>
 
           <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-accent" />
         </div>
@@ -85,14 +86,14 @@ export function ProgrammeNumbersSection() {
                   <Icon className="h-9 w-9 text-primary" />
                 </div>
 
-                <h3 className="text-5xl font-bold text-primary">
+                <Text as="h3" variant="heading" size="5xl" weight="bold" color="text-primary">
                   {counts[index].toLocaleString()}
                   {item.value.includes("+") && "+"}
-                </h3>
+                </Text>
 
-                <p className="mt-3 text-center text-muted-foreground">
+                <Text variant="muted" className="mt-3 text-center">
                   {item.label}
-                </p>
+                </Text>
               </div>
             );
           })}

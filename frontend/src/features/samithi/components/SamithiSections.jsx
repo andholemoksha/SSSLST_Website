@@ -2,6 +2,7 @@ import { Loader } from "@/components/ui/loader";
 import { useSamithiSections } from "@/features/samithi/hooks/useSamithiSections";
 import { SectionRow } from "@/features/samithi/components/SectionRow";
 import { samithiContent } from "@/content/samithiConnect";
+import { Text } from "@/components/ui/Text/text";
 
 export function SamithiSections() {
   const { data: sections, isLoading, isError } = useSamithiSections();
@@ -16,9 +17,9 @@ export function SamithiSections() {
 
   if (isError) {
     return (
-      <p className="py-12 text-center text-muted-foreground">
+      <Text variant="muted" className="py-12 text-center">
         {samithiContent.emptyMessage}
-      </p>
+      </Text>
     );
   }
 

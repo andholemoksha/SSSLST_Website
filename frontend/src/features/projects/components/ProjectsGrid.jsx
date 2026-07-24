@@ -1,6 +1,7 @@
 import { Loader } from "@/components/ui/loader";
 import { useProjects } from "@/features/projects/hooks/useProjects";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
+import { Text } from "@/components/ui/Text/text";
 
 export function ProjectsGrid() {
   const { data: projects, isLoading, isError } = useProjects();
@@ -15,9 +16,9 @@ export function ProjectsGrid() {
 
   if (isError) {
     return (
-      <p className="py-12 text-center text-foreground">
+      <Text className="py-12 text-center">
         Projects aren't available yet. Check back soon.
-      </p>
+      </Text>
     );
   }
 

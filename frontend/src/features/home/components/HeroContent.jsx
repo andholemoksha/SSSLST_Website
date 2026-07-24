@@ -1,20 +1,21 @@
 import { HeroQuote } from "@/features/home/components/HeroQuote";
 import { HeroButtons } from "@/features/home/components/HeroButtons";
+import { Text } from "@/components/ui/Text/text";
 
 export function HeroContent({ hero }) {
   return (
     <div className="text-white">
-      <p className="hidden text-sm font-medium text-accent lg:block">{hero.eyebrow}</p>
+      <Text variant="eyebrow" size="sm" className="hidden lg:block">{hero.eyebrow}</Text>
 
-      <h1 className="mt-2 font-heading text-4xl font-bold leading-tight text-white sm:text-5xl lg:mt-4 lg:text-6xl">
+      <Text as="h1" variant="heading" size="display" weight="bold" color="text-white" className="mt-2 leading-tight lg:mt-4">
         {hero.heading}
         <span className="text-accent">{hero.headingHighlight}</span>
-      </h1>
+      </Text>
 
       <div className="mt-4 h-px w-16 bg-accent" aria-hidden="true" />
 
-      <p className="mt-4 text-lg font-medium text-white/90">{hero.supporting}</p>
-      <p className="mt-3 max-w-xl text-white/75">{hero.description}</p>
+      <Text size="lg" weight="medium" color="text-white/90" className="mt-4">{hero.supporting}</Text>
+      <Text color="text-white/75" className="mt-3 max-w-xl">{hero.description}</Text>
 
       <div className="mt-6">
         <HeroQuote quote={hero.quote} />

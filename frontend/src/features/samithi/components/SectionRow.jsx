@@ -1,5 +1,6 @@
 import { CardScroller } from "@/components/ui/card-scroller";
 import { ActivityCard } from "@/features/samithi/components/ActivityCard";
+import { Text } from "@/components/ui/Text/text";
 
 /**
  * One section: a title plus a horizontally-scrolling row of activity cards.
@@ -8,9 +9,9 @@ import { ActivityCard } from "@/features/samithi/components/ActivityCard";
 export function SectionRow({ section }) {
   return (
     <section>
-      <h2 className="mb-4 text-2xl font-semibold text-foreground">
+      <Text as="h2" variant="heading" size="2xl" className="mb-4">
         {section.title}
-      </h2>
+      </Text>
       <CardScroller>
         {section.activities.map((activity) => (
           <ActivityCard

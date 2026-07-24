@@ -3,6 +3,7 @@ import { testimonialsContent } from "@/content/testimonials";
 import { useTestimonials } from "@/features/testimonials/hooks/useTestimonials";
 import { TestimonialCard } from "@/features/testimonials/components/TestimonialCard";
 import { Loader } from "@/components/ui/loader";
+import { Text } from "@/components/ui/Text/text";
 
 const stateNameBySlug = Object.fromEntries(allRegions.map((s) => [s.slug, s.name]));
 
@@ -21,20 +22,20 @@ export function TestimonialResults({ filters }) {
 
   if (isError) {
     return (
-      <p className="flex-1 py-12 text-center text-muted-foreground">
+      <Text variant="muted" className="flex-1 py-12 text-center">
         Testimonials aren't available yet. Check back soon.
-      </p>
+      </Text>
     );
   }
 
   return (
     <div className="flex-1">
-      <p className="mb-4 text-sm text-muted-foreground">
+      <Text variant="muted" size="sm" className="mb-4">
         {t.resultsCount(data.length)}
-      </p>
+      </Text>
 
       {data.length === 0 ? (
-        <p className="py-16 text-center text-muted-foreground">{t.empty}</p>
+        <Text variant="muted" className="py-16 text-center">{t.empty}</Text>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {data.map((p) => (

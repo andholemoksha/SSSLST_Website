@@ -1,5 +1,6 @@
 import { TileCard } from "@/components/ui/tile-card";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function DhyanaVahiniGallery() {
   const { gallery } = useDhyanaVahiniContent();
@@ -8,16 +9,16 @@ export function DhyanaVahiniGallery() {
     <section className="rounded-[2rem] border border-border bg-background p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+          <Text variant="eyebrow" size="sm">
             {gallery.eyebrow}
-          </p>
-          <h2 className="mt-4 font-heading text-3xl font-semibold leading-tight text-heading sm:text-4xl">
+          </Text>
+          <Text as="h2" variant="heading" size="3xl" leading="tight" className="mt-4 sm:text-4xl">
             {gallery.title}
-          </h2>
-          <p className="mt-4 text-base leading-8 text-foreground">{gallery.description}</p>
+          </Text>
+          <Text size="base" leading="relaxed" className="mt-4">{gallery.description}</Text>
         </div>
         <button className="inline-flex items-center justify-center rounded-full border border-accent/60 bg-surface px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-secondary">
-          View More
+          <Text as="span" variant="label" size="sm" color="text-accent">View More</Text>
         </button>
       </div>
 

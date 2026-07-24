@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/Container";
 import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function DhyanaVahiniHero() {
   const { hero } = useDhyanaVahiniContent();
@@ -19,19 +20,19 @@ export function DhyanaVahiniHero() {
       <Container className="relative z-20 flex min-h-[75vh] items-center py-16 sm:min-h-[80vh] sm:py-20 lg:min-h-[85vh] lg:py-24 xl:py-28 max-w-[1700px]">
         <div className="grid w-full items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-accent sm:text-base">
+            <Text variant="eyebrow" size="sm" className="sm:text-base">
               {hero.label}
-            </p>
-            <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.95] tracking-[0.01em] text-white sm:text-6xl lg:text-7xl">
+            </Text>
+            <Text as="h1" variant="heading" size="5xl" color="text-white" className="mt-6 leading-[0.95] tracking-[0.01em] sm:text-6xl lg:text-7xl">
               {hero.title}
-            </h1>
+            </Text>
             <div className="mt-6 h-px w-24 bg-accent" />
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/90 sm:text-lg">
+            <Text size="base" color="text-white/90" leading="relaxed" className="mt-6 max-w-2xl sm:text-lg">
               {hero.subtitle}
-            </p>
-            <p className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-lg italic leading-8 text-white/85 sm:text-xl">
+            </Text>
+            <Text variant="quote" size="lg" color="text-white/85" leading="relaxed" className="mt-8 max-w-xl border-l border-accent/70 pl-5 sm:text-xl">
               “{hero.quote}”
-            </p>
+            </Text>
           </div>
 
           <div className="flex justify-center lg:justify-end">

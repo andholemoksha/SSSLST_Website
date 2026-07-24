@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { testimonialFilters, testimonialsContent } from "@/content/testimonials";
+import { Text } from "@/components/ui/Text/text";
 
 /** One checkbox row (multi-select). */
 function CheckRow({ checked, onChange, label }) {
@@ -12,7 +13,7 @@ function CheckRow({ checked, onChange, label }) {
         onChange={onChange}
         className="h-4 w-4 accent-primary"
       />
-      <span className="truncate">{label}</span>
+      <Text as="span" size="sm" truncate>{label}</Text>
     </label>
   );
 }
@@ -20,9 +21,9 @@ function CheckRow({ checked, onChange, label }) {
 function FilterGroup({ title, children }) {
   return (
     <div className="border-t border-border py-4">
-      <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <Text as="h3" variant="label" size="xs" className="mb-2 tracking-wide">
         {title}
-      </h3>
+      </Text>
       {children}
     </div>
   );
@@ -58,9 +59,9 @@ export function TestimonialFilters({ filters, setFilters }) {
       <div className="rounded-lg border border-border bg-card p-4">
         {/* header */}
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-foreground">
+          <Text as="h2" variant="heading" size="sm">
             {t.filters.heading}
-          </h2>
+          </Text>
           {anySelected ? (
             <button
               type="button"
@@ -131,7 +132,7 @@ export function TestimonialFilters({ filters, setFilters }) {
               />
             ))}
             {visibleStates.length === 0 ? (
-              <p className="py-2 text-xs text-muted-foreground">No states found.</p>
+              <Text variant="muted" size="xs" className="py-2">No states found.</Text>
             ) : null}
           </div>
         </FilterGroup>
