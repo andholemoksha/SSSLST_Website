@@ -19,7 +19,7 @@ import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
-import { ApplyNowBadge } from "@/components/ui/apply-now-badge";
+import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
 import { applyNow } from "@/content/applynow";
 
 function App() {
@@ -70,7 +70,7 @@ function App() {
         </Routes>
       </main>
 
-      {applyNow.enabled && <ApplyNowBadge />}
+      {applyNow.enabled && <AdmissionsLotusCard />}
 
       <Footer />
     </div>
