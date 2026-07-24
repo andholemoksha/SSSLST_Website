@@ -2,110 +2,91 @@ import { motion } from "framer-motion";
 
 import { applyNow } from "@/content/applynow";
 
-const lotusPath = "M160 9C145 39 125 40 108 16C94 43 103 68 126 81C94 59 70 61 49 79C65 106 89 112 116 101C83 115 59 140 53 169C81 180 106 170 126 149C110 182 115 211 134 234C142 208 151 185 160 170C169 185 178 208 186 234C205 211 210 182 194 149C214 170 239 180 267 169C261 140 237 115 204 101C231 112 255 106 271 79C250 61 226 59 194 81C217 68 226 43 212 16C195 40 175 39 160 9Z";
+const medallionOutline = "M300 18C462 18 584 122 584 280C584 438 462 542 300 542C138 542 16 438 16 280C16 122 138 18 300 18Z";
 
-function LotusMark({ className = "" }) {
+function LotusIcon({ className = "" }) {
   return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      viewBox="0 0 64 48"
-    >
-      <path d="M32 43C19 38 12 27 12 16c9 1 15 7 20 15V5c8 7 10 16 0 26 5-8 11-14 20-15 0 11-7 22-20 27Z" fill="currentColor" />
-      <path d="M32 43C19 38 4 37 1 27c11-2 20 3 31 16ZM32 43c13-5 28-6 31-16-11-2-20 3-31 16Z" fill="currentColor" />
-      <path d="M32 43V23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <svg aria-hidden="true" className={className} fill="none" viewBox="0 0 80 58">
+      <path d="M40 51C26 46 18 36 18 23c10 2 17 9 22 19V7c10 9 11 22 0 35 5-10 12-17 22-19 0 13-8 23-22 28Z" stroke="currentColor" strokeWidth="2.4" />
+      <path d="M40 51C25 51 10 45 4 35c13-4 25 1 36 16ZM40 51c15 0 30-6 36-16-13-4-25 1-36 16Z" stroke="currentColor" strokeWidth="2.4" />
+      <path d="M40 51V31" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   );
 }
 
-function LotusOutline() {
+function LotusSurface() {
   return (
-    <svg
-      aria-hidden="true"
-      className="absolute inset-0 h-full w-full"
-      preserveAspectRatio="none"
-      viewBox="0 0 320 340"
-    >
+    <svg aria-hidden="true" className="absolute inset-0 h-full w-full" viewBox="0 0 600 560">
       <defs>
-        <radialGradient id="lotus-surface" cx="50%" cy="92%" r="85%">
-          <stop offset="0%" stopColor="#8D3C89" />
-          <stop offset="45%" stopColor="#5B2CA5" stopOpacity="0.96" />
-          <stop offset="100%" stopColor="#351468" stopOpacity="0.94" />
+        <radialGradient id="admissions-purple" cx="50%" cy="88%" r="78%">
+          <stop offset="0" stopColor="#A04F91" />
+          <stop offset="0.3" stopColor="#69317F" />
+          <stop offset="0.7" stopColor="#3B175F" />
+          <stop offset="1" stopColor="#24103D" />
         </radialGradient>
-        <linearGradient id="lotus-gold" x1="42" y1="22" x2="276" y2="318" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#F6D365" />
-          <stop offset="0.46" stopColor="#FFF0A3" />
+        <linearGradient id="admissions-gold" x1="112" y1="73" x2="474" y2="524" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FFF0A3" />
+          <stop offset="0.38" stopColor="#F6D365" />
           <stop offset="1" stopColor="#F9A826" />
         </linearGradient>
-        <linearGradient id="lotus-orange" x1="160" y1="188" x2="160" y2="330" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FB923C" stopOpacity="0" />
-          <stop offset="1" stopColor="#F97316" stopOpacity="0.52" />
-        </linearGradient>
-        <filter id="lotus-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
+        <radialGradient id="admissions-bottom-glow" cx="50%" cy="100%" r="48%">
+          <stop stopColor="#FFD66A" stopOpacity="0.95" />
+          <stop offset="0.28" stopColor="#F97316" stopOpacity="0.56" />
+          <stop offset="1" stopColor="#F97316" stopOpacity="0" />
+        </radialGradient>
+        <filter id="admissions-soft-glow" x="-12%" y="-12%" width="124%" height="124%">
+          <feGaussianBlur stdDeviation="5" result="blur" />
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      <path
-        d={lotusPath}
-        fill="url(#lotus-surface)"
-        stroke="url(#lotus-gold)"
-        strokeWidth="2"
-        filter="url(#lotus-glow)"
-      />
-      <motion.path
-        d={lotusPath}
-        fill="none"
-        stroke="#FFF0A3"
-        strokeDasharray="18 310"
-        strokeLinecap="round"
-        strokeWidth="1.2"
-        animate={{ strokeDashoffset: [0, -328] }}
-        transition={{ duration: 9, ease: "linear", repeat: Infinity }}
-      />
-      <path
-        d="M53 169C81 180 106 170 126 149C110 182 115 211 134 234C142 208 151 185 160 170C169 185 178 208 186 234C205 211 210 182 194 149C214 170 239 180 267 169L267 310L53 310Z"
-        fill="url(#lotus-orange)"
-        opacity="0.85"
-      />
+
+      <path d={medallionOutline} fill="url(#admissions-purple)" fillOpacity="0.94" stroke="url(#admissions-gold)" strokeWidth="4" filter="url(#admissions-soft-glow)" />
+      <path d={medallionOutline} fill="none" stroke="#FFF5B8" strokeOpacity="0.26" strokeWidth="1" transform="translate(0 5) scale(1 .98)" />
+      <path d="M117 431C170 420 219 453 251 513C211 486 172 476 138 481C148 442 135 421 117 431ZM483 431C430 420 381 453 349 513C389 486 428 476 462 481C452 442 465 421 483 431ZM196 454C234 446 271 474 300 538C329 474 366 446 404 454C387 486 388 510 402 529C359 522 328 535 300 558C272 535 241 522 198 529C212 510 213 486 196 454Z" fill="url(#admissions-bottom-glow)" opacity="0.9" />
+      <g fill="none" stroke="#F6D365" strokeOpacity="0.22" strokeWidth="2">
+        <path d="M300 545C252 516 230 476 234 428C267 440 287 467 300 503C313 467 333 440 366 428C370 476 348 516 300 545Z" />
+        <path d="M300 545C242 536 194 506 178 456C226 458 269 486 300 530C331 486 374 458 422 456C406 506 358 536 300 545Z" />
+      </g>
+      <motion.path d={medallionOutline} fill="none" stroke="#FFF0A3" strokeDasharray="26 620" strokeLinecap="round" strokeWidth="2" animate={{ strokeDashoffset: [0, -646] }} transition={{ duration: 10, ease: "linear", repeat: Infinity }} />
     </svg>
   );
 }
 
 export function AdmissionsLotusCard() {
+  const isFormPlaceholder = applyNow.formLink.includes("your-google-form");
+
   return (
     <motion.aside
       aria-label="Admissions are open"
       animate={{ y: [0, -5, 0] }}
       transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-      className="fixed bottom-2 right-2 z-50 h-[300px] w-[250px] sm:bottom-5 sm:right-5 sm:h-[320px] sm:w-[280px] lg:h-[330px] lg:w-[300px]"
+      className="fixed bottom-2 right-2 z-50 h-[158px] w-[170px] sm:bottom-5 sm:right-5"
     >
       <a
-        href={applyNow.formLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative flex h-full w-full items-center justify-center text-center backdrop-blur-[14px] transition duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F6D365] focus-visible:ring-offset-2"
+        href={isFormPlaceholder ? "#" : applyNow.formLink}
+        target={isFormPlaceholder ? undefined : "_blank"}
+        rel={isFormPlaceholder ? undefined : "noopener noreferrer"}
+        aria-disabled={isFormPlaceholder}
+        title={isFormPlaceholder ? "Application form coming soon" : undefined}
+        onClick={isFormPlaceholder ? (event) => event.preventDefault() : undefined}
+        className="group relative block h-full w-full transition duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F6D365] focus-visible:ring-offset-2"
       >
-        <LotusOutline />
+        <LotusSurface />
 
-        <span className="absolute bottom-[18%] left-1/2 -translate-x-1/2 text-[#F6D365] opacity-[0.08]">
-          <LotusMark className="h-28 w-36" />
-        </span>
-        <span className="absolute bottom-[18%] left-[25%] h-1.5 w-1.5 rounded-full bg-[#F6D365] shadow-[0_0_10px_3px_rgba(249,168,38,0.55)]" />
-        <span className="absolute bottom-[24%] right-[23%] h-1 w-1 rounded-full bg-orange-200 shadow-[0_0_10px_3px_rgba(249,115,22,0.6)]" />
-        <span className="absolute bottom-[13%] right-[34%] h-1 w-1 rounded-full bg-[#F6D365] shadow-[0_0_9px_3px_rgba(246,211,101,0.45)]" />
+        <span className="absolute bottom-[16%] left-[22%] h-1 w-1 rounded-full bg-[#F6D365] shadow-[0_0_10px_3px_rgba(249,168,38,0.65)]" />
+        <span className="absolute bottom-[23%] right-[21%] h-1.5 w-1.5 rounded-full bg-orange-200 shadow-[0_0_10px_3px_rgba(249,115,22,0.65)]" />
+        <span className="absolute bottom-[13%] right-[34%] h-1 w-1 rounded-full bg-[#F6D365] shadow-[0_0_9px_3px_rgba(246,211,101,0.55)]" />
 
-        <span className="relative z-10 flex w-[72%] flex-col items-center pt-1">
-          <LotusMark className="mb-2 h-7 w-9 text-[#F6D365]" />
-          <span className="rounded-full bg-gradient-to-r from-[#F97316] to-[#FB923C] px-3 py-1 text-[9px] font-bold tracking-[0.24em] text-white shadow-[0_3px_12px_rgba(249,115,22,0.35)]">
-            ADMISSIONS OPEN
+        <span className="absolute inset-x-[17%] top-[17%] z-10 flex flex-col items-center text-center">
+          <LotusIcon className="mb-0.5 h-5 w-7 text-[#F6D365]" />
+          <span className="text-[7px] font-bold tracking-[0.2em] text-[#FB923C]">ADMISSIONS OPEN</span>
+          <span className="my-1 flex w-full items-center gap-1 text-[#F6D365] before:h-px before:flex-1 before:bg-current after:h-px after:flex-1 after:bg-current">
+            <LotusIcon className="h-3 w-4 shrink-0" />
           </span>
-          <span className="my-3 h-px w-16 bg-gradient-to-r from-transparent via-[#F6D365] to-transparent" />
-          <span className="max-w-[205px] text-sm font-medium leading-6 text-white sm:text-[15px]">
+          <span className="max-w-[150px] text-[11px] font-medium leading-4 text-white">
             {applyNow.title}
           </span>
-          <span className="mt-5 rounded-full bg-gradient-to-r from-[#F97316] to-[#FB923C] px-5 py-2.5 text-xs font-bold tracking-wide text-white shadow-[0_5px_16px_rgba(249,115,22,0.32)] transition duration-300 group-hover:scale-[1.03] group-hover:from-[#FB923C] group-hover:to-[#FDBA3A] group-hover:shadow-[0_7px_22px_rgba(249,115,22,0.58)]">
+          <span className="mt-2.5 rounded-full border border-[#F6D365] bg-gradient-to-r from-[#E96820] to-[#F28B2A] px-3 py-1.5 text-[8px] font-bold tracking-[0.16em] text-white shadow-[0_5px_16px_rgba(249,115,22,0.35)] transition duration-300 group-hover:scale-[1.03] group-hover:from-[#FB923C] group-hover:to-[#FDBA3A] group-hover:shadow-[0_7px_22px_rgba(249,115,22,0.62)]">
             APPLY NOW <span aria-hidden="true">→</span>
           </span>
         </span>
