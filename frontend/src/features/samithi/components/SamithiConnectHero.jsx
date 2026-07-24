@@ -1,8 +1,8 @@
 import { HeroSection } from "@/components/ui/hero-section";
-import { useDhyanaVahiniContent } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniContent";
+import { useSamithiContent } from "@/features/samithi/hooks/useSamithiSections";
 
-export function DhyanaVahiniHero() {
-  const { hero } = useDhyanaVahiniContent();
+export function SamithiConnectHero() {
+  const { hero } = useSamithiContent();
 
   return (
     <HeroSection

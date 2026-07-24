@@ -1,11 +1,15 @@
 export const satsang = {
   hero: {
-    eyebrow: "Satsang",
+    label: "SATSANG",
     title: "Satsangs",
-    description:
+    subtitle:
       "Placeholder subtitle for the Satsang module. This text will be replaced with approved SSSNLP content later.",
-    heroImage: "/assets/satsang/hero/satsang-hero.jpg",
+    quote: "Where hearts unite in the remembrance of the Divine.",
+    backgroundImage: "/assets/satsang/hero/satsang-hero.jpg",
+    accentImage: "/assets/satsang/hero/satsang-hero.jpg",
+    overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",
   },
+
   about: {
     eyebrow: "Devotional Reflections",
     quotes: [
@@ -14,6 +18,7 @@ export const satsang = {
       "Bhagawan Sri Sathya Sai Baba's Life is our Message.",
     ],
   },
+
   yearsSection: {
     eyebrow: "Satsang Archives",
     title: "Year-wise Satsang Archives",
