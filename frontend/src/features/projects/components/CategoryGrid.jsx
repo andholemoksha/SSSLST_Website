@@ -24,7 +24,7 @@ export function CategoryGrid() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
+    <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
       {categories.map((category) => (
         <CategoryCard key={category.slug} category={category} />
       ))}

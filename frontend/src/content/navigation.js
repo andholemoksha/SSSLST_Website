@@ -20,7 +20,6 @@ export const navigation = {
         { title: "Photo Gallery", href: "/projects" },
       ],
     },
-    { title: "Reach Us", href: "/contact" },
     { title: "FAQs", href: "/faq" },
   ],
 };

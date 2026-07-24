@@ -23,7 +23,7 @@ export function ProjectsGrid() {
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center">
       {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
