@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text/text";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-white">
+    <footer className="border-t border-border bg-footer-gradient">
       <Container className="grid gap-8 py-10 sm:grid-cols-[2fr_1fr_1fr]">
         <Text size="sm">{footer.tagline}</Text>
         {footer.columns.map((column) => (
