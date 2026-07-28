@@ -9,6 +9,7 @@ export function HeroSection({
   backgroundImage,
   accentImage,
   overlay,
+  actions,
   imagePosition = "object-center",
 }) {
   return (
@@ -58,7 +59,7 @@ export function HeroSection({
             {subtitle}
           </Text>
 
-          <Text
+          {quote ? <Text
             variant="quote"
             size="lg"
             color="text-white/85"
@@ -66,7 +67,9 @@ export function HeroSection({
             className="mt-8 max-w-xl border-l border-accent/70 pl-5 sm:text-xl"
           >
             “{quote}”
-          </Text>
+          </Text> : null}
+
+          {actions ? <div className="mt-8">{actions}</div> : null}
         </div>
 
         {/* Right Image */}

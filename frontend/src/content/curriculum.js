@@ -1,0 +1,63 @@
+export const curriculum = {
+  hero: {
+    label: "CURRICULUM",
+    title: "A Transformative Learning Journey",
+    subtitle: "An integrated curriculum that combines spirituality, values, leadership, service and practical learning to nurture compassionate and responsible leaders.",
+    backgroundImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
+    accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
+    overlay: "bg-gradient-to-r from-hero-bg/85 via-hero-bg/60 to-hero-bg/30",
+    actions: [
+      { label: "Download Curriculum", href: "#course-details", variant: "primary" },
+      { label: "View Brochure", href: "#journey", variant: "outline" },
+      { label: "Apply Now", to: "/contact", variant: "primary" },
+    ],
+  },
+  courseDetails: {
+    eyebrow: "Programme Overview",
+    title: "Course Details",
+    description: "Everything you need to know about the programme structure, eligibility and commitments.",
+    items: [
+      { icon: "users", title: "Eligibility", details: ["Age 21–35 years", "Graduates", "Proficiency in English or Hindi", "Basic computer and internet access"] },
+      { icon: "clock", title: "Time Commitment", details: ["5–7 hours per week", "Online sessions, assignments, satsangs and service activities"] },
+      { icon: "calendar", title: "Duration", details: ["10 months", "January to December"] },
+      { icon: "laptop", title: "Mode", details: ["Hybrid", "Online learning with in-person experiences"] },
+      { icon: "message", title: "Language", details: ["English / Hindi", "Medium of instruction"] },
+      { icon: "building", title: "Residential Components", details: ["2–3 day orientation", "2–3 day concluding session at Prasanthi Nilayam"] },
+    ],
+  },
+  selection: {
+    title: "Selection Information",
+    message: "Selection is through a national panel based on screening, online interview and recommendation by the respective State President.",
+  },
+  journey: {
+    eyebrow: "Programme Pathway",
+    title: "The SSSLST Journey",
+    stepLabel: "Step",
+    description: "A transformation journey of self-discovery, selfless service and divine purpose, guided by Bhagawan Sri Sathya Sai Baba.",
+    steps: [
+      { number: "1", icon: "clipboard", title: "Selection", description: "The beginning of your journey." },
+      { number: "2", icon: "landmark", title: "Orientation", description: "An immersive introduction to the programme." },
+      { number: "3", icon: "flower", title: "Dhyana Vahini", description: "Begin with prayer, meditation and self-reflection." },
+      { number: "4", icon: "heart", title: "Sathvam", description: "Strengthen values, character and leadership qualities." },
+      { number: "5", icon: "handshake", title: "Samithi Connect", description: "Connect, collaborate and grow together in service." },
+      { number: "6", icon: "lightbulb", title: "Project", description: "Apply learning and create meaningful impact." },
+      { number: "7", icon: "notebook", title: "Exam", description: "Evaluate, reflect and excel." },
+      { number: "8", icon: "graduation", title: "Graduation", description: "Carry values and service into the world." },
+    ],
+  },
+  gains: {
+    eyebrow: "Learning Outcomes",
+    title: "What You Will Gain",
+    description: "The key skills, attitudes and values you will develop.",
+    items: [
+      { icon: "brain", title: "Self Awareness", description: "Deep understanding of self and clarity of purpose." },
+      { icon: "heart", title: "Emotional Balance", description: "Develop emotional stability and inner harmony." },
+      { icon: "users", title: "Stronger Relationships", description: "Build empathy, respect and meaningful connections." },
+      { icon: "badge", title: "Leadership Excellence", description: "Practice ethical leadership with integrity and responsibility." },
+      { icon: "flower", title: "Spiritual Growth", description: "Integrate spiritual principles in thought, word and action." },
+      { icon: "globe", title: "Social Responsibility", description: "Commit to selfless service and contribute to societal wellbeing." },
+      { icon: "chart", title: "Practical Skills", description: "Enhance communication, project management and reflective learning." },
+      { icon: "graduation", title: "Lifelong Learning", description: "Develop a mindset of continuous growth and self-improvement." },
+    ],
+  },
+};
