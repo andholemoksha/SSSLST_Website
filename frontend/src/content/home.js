@@ -1,11 +1,11 @@
 export const home = {
   hero: {
-    eyebrow: "Welcome to",
+    eyebrow: "Sutradhar for Leadership",
     heading: "Sri Sathya Sai Leadership Through ",
     headingHighlight: "Self Transformation",
     supporting: "Transform Within. Lead Beyond.",
     description:
-      "A journey of self-discovery and inner transformation to awaken the leader within and serve the world with purpose and compassion.",
+      "A Flagship Initiative of the Sri Sathya Sai Organisation (SSSO)",
     quote: {
       text: "I want you to be leaders to protect the world. Leaders like lions, self-reliant, courageous, majestic, and just. The lion is the king of animals and I want you to be king among men.",
       attribution: "Bhagawan Sri Sathya Sai Baba",
