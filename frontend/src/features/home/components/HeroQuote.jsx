@@ -4,7 +4,7 @@ import spiritualImg from "@/assets/categories/spiritual-wing.jpg";
 
 export function HeroQuote({ quote }) {
   return (
-    <Section containerClassName="grid items-center gap-10 md:grid-cols-2">
+    <Section containerClassName="grid items-center gap-4 md:grid-cols-[1fr_auto] md:gap-6">
       {/* Quote on the left */}
       <div>
         <QuoteBlock
@@ -15,12 +15,14 @@ export function HeroQuote({ quote }) {
       </div>
 
       {/* Image on the right */}
-      <div className="overflow-hidden rounded-xl">
-        <img
-          src={spiritualImg}
-          alt="Spiritual gathering"
-          className="h-full w-full object-cover"
-        />
+      <div className="flex justify-center md:justify-end">
+        <div className="h-68 w-68 overflow-hidden rounded-full sm:h-66 sm:w-66">
+          <img
+            src={spiritualImg}
+            alt="Spiritual gathering"
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
     </Section>
   );

@@ -52,12 +52,12 @@ export function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen((prev) => !prev)}
             className={cn(
-              buttonVariants({ variant: "nav", size: "default" }),
-              "flex h-11 w-11 items-center justify-center rounded-lg lg:hidden",
+              buttonVariants({ variant: "nav", size: "icon" }),
+              "lg:hidden",
               transparent ? "text-white" : "text-primary"
             )}
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen ? <X /> : <Menu />}
           </button>
         </Container>
 
