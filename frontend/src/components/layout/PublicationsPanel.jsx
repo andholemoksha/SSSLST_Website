@@ -120,7 +120,7 @@ export function PublicationsPanel({ publications }) {
         aria-hidden={!open}
         className={`fixed right-0 top-0 z-50 flex h-dvh w-full max-w-md touch-none flex-col overflow-hidden border-l border-border bg-surface shadow-md transition-transform ${open ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="absolute right-12 top-0 flex h-20 w-12 items-center justify-center rounded-b-xl bg-primary text-primary-foreground shadow-sm">
+        <div className="absolute right-16 top-0 flex h-20 w-12 items-center justify-center rounded-b-xl bg-primary text-primary-foreground shadow-sm">
           <Sparkles className="h-5 w-5" />
         </div>
         <Button
@@ -133,7 +133,7 @@ export function PublicationsPanel({ publications }) {
           <X />
         </Button>
 
-        <div className="flex h-full flex-col px-4 pb-4 pt-16 sm:px-6 sm:pt-20 lg:px-8">
+        <div className="flex h-full flex-col px-4 pb-4 pt-16 sm:px-6 sm:pt-8 lg:px-8">
           <Text as="h2" variant="heading" size="3xl">
             {publications.title}
           </Text>
