@@ -1,24 +1,24 @@
 import { Section } from "@/components/layout/Section";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useHomeContent } from "@/features/home/hooks/useHomeContent";
+import { Text } from "@/components/ui/Text/text";
 
 export function HighlightsSection() {
-  const { highlights } = useHomeContent();
-
   return (
-    <Section id="highlights" className="scroll-mt-24" containerClassName="grid gap-6 sm:grid-cols-3">
-      {highlights.map((highlight) => (
-        <Card
-          key={highlight.title}
-        >
-          <CardHeader>
-            <CardTitle>{highlight.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm">
-            {highlight.description}
-          </CardContent>
-        </Card>
-      ))}
+    <Section className="bg-muted/40">
+      <div className="mx-auto max-w-3xl text-center">
+        <Text as="h2" variant="heading" size="4xl" weight="bold" color="text-primary">
+          What makes this course unique?
+        </Text>
+
+        <Text size="lg" leading="relaxed" className="mt-6">
+          Through{" "}
+          <span className="font-bold">impactful sessions, Satsangs and live projects</span>{" "}
+          that enable Experiential Leadership,{" "}
+          <em className="font-bold">
+            the physical and mental prowess of the youth is strengthened
+          </em>{" "}
+          – which is the foundation on which a Nation is built.
+        </Text>
+      </div>
     </Section>
   );
 }

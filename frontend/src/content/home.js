@@ -7,11 +7,11 @@ export const home = {
     description:
       "A journey of self-discovery and inner transformation to awaken the leader within and serve the world with purpose and compassion.",
     quote: {
-      text: "Real transformation begins from within. When the individual changes, the world is changed.",
-      attribution: "– Sri Sathya Sai Baba",
+      text: "I want you to be leaders to protect the world. Leaders like lions, self-reliant, courageous, majestic, and just. The lion is the king of animals and I want you to be king among men.",
+      attribution: "Bhagawan Sri Sathya Sai Baba",
     },
-    ctaPrimary: { label: "Explore Programme", to: "/course" },
-    ctaSecondary: { label: "View Curriculum", to: "/curriculum" },
+    ctaPrimary: { label: "Explore Programme", to: "/curriculum" },
+    ctaSecondary: null,
     features: [
       { icon: "calendar", label: "Weekly Sessions" },
       { icon: "lotus", label: "Self Transformation" },
