@@ -6,7 +6,7 @@ export function HeroContent({ hero }) {
     <div className="text-white">
       <Text variant="eyebrow" size="sm" className="hidden lg:block">{hero.eyebrow}</Text>
 
-      <Text as="h1" variant="heading" size="display" weight="bold" color="text-white" className="mt-2 leading-tight lg:mt-4">
+      <Text as="h1" variant="heading" size="display" color="text-white" className="mt-2 leading-tight lg:mt-4">
         {hero.heading}
         <span className="text-accent">{hero.headingHighlight}</span>
       </Text>

@@ -12,6 +12,21 @@ export const home = {
     },
     ctaPrimary: { label: "Explore Programme", to: "/curriculum" },
     ctaSecondary: null,
+    publications: {
+      title: "Our Publications",
+      featured: {
+        label: "Netritvam",
+        type: "Magazine",
+        summary: "Inspiring leadership stories, insights and reflections from our SSSLST community.",
+        cta: "Read Latest Issue",
+      },
+      secondary: {
+        label: "Monthly",
+        type: "Newsletter",
+        summary: "Updates, events and highlights from the SSSLST community.",
+        cta: "View This Month",
+      },
+    },
     features: [
       { icon: "calendar", label: "Weekly Sessions" },
       { icon: "lotus", label: "Self Transformation" },

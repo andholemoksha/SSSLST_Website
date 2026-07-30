@@ -90,9 +90,9 @@
      only. Does not replace or loosen the rules above (--primary stays the
      only "primary button" color outside this context). */
   --hero-bg: #14110f;
-  --hero-overlay: rgba(10, 8, 6, 0.55);
+  --hero-overlay: rgba(53, 28, 90, 0.664);
   --hero-overlay-soft: rgba(60, 55, 50, 0.25);
-  --hero-overlay-darker: rgba(24, 20, 13, 0.699);
+  --hero-overlay-darker: rgba(27, 18, 41, 0.64);
   --hero-orange-from: #d66b3a;
   --hero-orange-to: #d87334;
   --glass-bg: rgba(255, 255, 255, 0.06);
