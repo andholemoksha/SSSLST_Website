@@ -1,17 +1,32 @@
 export const home = {
   hero: {
-    eyebrow: "Welcome to",
+    eyebrow: "Sutradhar for Leadership",
     heading: "Sri Sathya Sai Leadership Through ",
     headingHighlight: "Self Transformation",
     supporting: "Transform Within. Lead Beyond.",
     description:
-      "A journey of self-discovery and inner transformation to awaken the leader within and serve the world with purpose and compassion.",
+      "A Flagship Initiative of the Sri Sathya Sai Organisation (SSSO)",
     quote: {
-      text: "Real transformation begins from within. When the individual changes, the world is changed.",
-      attribution: "– Sri Sathya Sai Baba",
+      text: "I want you to be leaders to protect the world. Leaders like lions, self-reliant, courageous, majestic, and just. The lion is the king of animals and I want you to be king among men.",
+      attribution: "Bhagawan Sri Sathya Sai Baba",
     },
-    ctaPrimary: { label: "Explore Programme", to: "/course" },
-    ctaSecondary: { label: "View Curriculum", to: "/curriculum" },
+    ctaPrimary: { label: "Explore Programme", to: "/curriculum" },
+    ctaSecondary: null,
+    publications: {
+      title: "Our Publications",
+      featured: {
+        label: "Netritvam",
+        type: "Magazine",
+        summary: "Inspiring leadership stories, insights and reflections from our SSSLST community.",
+        cta: "Read Latest Issue",
+      },
+      secondary: {
+        label: "Monthly",
+        type: "Newsletter",
+        summary: "Updates, events and highlights from the SSSLST community.",
+        cta: "View This Month",
+      },
+    },
     features: [
       { icon: "calendar", label: "Weekly Sessions" },
       { icon: "lotus", label: "Self Transformation" },

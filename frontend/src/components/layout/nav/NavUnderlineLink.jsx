@@ -28,7 +28,7 @@ export function NavUnderlineLink({ to, children, className, onClick, ...props })
           <span
             aria-hidden="true"
             className={cn(
-              "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-link transition-all duration-200 ease-out",
+              "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-accent transition-all duration-200 ease-out",
               "group-hover:w-full",
               state.isActive && "w-full"
             )}

@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -21,10 +22,23 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 
 import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
 import { applyNow } from "@/content/applynow";
+import { home } from "@/content/home";
+import { PublicationsPanel } from "@/components/layout/PublicationsPanel";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <div className="flex min-h-screen flex-col">
+      <ScrollToTop />
       <Navbar />
 
       <main className="flex-1">
@@ -71,6 +85,7 @@ function App() {
       </main>
 
       {applyNow.enabled && <AdmissionsLotusCard />}
+      <PublicationsPanel publications={home.hero.publications} />
 
       <Footer />
     </div>

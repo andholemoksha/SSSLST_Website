@@ -72,7 +72,7 @@ export function DesktopNavItem({ item }) {
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-link transition-all duration-200 ease-out",
+                "pointer-events-none absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-accent transition-all duration-200 ease-out",
                 "group-hover:w-full",
                 open && "w-full"
               )}
@@ -87,7 +87,7 @@ export function DesktopNavItem({ item }) {
           onClick={() => setOpen((prev) => !prev)}
           className={cn(
             "rounded p-0.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
-            transparent ? "text-white" : "text-link"
+            transparent ? "text-white" : "text-accent"
           )}
         >
           <ChevronDown

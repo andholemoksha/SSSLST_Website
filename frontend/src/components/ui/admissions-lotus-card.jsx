@@ -60,7 +60,7 @@ export function AdmissionsLotusCard() {
       aria-label="Admissions are open"
       animate={{ y: [0, -5, 0] }}
       transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-      className="fixed bottom-2 right-2 z-50 h-[158px] w-[170px] sm:bottom-5 sm:right-5"
+      className="fixed bottom-2 right-2 z-[60] h-[158px] w-[170px] sm:bottom-5 sm:right-5"
     >
       <a
         href={isFormPlaceholder ? "#" : applyNow.formLink}

@@ -15,9 +15,11 @@ export function HeroButtons({ ctaPrimary, ctaSecondary }) {
       >
         {ctaPrimary.label.toUpperCase()}
       </Button>
-      <Button to={ctaSecondary.to} variant="outline" size="lg">
-        {ctaSecondary.label.toUpperCase()}
-      </Button>
+      {ctaSecondary && (
+        <Button to={ctaSecondary.to} variant="outline" size="lg">
+          {ctaSecondary.label.toUpperCase()}
+        </Button>
+      )}
     </div>
   );
 }

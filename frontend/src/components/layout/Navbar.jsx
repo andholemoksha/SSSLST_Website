@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/Button/button-variants";
 import { Container } from "@/components/layout/Container";
 import { NavLogo } from "@/components/layout/nav/NavLogo";
 import { DesktopNav } from "@/components/layout/nav/DesktopNav";
@@ -36,7 +37,7 @@ export function Navbar() {
           "sticky top-0 z-50 border-b transition-colors duration-300",
           transparent
             ? "border-transparent bg-transparent"
-            : "border-border bg-background"
+            : "border-border bg-nav-gradient"
         )}
       >
         <Container className="relative flex h-20 items-center justify-between">
@@ -51,11 +52,12 @@ export function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen((prev) => !prev)}
             className={cn(
-              "flex h-11 w-11 items-center justify-center rounded-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring lg:hidden",
+              buttonVariants({ variant: "nav", size: "icon" }),
+              "lg:hidden",
               transparent ? "text-white" : "text-primary"
             )}
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen ? <X /> : <Menu />}
           </button>
         </Container>
 

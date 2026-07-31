@@ -31,6 +31,7 @@ export const buttonVariants = cva(
         default: "h-9 px-4 py-2 text-xs sm:h-11 sm:px-5 sm:text-sm", // smaller on mobile, larger on tablet+
         sm: "h-8 px-3 text-[11px] sm:h-9 sm:px-3 sm:text-xs",
         lg: "h-10 px-4 text-xs sm:h-12 sm:px-8 sm:text-sm sm:text-base",
+        icon: "h-11 w-11 p-0 rounded-xl sm:h-12 sm:w-12 [&_svg]:h-6 [&_svg]:w-6 sm:[&_svg]:h-7 sm:[&_svg]:w-7",
       },
     },
     defaultVariants: {
