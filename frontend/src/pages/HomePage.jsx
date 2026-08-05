@@ -12,9 +12,9 @@ export function HomePage() {
     <>
       <HeroSection />
       <HeroQuote quote={hero.quote} />
-      <ProgrammeNumbersSection />
       <HighlightsSection />
       <ExploreSection />
+      <ProgrammeNumbersSection />
     </>
   );
 }
