@@ -36,7 +36,8 @@ export function ProgrammeNumbersSection() {
     const steps = duration / interval;
 
     programmeNumbers.forEach((item, index) => {
-      const target = parseInt(item.value.replace(/\D/g, ""), 10);
+      const rawValue = item.value ?? 0;
+      const target = Number.parseFloat(String(rawValue).replace(/[^\d.-]/g, "")) || 0;
 
       let current = 0;
       const increment = target / steps;
@@ -88,7 +89,7 @@ export function ProgrammeNumbersSection() {
 
                 <Text as="h3" variant="heading" size="5xl" weight="bold" color="text-primary">
                   {counts[index].toLocaleString()}
-                  {item.value.includes("+") && "+"}
+                  {item.showPlus && "+"}
                 </Text>
 
                 <Text variant="muted" className="mt-3 text-center">

@@ -11,3 +11,5 @@ from .photo_gallery import get_photo_gallery, post_photo_gallery
 from .publications import get_publications
 from .samithi_connect import get_samithi_connect, post_samithi_connect
 from .sathvam import get_sathvam, post_sathvam
+from .health import health_check
+from .stats import home_stats
