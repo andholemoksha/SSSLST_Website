@@ -1,6 +1,5 @@
 export const navigation = {
-  logoText: "SSSLST",
-  logoSubtitle: "Sri Sathya Sai Leadership Through Self Transformation",
+  logoText: "Sri Sathya Sai Leadership\nThrough Self Transformation",
   links: [
     { title: "Home", href: "/" },
     {
@@ -9,7 +8,7 @@ export const navigation = {
         { title: "Sathvam", href: "/satsang" },
         { title: "Dhyana Vahini", href: "/programme/dhyana-vahini" },
         { title: "Samithi Connect", href: "/programme/samithi-connect" },
-        { title: "Project", href: "/projects" },
+        { title: "Projects", href: "/projects" },
       ],
     },
     { title: "Curriculum", href: "/curriculum" },

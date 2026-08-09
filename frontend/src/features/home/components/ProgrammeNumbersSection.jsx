@@ -11,6 +11,12 @@ import {
   Users,
 } from "lucide-react";
 
+import {
+  colors,
+  textGradients,
+  backgroundGradients,
+} from "@/components/ui/palette";
+
 const iconMap = {
   graduation: GraduationCap,
   location: MapPin,
@@ -59,40 +65,111 @@ export function ProgrammeNumbersSection() {
     });
   }, [inView, programmeNumbers]);
 
+  const statColors = [
+    colors.primary[0],
+    colors.secondary[0],
+    colors.primary[2],
+    colors.secondary[1],
+  ];
+
   return (
-    <Section>
-      <div ref={ref}>
-        <div className="mb-14 text-center">
-          <Text as="h2" variant="heading" size="4xl" weight="bold" color="text-primary">
-            Programme by the Numbers
-          </Text>
+  <Section className="relative overflow-hidden">
+    {/* Full-width background */}
+    <div
+      className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
+      style={{
+        background: `linear-gradient(
+          135deg,
+          ${backgroundGradients.lavenderMist[0]} 0%,
+          ${backgroundGradients.lavenderMist[1]} 50%,
+          ${backgroundGradients.lavenderMist[2]} 100%
+        )`,
+      }}
+    />
 
-          <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-accent" />
-        </div>
+    <div ref={ref} className="relative z-10">
+      {/* Heading */}
+      <div className="mb-16 text-center">
+        <Text
+          as="h2"
+          variant="heading"
+          size="4xl"
+          weight="bold"
+          color="text-primary"
+        >
+          Programme by the Numbers
+        </Text>
 
+        <div
+          className="mx-auto mt-5 h-1.5 w-24 rounded-full"
+          style={{
+            background: `linear-gradient(
+              90deg,
+              ${textGradients.purpleToPink[0]},
+              ${textGradients.purpleToPink[1]},
+              ${textGradients.purpleToPink[2]}
+            )`,
+          }}
+        />
+      </div>
+
+      {/* White Card */}
+      <div
+        className="overflow-hidden rounded-[32px] bg-white shadow-xl"
+        style={{
+          border: `1px solid ${colors.neutral[4]}`,
+        }}
+      >
         <div className="grid grid-cols-2 md:grid-cols-4">
           {programmeNumbers.map((item, index) => {
             const Icon = iconMap[item.icon];
+            const currentColor = statColors[index];
 
             return (
               <div
                 key={item.label}
-                className={`flex flex-col items-center px-6 py-8 ${
+                className={`flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1 ${
                   index !== programmeNumbers.length - 1
-                    ? "md:border-r border-border"
+                    ? "border-b md:border-b-0 md:border-r"
                     : ""
                 }`}
+                style={{
+                  borderColor: colors.neutral[4],
+                }}
               >
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-border">
-                  <Icon className="h-9 w-9 text-primary" />
+                <div
+                  className="mb-6 flex h-20 w-20 items-center justify-center rounded-full shadow-sm"
+                  style={{
+                    background: `linear-gradient(
+                      135deg,
+                      ${backgroundGradients.lavenderMist[0]},
+                      ${backgroundGradients.lavenderMist[1]},
+                      ${backgroundGradients.lavenderMist[2]}
+                    )`,
+                    border: `1px solid ${colors.neutral[4]}`,
+                  }}
+                >
+                  <Icon
+                    className="h-9 w-9"
+                    style={{ color: currentColor }}
+                  />
                 </div>
 
-                <Text as="h3" variant="heading" size="5xl" weight="bold" color="text-primary">
+                <Text
+                  as="h3"
+                  variant="heading"
+                  size="5xl"
+                  weight="bold"
+                  style={{ color: currentColor }}
+                >
                   {counts[index].toLocaleString()}
                   {item.showPlus && "+"}
                 </Text>
 
-                <Text variant="muted" className="mt-3 text-center">
+                <Text
+                  variant="muted"
+                  className="mt-4 text-center text-base"
+                >
                   {item.label}
                 </Text>
               </div>
@@ -100,6 +177,7 @@ export function ProgrammeNumbersSection() {
           })}
         </div>
       </div>
-    </Section>
-  );
+    </div>
+  </Section>
+);
 }
