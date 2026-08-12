@@ -1,4 +1,11 @@
-"""Serializer module for the Sathvam endpoint.
+"""Serializer for the Sathvam video endpoint."""
 
-Use this file to validate the playlist link payload for /sathvam.
-"""
+from rest_framework import serializers
+
+from website.models import SathvamVideo
+
+
+class SathvamVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SathvamVideo
+        fields = ['video_id', 'title', 'published_at', 'order']
