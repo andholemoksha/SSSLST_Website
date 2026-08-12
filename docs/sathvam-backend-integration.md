@@ -283,6 +283,80 @@ python manage.py sync_sathvam --year 2026
 
 ---
 
+## How to Pull This Branch and Test Locally
+
+### Already have the repo cloned:
+
+```powershell
+# 1. Fetch and switch to the branch
+git fetch origin
+git checkout feature/sathvam-video-integration
+git pull origin feature/sathvam-video-integration
+
+# 2. Backend setup
+cd backend
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_sathvam
+
+# 3. Frontend setup
+cd ..\frontend
+npm install
+
+# 4. Create env file (one-time only)
+echo VITE_API_BASE_URL=http://127.0.0.1:8000/api > .env.development
+```
+
+### Fresh clone:
+
+```powershell
+# 1. Clone and switch branch
+git clone https://github.com/andholemoksha/SSSLST_Website.git
+cd SSSLST_Website
+git checkout feature/sathvam-video-integration
+
+# 2. Backend setup
+cd backend
+py -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_sathvam
+python manage.py createsuperuser
+
+# 3. Frontend setup
+cd ..\frontend
+npm install
+echo VITE_API_BASE_URL=http://127.0.0.1:8000/api > .env.development
+```
+
+### Run (two terminals):
+
+```powershell
+# Terminal 1 — Backend
+cd backend
+.\venv\Scripts\Activate.ps1
+python manage.py runserver
+
+# Terminal 2 — Frontend
+cd frontend
+npm run dev
+```
+
+### Verify:
+
+| URL | What you should see |
+|---|---|
+| http://localhost:5173/satsang | Year cards (2020-2026) |
+| http://localhost:5173/satsang/2026 | Video thumbnails for 2026 |
+| http://127.0.0.1:8000/admin/ | Django admin with Sync Now button |
+| http://127.0.0.1:8000/api/sathvam/years/ | `[2026, 2025, 2024, 2023, 2022, 2021, 2020]` |
+| http://127.0.0.1:8000/api/sathvam/videos/?year=2026 | Video list JSON |
+
+---
+
 ## Summary
 
 | Question | Answer |
