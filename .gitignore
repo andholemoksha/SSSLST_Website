@@ -23,3 +23,30 @@ Thumbs.db
 # stray TS build artifacts
 *.tsbuildinfo
 frontend/vite.config.d.ts
+
+# Python virtual environments / local runtime files
+.venv/
+venv/
+venv.venvScriptsActivate.ps1/
+**/.venv/
+**/venv/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+backend/db.sqlite3
+backend/**/db.sqlite3
+backend/staticfiles/
+backend/**/staticfiles/
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage/
+htmlcov/
+
+# Django local state
+*.log
+
+# local compatibility shims / generated runtime folders
+backend/rest_framewmok/

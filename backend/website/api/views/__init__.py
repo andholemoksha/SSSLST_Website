@@ -1,0 +1,15 @@
+"""View modules for the website API endpoints.
+
+Each file in this package maps to one endpoint group and should contain the
+request handling logic for that endpoint.
+"""
+
+from .apply import get_apply, put_apply
+from .dhyana_vahini_text import get_dhyana_vahini_text, post_dhyana_vahini_text
+from .dhyana_vahini_videos import get_dhyana_vahini_videos, post_dhyana_vahini_videos
+from .photo_gallery import get_photo_gallery, post_photo_gallery
+from .publications import get_publications
+from .samithi_connect import get_samithi_connect, post_samithi_connect
+from .sathvam import get_sathvam, post_sathvam
+from .health import health_check
+from .stats import home_stats
