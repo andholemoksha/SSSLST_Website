@@ -1,8 +1,18 @@
-"""Management command to seed the SathvamVideo table with playlist data."""
+"""Management command to seed the SathvamVideo and SathvamPlaylist tables."""
 
 from django.core.management.base import BaseCommand
 
-from website.models import SathvamVideo
+from website.models import SathvamVideo, SathvamPlaylist
+
+PLAYLISTS = [
+    {'year': 2020, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JreR8brrP9CSiZVQ3ImHmaR'},
+    {'year': 2021, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JqS50gbHo3MU_N8kgxknyeW'},
+    {'year': 2022, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9Jqm8_5g6UZpDjFfPyxVSuc-'},
+    {'year': 2023, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JrtorziHOx7nQtHCbhAh9Y9'},
+    {'year': 2024, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JrMPWheAKuuvc4SSozumSKI'},
+    {'year': 2025, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JrQ--o0BvWK1Q-kk8sqv150'},
+    {'year': 2026, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JrEpS65tSgpUFwR3wJlZ47H'},
+]
 
 VIDEOS = [
     # ─── 2020 (12 videos) ───
@@ -93,9 +103,22 @@ VIDEOS = [
 
 
 class Command(BaseCommand):
-    help = 'Seed the SathvamVideo table with playlist data for 2020-2026'
+    help = 'Seed the SathvamPlaylist and SathvamVideo tables with initial data for 2020-2026'
 
     def handle(self, *args, **options):
+        # Seed playlists
+        playlist_count = 0
+        for pl in PLAYLISTS:
+            _, created = SathvamPlaylist.objects.get_or_create(
+                year=pl['year'],
+                defaults={'playlist_url': pl['playlist_url']},
+            )
+            if created:
+                playlist_count += 1
+
+        self.stdout.write(f'{playlist_count} playlists created.')
+
+        # Seed videos
         created_count = 0
         for video in VIDEOS:
             _, created = SathvamVideo.objects.update_or_create(
@@ -112,5 +135,5 @@ class Command(BaseCommand):
                 created_count += 1
 
         self.stdout.write(
-            self.style.SUCCESS(f'Done. {created_count} new videos created, {len(VIDEOS) - created_count} updated.')
+            self.style.SUCCESS(f'Done. {playlist_count} playlists + {created_count} new videos created, {len(VIDEOS) - created_count} videos updated.')
         )
