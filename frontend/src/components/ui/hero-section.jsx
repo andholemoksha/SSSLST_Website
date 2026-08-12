@@ -50,24 +50,29 @@ export function HeroSection({
 
           <div className="mt-6 h-px w-24 bg-accent" />
 
+          {/* Subtitle */}
           <Text
-            size="base"
-            color="text-white/90"
-            leading="relaxed"
-            className="mt-6 max-w-2xl sm:text-lg"
-          >
-            {subtitle}
-          </Text>
+  size="base"
+  color="text-white/90"
+  leading="relaxed"
+  className="mt-6 max-w-2xl whitespace-pre-line sm:text-lg"
+>
+  {subtitle}
+</Text>
 
-          {quote ? <Text
-            variant="quote"
-            size="lg"
-            color="text-white/85"
-            leading="relaxed"
-            className="mt-8 max-w-xl border-l border-accent/70 pl-5 sm:text-xl"
-          >
-            “{quote}”
-          </Text> : null}
+
+          {/* Quote */}
+          {quote ? (
+            <Text
+              variant="quote"
+              size="lg"
+              color="text-white/85"
+              leading="relaxed"
+              className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-left sm:text-xl"
+            >
+              {quote}
+            </Text>
+          ) : null}
 
           {actions ? <div className="mt-8">{actions}</div> : null}
         </div>

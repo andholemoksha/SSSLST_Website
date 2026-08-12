@@ -4,8 +4,8 @@ export const dhyanaVahini = {
     label: "DHYANA VAHINI",
     title: "Dhyana Vahini",
     subtitle:
-      "The Divine Guidebook on Jyothi Meditation by Bhagawan Sri Sathya Sai Baba.",
-    quote: "A quiet mind opens the way to divine light.",
+    "Dhyana Vahini Parayanam explores one pointedness and concentration \nwhich lays the foundation for inner discipline and self awareness.",
+    quote: "The divine guidebook on Jyothi meditation by our beloved Bhagavan Sri Sathya Sai Baba.",
     backgroundImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
     accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
     overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",

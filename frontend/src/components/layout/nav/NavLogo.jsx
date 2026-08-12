@@ -28,9 +28,9 @@ export function NavLogo() {
       <div className="leading-tight">
         <span
           className={cn(
-  "block font-heading text-base md:text-lg font-semibold leading-tight whitespace-pre-line transition-colors",
-  transparent ? "text-white" : "text-primary"
-)}
+            "block font-heading text-base md:text-lg font-semibold leading-tight whitespace-pre-line transition-colors",
+            "text-white"
+          )}
         >
           {navigation.logoText}
         </span>
@@ -39,7 +39,7 @@ export function NavLogo() {
           <span
             className={cn(
               "block text-xs transition-colors",
-              transparent ? "text-white/75" : "text-muted-foreground"
+              transparent ? "text-white/75" : "text-white/75"
             )}
           >
             {navigation.logoSubtitle}

@@ -8,6 +8,7 @@ import { NavLogo } from "@/components/layout/nav/NavLogo";
 import { DesktopNav } from "@/components/layout/nav/DesktopNav";
 import { MobileNav } from "@/components/layout/nav/MobileNav";
 import { NavThemeProvider } from "@/components/layout/nav/NavThemeContext";
+import { backgroundGradients } from "@/components/ui/palette";
 
 const TRANSPARENT_SCROLL_THRESHOLD = 64;
 
@@ -23,22 +24,39 @@ export function Navbar() {
     function handleScroll() {
       setScrolled(window.scrollY > TRANSPARENT_SCROLL_THRESHOLD);
     }
+
     handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome]);
 
   const transparent = isHome && !scrolled;
 
+  const navbarGradient = `linear-gradient(
+    90deg,
+    ${backgroundGradients.purpleCta[0]},
+    ${backgroundGradients.purpleCta[1]},
+    ${backgroundGradients.purpleCta[0]}
+  )`;
+
   return (
     <NavThemeProvider value={{ transparent }}>
       <header
         className={cn(
-          "sticky top-0 z-50 border-b transition-colors duration-300",
+          "sticky top-0 z-50 border-b transition-all duration-300",
           transparent
             ? "border-transparent bg-transparent"
-            : "border-border bg-nav-gradient"
+            : "border-[#4B1F82]/30"
         )}
+        style={
+          transparent
+            ? undefined
+            : {
+                background: navbarGradient,
+              }
+        }
       >
         <Container className="relative flex h-20 items-center justify-between">
           <NavLogo />
@@ -53,8 +71,7 @@ export function Navbar() {
             onClick={() => setMobileOpen((prev) => !prev)}
             className={cn(
               buttonVariants({ variant: "nav", size: "icon" }),
-              "lg:hidden",
-              transparent ? "text-white" : "text-primary"
+              "lg:hidden text-white"
             )}
           >
             {mobileOpen ? <X /> : <Menu />}
@@ -62,7 +79,10 @@ export function Navbar() {
         </Container>
 
         <div id="mobile-nav">
-          <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+          <MobileNav
+            open={mobileOpen}
+            onClose={() => setMobileOpen(false)}
+          />
         </div>
       </header>
     </NavThemeProvider>
