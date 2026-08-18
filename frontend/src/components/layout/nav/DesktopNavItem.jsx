@@ -3,14 +3,12 @@ import { NavLink } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavUnderlineLink } from "@/components/layout/nav/NavUnderlineLink";
-import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
 
 export function DesktopNavItem({ item }) {
   const [open, setOpen] = useState(false);
   const closeTimer = useRef(null);
   const menuId = useId();
   const rootRef = useRef(null);
-  const { transparent } = useNavTheme();
 
   const hasChildren = Boolean(item.children?.length);
 
@@ -61,11 +59,7 @@ export function DesktopNavItem({ item }) {
             {item.title}
           </NavUnderlineLink>
         ) : (
-          <span
-            className={cn(
-              "relative inline-flex py-2 text-sm font-medium text-white transition-colors"
-            )}
-          >
+          <span className="relative inline-flex py-2 text-sm font-medium text-white transition-colors">
             {item.title}
 
             <span
@@ -85,9 +79,7 @@ export function DesktopNavItem({ item }) {
           aria-controls={menuId}
           aria-label={`Toggle ${item.title} submenu`}
           onClick={() => setOpen((prev) => !prev)}
-          className={cn(
-            "rounded p-0.5 text-white outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring"
-          )}
+          className="rounded p-0.5 text-white outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ChevronDown
             className={cn(
