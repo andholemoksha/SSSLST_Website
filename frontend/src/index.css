@@ -17,25 +17,30 @@
   --background: #ffffff; /* page background — palette Neutral #FFFFFF */
   --surface: #f5f2ff; /* raised/alternate surfaces — palette Neutral #F5F2FF */
   --foreground: #5f5f6b; /* default/body text — palette Body Text #5F5F6B */
+  --white-light: rgba(255, 255, 255, 0.85);
 
   /* Brand */
-  --primary: #4b1f82; /* Royal Purple — palette Primary 1 (#4B1F82) */
-  --primary-foreground: #ffffff;
-  --secondary: #eee6ff; /* Soft Lavender — palette Neutral #EEE6FF */
-  --secondary-foreground: #4b1f82;
-  --accent: #d87334; /* Warm Orange — palette Secondary #D87334; accents only, never primary buttons */
-  --accent-foreground: #ffffff;
-  --accent-gradient: linear-gradient(
-    135deg,
-    var(--cta-orange-deep) 0%,
-    var(--cta-orange) 38%,
-    var(--cta-orange-light) 72%,
-    var(--cta-gold) 100%
-  );
-  --soft-beige: #f8f3ff;
-  --soft-lavender: #f3e8ff;
-  --soft-orange: #ffe9d6;
-  --soft-yellow: #fffdf9;
+--primary: #4b1f82; /* Royal Purple — palette Primary 1 (#4B1F82) */
+--primary-foreground: #ffffff;
+--purple-gradient-middle: #6d2ea7; /* Purple gradient middle stop */
+--secondary: #eee6ff; /* Soft Lavender — palette Neutral #EEE6FF */
+--secondary-foreground: #4b1f82;
+--accent: #d87334; /* Warm Orange — palette Secondary #D87334; accents only, never primary buttons */
+--accent-foreground: #ffffff;
+--accent-gradient: linear-gradient(
+  135deg,
+  var(--cta-orange-deep) 0%,
+  var(--cta-orange) 38%,
+  var(--cta-orange-light) 72%,
+  var(--cta-gold) 100%
+);
+--soft-beige: #f8f3ff;
+--soft-lavender: #f3e8ff;
+--soft-orange: #ffe9d6;
+--soft-yellow: #fffdf9;
+
+--highlight-pink: #B24B8C;
+
 
 
 /* ============================================================
@@ -79,8 +84,8 @@
   /* Gradient — highlight/statistic/feature cards ONLY. Never navbar, footer,
      buttons, or full-page backgrounds. See DESIGN_SYSTEM.md "Gradient Usage". */
   --gradient-highlight: linear-gradient(135deg, #feeff8 0%, #eee6ff 50%, #fff2e8 100%);
-  --nav-gradient: linear-gradient(90deg, var(--soft-beige) 0%, var(--soft-lavender) 35%, var(--soft-orange) 70%, var(--soft-yellow) 100%);
-  --footer-gradient: linear-gradient(90deg, var(--soft-orange) 0%, var(--soft-yellow) 100%);
+  --nav-gradient: linear-gradient(90deg, var(--primary) 0%, var(--purple-gradient-middle) 50%, var(--primary) 100%);
+  --footer-gradient: linear-gradient(90deg, var(--primary) 0%, var(--purple-gradient-middle) 50%, var(--primary) 100%);
 
   /* Fonts */
   --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
@@ -110,6 +115,7 @@
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-white-light: var(--white-light);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -117,7 +123,10 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-soft-beige: var(--soft-beige);
 
+  --color-highlight-pink: var(--highlight-pink);
+  
   --color-heading: var(--heading);
   --color-link: var(--link);
 

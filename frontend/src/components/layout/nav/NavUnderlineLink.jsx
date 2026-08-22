@@ -1,22 +1,24 @@
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
 
 /**
- * A nav link with the shared hover/active underline treatment:
- * a purple (link) underline that grows outward from the center.
+ * A nav link with the shared hover/active underline treatment.
+ * Uses white text with an accent underline.
  */
-export function NavUnderlineLink({ to, children, className, onClick, ...props }) {
-  const { transparent } = useNavTheme();
-
+export function NavUnderlineLink({
+  to,
+  children,
+  className,
+  onClick,
+  ...props
+}) {
   return (
     <NavLink
       to={to}
       end={to === "/"}
       onClick={onClick}
       className={cn(
-        "group relative inline-flex py-2 text-sm font-medium outline-none transition-colors",
-        transparent ? "text-white" : "text-link",
+        "group relative inline-flex py-2 text-sm font-medium text-white outline-none transition-colors",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
         className
       )}
@@ -25,6 +27,7 @@ export function NavUnderlineLink({ to, children, className, onClick, ...props })
       {(state) => (
         <>
           {typeof children === "function" ? children(state) : children}
+
           <span
             aria-hidden="true"
             className={cn(

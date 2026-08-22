@@ -46,12 +46,11 @@ export const samithiSections = [
 
 export const samithiContent = {
   hero: {
-    label: "SAMITHI CONNECT",
-    title: "Samithi Connect Programme",
+    title: "Samithi Connect",
     subtitle:
-      "Spiritual, educational and service activities — connect and take part.",
+      "A 3 month initiative designed to deepen the connection between youth participants and the organisation through active service and local engagement at the grassroots level.",
     quote:
-      "Selfless service, devotion and learning transform both the individual and society.",
+      "Young hearts. Meaningful service. Lasting change.",
     backgroundImage: "/assets/satsang/hero/satsang-hero.jpg",
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
     overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",

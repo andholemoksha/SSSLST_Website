@@ -14,6 +14,7 @@ const TRANSPARENT_SCROLL_THRESHOLD = 64;
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();
+
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(!isHome);
 
@@ -23,9 +24,14 @@ export function Navbar() {
     function handleScroll() {
       setScrolled(window.scrollY > TRANSPARENT_SCROLL_THRESHOLD);
     }
+
     handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [isHome]);
 
   const transparent = isHome && !scrolled;
@@ -37,7 +43,7 @@ export function Navbar() {
           "sticky top-0 z-50 border-b transition-colors duration-300",
           transparent
             ? "border-transparent bg-transparent"
-            : "border-border bg-nav-gradient"
+            : "border-primary bg-nav-gradient"
         )}
       >
         <Container className="relative flex h-20 items-center justify-between">
@@ -53,8 +59,7 @@ export function Navbar() {
             onClick={() => setMobileOpen((prev) => !prev)}
             className={cn(
               buttonVariants({ variant: "nav", size: "icon" }),
-              "lg:hidden",
-              transparent ? "text-white" : "text-primary"
+              "lg:hidden text-primary"
             )}
           >
             {mobileOpen ? <X /> : <Menu />}
@@ -62,7 +67,10 @@ export function Navbar() {
         </Container>
 
         <div id="mobile-nav">
-          <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+          <MobileNav
+            open={mobileOpen}
+            onClose={() => setMobileOpen(false)}
+          />
         </div>
       </header>
     </NavThemeProvider>
