@@ -4,7 +4,9 @@
 
 The Sathvam (Satsangatve Nissangatvam) page displays YouTube satsang videos organized by year. It uses a **facade pattern** for performance — showing lightweight thumbnails instead of heavy YouTube iframes until the user clicks play.
 
-The backend auto-syncs video data from YouTube playlists via free RSS feeds. No YouTube API key required, no cost, no quota limits.
+The backend syncs video data from YouTube playlists via the YouTube Data API v3. It's free (10,000 units/day quota; a full sync uses ~7 units) and requires a one-time free API key set as `YOUTUBE_API_KEY` in the backend `.env`.
+
+> Note: This originally used YouTube's public RSS feed (no key required), but YouTube deprecated that endpoint (it now returns 404 for playlist feeds), so the official YouTube Data API v3 is used instead.
 
 ---
 
@@ -20,7 +22,7 @@ The backend auto-syncs video data from YouTube playlists via free RSS feeds. No 
 │       │       └── Auto-syncs all videos from that playlist           │
 │       │                                                              │
 │       └── Click "Sync Now" on existing playlist                      │
-│               └── Fetches latest videos from YouTube RSS             │
+│               └── Fetches latest videos from YouTube Data API v3     │
 │               └── Adds new videos                                    │
 │               └── Removes deleted videos                             │
 └─────────────────────────────────────────────────────────────────────┘
@@ -124,11 +126,11 @@ Individual video records. Managed automatically by sync, not manually.
 ```
 Step 1: Read playlist_id from the SathvamPlaylist record
 
-Step 2: Fetch YouTube RSS feed
-        URL: https://youtube.com/feeds/videos.xml?playlist_id={id}
-        (Free, no API key, no quota, no cost)
+Step 2: Call YouTube Data API v3
+        Endpoint: playlistItems.list?playlistId={id}&key={YOUTUBE_API_KEY}
+        (Free tier: 10,000 units/day; ~1 unit per playlist page of 50 videos)
 
-Step 3: Parse XML response, extract video entries:
+Step 3: Parse JSON response, extract video entries (paginated 50/page):
         - video_id
         - title
         - published_at
@@ -136,9 +138,9 @@ Step 3: Parse XML response, extract video entries:
 Step 4: Compare with existing database records:
 
         ┌─────────────────────────────┐
-        │ Video in RSS + in DB        │ --> Update title if changed
-        │ Video in RSS + NOT in DB    │ --> Create new record (is_active=True)
-        │ Video NOT in RSS + in DB    │ --> Deactivate (is_active=False)
+        │ Video in API + in DB        │ --> Update title if changed
+        │ Video in API + NOT in DB    │ --> Create new record (is_active=True)
+        │ Video NOT in API + in DB    │ --> Deactivate (is_active=False)
         └─────────────────────────────┘
 
 Step 5: Update last_synced_at timestamp
@@ -146,15 +148,20 @@ Step 5: Update last_synced_at timestamp
 Step 6: Frontend automatically shows updated data on next page load
 ```
 
-### Why RSS instead of YouTube Data API?
+### Why YouTube Data API v3 (not RSS)?
 
-| Factor | YouTube Data API | YouTube RSS Feed (what we use) |
+The original design used YouTube's public RSS feed (no API key). YouTube
+deprecated that endpoint — it now returns 404 for playlist feeds — so the
+official Data API v3 is used instead.
+
+| Factor | YouTube Data API v3 (now used) | RSS Feed (deprecated) |
 |---|---|---|
-| API key needed? | Yes | No |
-| Costs money? | Free tier limited | Always free |
-| Quota limits? | 10,000 units/day | Unlimited |
-| When called? | Would be every page load | Only when admin clicks Sync |
-| If YouTube is down? | Website breaks | Website still works (uses cached DB data) |
+| API key needed? | Yes (free) | No |
+| Status | Official, stable | Broken (404 since ~Dec 2025) |
+| Cost | Free (10,000 units/day) | Was free |
+| Our usage | ~7 units per full sync | N/A |
+| When called? | Only when admin clicks Sync | Only when admin clicked Sync |
+| If YouTube is down? | Website still works (cached DB data) | Website still works (cached DB data) |
 
 ---
 
@@ -262,7 +269,7 @@ backend/website/
 │   └── serializers/sathvam.py           # DRF serializer for video response
 ├── services/sathvam_service.py          # Business logic (get_videos_by_year, get_available_years)
 └── management/commands/
-    └── sync_sathvam.py                  # YouTube RSS sync command + helper
+    └── sync_sathvam.py                  # YouTube Data API v3 sync command + helper
 ```
 
 > Initial data (playlists + videos for 2020-2026) is seeded automatically via the
@@ -365,5 +372,5 @@ npm run dev
 | Video deleted from YouTube? | Click "Sync Now" — it disappears from website |
 | New year (2027)? | Add playlist in admin → Save → auto-syncs |
 | Frontend shows new year card automatically? | Yes — fetches years from API |
-| Cost? | Zero (uses free YouTube RSS) |
-| YouTube API key needed? | No |
+| Cost? | Free (YouTube Data API v3 — 10,000 units/day; ~7 per sync) |
+| YouTube API key needed? | Yes — one-time free key set as `YOUTUBE_API_KEY` in `.env` |

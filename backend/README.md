@@ -19,6 +19,18 @@ python manage.py createsuperuser
 > via a data migration when you run `python manage.py migrate`. Any further content
 > should be managed through the admin portal.
 
+### Environment variables
+
+Copy `.env.example` to `.env` and fill in values:
+
+```powershell
+copy .env.example .env
+```
+
+- `YOUTUBE_API_KEY` — free key from Google Cloud Console (enable "YouTube Data
+  API v3"). Required only for the "Sync Now" feature. The site works without it
+  since initial data is seeded via migration.
+
 ## How to run the backend
 
 Every time you want to start the backend, run:
@@ -111,12 +123,15 @@ The Sathvam video integration uses an auto-sync approach to keep the website in 
 
 ### Why is it used?
 
-Instead of manually adding each video to the database, the admin simply clicks "Sync Now" and the system automatically fetches all video data from YouTube's free RSS feed. This means:
+Instead of manually adding each video to the database, the admin simply clicks "Sync Now" and the system automatically fetches all video data from the YouTube Data API v3. This means:
 
-- Zero YouTube API key required
-- Zero cost
-- No quota limits
+- Free (10,000 units/day quota; a full sync uses ~7 units)
 - Non-technical admins can manage content
+- Requires a one-time free YouTube Data API key (set as `YOUTUBE_API_KEY` in `.env`)
+
+> Note: This originally used YouTube's public RSS feed (no key needed), but
+> YouTube deprecated that endpoint (it now returns 404), so the official
+> YouTube Data API v3 is used instead.
 
 ### How it works
 
@@ -124,15 +139,15 @@ Instead of manually adding each video to the database, the admin simply clicks "
 Admin clicks "Sync Now"
        |
        v
-Backend fetches YouTube RSS feed
-(https://youtube.com/feeds/videos.xml?playlist_id=PLxxx)
+Backend calls YouTube Data API v3
+(playlistItems.list for the playlist_id, using YOUTUBE_API_KEY)
        |
        v
-Compares RSS videos with database records
+Compares API videos with database records
        |
-       +---> New video in RSS? --> Add to database (is_active=True)
+       +---> New video from API? --> Add to database (is_active=True)
        |
-       +---> Video missing from RSS? --> Deactivate in database (is_active=False)
+       +---> Video missing from API? --> Deactivate in database (is_active=False)
        |
        +---> Title changed? --> Update in database
        |

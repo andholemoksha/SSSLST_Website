@@ -1,73 +1,106 @@
-"""Management command to sync Sathvam videos from YouTube RSS feeds.
+"""Management command to sync Sathvam videos from the YouTube Data API v3.
 
-For each active SathvamPlaylist, fetches the YouTube RSS feed and:
-- Adds any new videos found in the feed
-- Deactivates videos that are no longer in the feed (deleted from playlist)
-- Reactivates videos that reappear in the feed
+For each active SathvamPlaylist, fetches the playlist's videos via the
+YouTube Data API and:
+- Adds any new videos found
+- Deactivates videos that are no longer in the playlist (removed on YouTube)
+- Reactivates videos that reappear in the playlist
 - Updates titles if they changed on YouTube
 
-No YouTube API key required — uses the free public RSS feed.
+Requires a free YouTube Data API v3 key set as YOUTUBE_API_KEY in the backend
+.env file. (The previously used public RSS feed endpoint was deprecated by
+YouTube and now returns 404, so the official API is used instead.)
 """
 
-import xml.etree.ElementTree as ET
+import json
 from datetime import date
+from urllib.parse import urlencode
 from urllib.request import urlopen, Request
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from website.models import SathvamPlaylist, SathvamVideo
 
-RSS_URL_TEMPLATE = 'https://www.youtube.com/feeds/videos.xml?playlist_id={playlist_id}'
-
-# XML namespaces used in YouTube RSS feeds
-NS = {
-    'atom': 'http://www.w3.org/2005/Atom',
-    'yt': 'http://www.youtube.com/xml/schemas/2015',
-    'media': 'http://search.yahoo.com/mrss/',
-}
+API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems'
 
 
 def fetch_playlist_videos(playlist_id):
-    """Fetch video entries from a YouTube playlist RSS feed.
+    """Fetch all videos in a YouTube playlist via the Data API v3.
 
     Returns a list of dicts: [{'video_id': str, 'title': str, 'published_at': date}, ...]
-    Ordered as they appear in the feed (newest first typically).
+    ordered as they appear in the playlist. Handles pagination (50 per page).
     """
-    url = RSS_URL_TEMPLATE.format(playlist_id=playlist_id)
-    req = Request(url, headers={'User-Agent': 'SSSLST-Sync/1.0'})
-
-    try:
-        with urlopen(req, timeout=15) as response:
-            xml_data = response.read()
-    except URLError as e:
-        raise RuntimeError(f'Failed to fetch RSS for playlist {playlist_id}: {e}')
-
-    root = ET.fromstring(xml_data)
-    entries = root.findall('atom:entry', NS)
+    api_key = getattr(settings, 'YOUTUBE_API_KEY', '') or ''
+    if not api_key:
+        raise RuntimeError(
+            'YOUTUBE_API_KEY is not set. Add it to the backend .env file '
+            '(get a free key from Google Cloud Console -> YouTube Data API v3).'
+        )
 
     videos = []
-    for entry in entries:
-        video_id = entry.find('yt:videoId', NS)
-        title = entry.find('atom:title', NS)
-        published = entry.find('atom:published', NS)
+    page_token = None
 
-        if video_id is None or title is None:
-            continue
+    while True:
+        params = {
+            'part': 'snippet,contentDetails',
+            'playlistId': playlist_id,
+            'maxResults': 50,
+            'key': api_key,
+        }
+        if page_token:
+            params['pageToken'] = page_token
 
-        published_date = None
-        if published is not None and published.text:
+        url = f'{API_URL}?{urlencode(params)}'
+        req = Request(url, headers={'User-Agent': 'SSSLST-Sync/1.0'})
+
+        try:
+            with urlopen(req, timeout=15) as response:
+                data = json.loads(response.read().decode('utf-8'))
+        except HTTPError as e:
+            # Surface the API's error message (e.g. quota, bad key, playlist not found)
             try:
-                published_date = date.fromisoformat(published.text[:10])
-            except ValueError:
-                pass
+                body = json.loads(e.read().decode('utf-8'))
+                message = body.get('error', {}).get('message', str(e))
+            except Exception:
+                message = str(e)
+            raise RuntimeError(f'YouTube API error for playlist {playlist_id}: {message}')
+        except URLError as e:
+            raise RuntimeError(f'Failed to reach YouTube API for playlist {playlist_id}: {e}')
 
-        videos.append({
-            'video_id': video_id.text.strip(),
-            'title': title.text.strip() if title.text else '',
-            'published_at': published_date,
-        })
+        for item in data.get('items', []):
+            snippet = item.get('snippet', {})
+            content = item.get('contentDetails', {})
+
+            video_id = content.get('videoId') or snippet.get('resourceId', {}).get('videoId')
+            title = snippet.get('title', '')
+
+            if not video_id:
+                continue
+
+            # Skip private/deleted videos (YouTube marks them with these titles)
+            if title in ('Private video', 'Deleted video'):
+                continue
+
+            published_date = None
+            published_raw = content.get('videoPublishedAt') or snippet.get('publishedAt')
+            if published_raw:
+                try:
+                    published_date = date.fromisoformat(published_raw[:10])
+                except ValueError:
+                    pass
+
+            videos.append({
+                'video_id': video_id.strip(),
+                'title': title.strip(),
+                'published_at': published_date,
+            })
+
+        page_token = data.get('nextPageToken')
+        if not page_token:
+            break
 
     return videos
 
@@ -76,15 +109,13 @@ def sync_playlist(playlist, stdout=None):
     """Sync a single playlist. Returns (added, updated, deactivated) counts."""
     added = 0
     updated = 0
-    deactivated = 0
 
-    # Fetch current videos from YouTube RSS
-    rss_videos = fetch_playlist_videos(playlist.playlist_id)
-    rss_video_ids = {v['video_id'] for v in rss_videos}
+    api_videos = fetch_playlist_videos(playlist.playlist_id)
+    api_video_ids = {v['video_id'] for v in api_videos}
 
-    # Process videos from RSS — add new, update existing, reactivate returned
-    for order, video_data in enumerate(reversed(rss_videos), start=1):
-        # reversed() so oldest video gets order=1 (chronological)
+    # Add new, update existing, reactivate returned. Order by playlist position
+    # so the first item in the playlist gets order=1.
+    for order, video_data in enumerate(api_videos, start=1):
         obj, created = SathvamVideo.objects.update_or_create(
             video_id=video_data['video_id'],
             defaults={
@@ -100,16 +131,15 @@ def sync_playlist(playlist, stdout=None):
         elif obj.title != video_data['title'] or not obj.is_active:
             updated += 1
 
-    # Deactivate videos that are no longer in the RSS feed (removed from playlist)
+    # Deactivate videos no longer in the playlist (removed on YouTube)
     removed_qs = SathvamVideo.objects.filter(
         year=playlist.year,
         is_active=True,
-    ).exclude(video_id__in=rss_video_ids)
+    ).exclude(video_id__in=api_video_ids)
 
     deactivated = removed_qs.count()
     removed_qs.update(is_active=False)
 
-    # Update last_synced_at
     playlist.last_synced_at = timezone.now()
     playlist.save(update_fields=['last_synced_at'])
 
@@ -117,7 +147,7 @@ def sync_playlist(playlist, stdout=None):
 
 
 class Command(BaseCommand):
-    help = 'Sync Sathvam videos from YouTube RSS feeds for all active playlists'
+    help = 'Sync Sathvam videos from the YouTube Data API v3 for all active playlists'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -147,9 +177,9 @@ class Command(BaseCommand):
                 total_added += added
                 total_updated += updated
                 total_deactivated += deactivated
-                self.stdout.write(f'  → +{added} new, ~{updated} updated, -{deactivated} deactivated')
+                self.stdout.write(f'  -> +{added} new, ~{updated} updated, -{deactivated} deactivated')
             except RuntimeError as e:
-                self.stdout.write(self.style.ERROR(f'  → Error: {e}'))
+                self.stdout.write(self.style.ERROR(f'  -> Error: {e}'))
 
         self.stdout.write(self.style.SUCCESS(
             f'\nDone. +{total_added} added, ~{total_updated} updated, -{total_deactivated} deactivated.'
