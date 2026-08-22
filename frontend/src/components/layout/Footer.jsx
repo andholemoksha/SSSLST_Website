@@ -33,7 +33,7 @@ function FooterLink({ link }) {
         href={link.href}
         variant="link"
         size="sm"
-        className="text-white/85 hover:text-white"
+        className="text-white-light hover:text-white"
       >
         {link.label}
       </Text>
@@ -49,7 +49,7 @@ function FooterLink({ link }) {
         rel="noopener noreferrer"
         variant="link"
         size="sm"
-        className="inline-flex items-center gap-1 text-white/85 hover:text-white"
+        className="inline-flex items-center gap-1 text-white-light hover:text-white"
       >
         {link.label}
         <ExternalLink className="h-3 w-3" />
@@ -63,7 +63,7 @@ function FooterLink({ link }) {
       to={link.href}
       variant="link"
       size="sm"
-      className="text-white/85 hover:text-white"
+      className="text-white-light hover:text-white"
     >
       {link.label}
     </Text>
@@ -96,7 +96,7 @@ export function Footer() {
               <Text
                 as="span"
                 size="xs"
-                className="block max-w-48 text-white/70"
+                className="block max-w-48 text-white-light"
               >
                 {footer.brand.logoSubtitle}
               </Text>
@@ -108,11 +108,11 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube channel"
-            className="mt-4 inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
+            className="mt-4 inline-flex items-center gap-2 text-white-light transition-colors hover:text-white"
           >
             <YoutubeIcon className="h-8 w-8" />
 
-            <Text as="span" size="sm" className="text-white/85">
+            <Text as="span" size="sm" className="text-white-light">
               Our virtual presence
             </Text>
           </a>
@@ -142,7 +142,7 @@ export function Footer() {
       </Container>
 
       <Container className="border-t border-white/15 py-4">
-        <Text size="xs" className="text-white/65">
+        <Text size="xs" className="text-white-light">
           {footer.copyright}
         </Text>
       </Container>

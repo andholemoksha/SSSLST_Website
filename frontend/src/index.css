@@ -17,6 +17,7 @@
   --background: #ffffff; /* page background — palette Neutral #FFFFFF */
   --surface: #f5f2ff; /* raised/alternate surfaces — palette Neutral #F5F2FF */
   --foreground: #5f5f6b; /* default/body text — palette Body Text #5F5F6B */
+  --white-light: rgba(255, 255, 255, 0.85);
 
   /* Brand */
 --primary: #4b1f82; /* Royal Purple — palette Primary 1 (#4B1F82) */
@@ -37,6 +38,9 @@
 --soft-lavender: #f3e8ff;
 --soft-orange: #ffe9d6;
 --soft-yellow: #fffdf9;
+
+--highlight-pink: #B24B8C;
+
 
 
 /* ============================================================
@@ -111,6 +115,7 @@
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-white-light: var(--white-light);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -120,7 +125,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-soft-beige: var(--soft-beige);
 
-
+  --color-highlight-pink: var(--highlight-pink);
+  
   --color-heading: var(--heading);
   --color-link: var(--link);
 

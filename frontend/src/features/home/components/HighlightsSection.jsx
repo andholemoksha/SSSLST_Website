@@ -1,6 +1,5 @@
 import { Section } from "@/components/layout/Section";
 import { Text } from "@/components/ui/Text/text";
-import { colors } from "@/components/ui/palette";
 
 export function HighlightsSection() {
   return (
@@ -11,9 +10,7 @@ export function HighlightsSection() {
           variant="heading"
           size="4xl"
           weight="bold"
-          style={{
-            color: colors.secondary[1],
-          }}
+          className="text-highlight-pink"
         >
           What makes this course unique?
         </Text>
