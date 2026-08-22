@@ -84,19 +84,18 @@ export function Footer() {
             />
 
             <div className="leading-tight">
+              {/* Default Text → renders as <p> */}
               <Text
-                as="span"
                 variant="heading"
                 size="sm"
-                className="block text-white"
+                className="text-white"
               >
                 {footer.brand.logoText}
               </Text>
 
               <Text
-                as="span"
                 size="xs"
-                className="block max-w-48 text-white-light"
+                className="max-w-48 text-white-light"
               >
                 {footer.brand.logoSubtitle}
               </Text>
@@ -112,7 +111,11 @@ export function Footer() {
           >
             <YoutubeIcon className="h-8 w-8" />
 
-            <Text as="span" size="sm" className="text-white-light">
+            <Text
+              as="a"
+              size="sm"
+              className="text-white-light"
+            >
               Our virtual presence
             </Text>
           </a>
