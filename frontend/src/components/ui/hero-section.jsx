@@ -53,7 +53,7 @@ export function HeroSection({
           {/* Subtitle */}
           <Text
   size="base"
-  color="text-white/90"
+  color="text-white"
   leading="relaxed"
   className="mt-6 max-w-2xl whitespace-pre-line sm:text-lg"
 >
@@ -66,7 +66,7 @@ export function HeroSection({
             <Text
               variant="quote"
               size="lg"
-              color="text-white/85"
+              color="text-white-light"
               leading="relaxed"
               className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-left sm:text-xl"
             >

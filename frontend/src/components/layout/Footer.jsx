@@ -72,7 +72,7 @@ function FooterLink({ link }) {
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/15 bg-footer-gradient">
+    <footer className="border-t border-border bg-footer-gradient">
       <Container className="grid gap-8 py-10 sm:grid-cols-[2fr_1fr_1fr_1fr]">
         {/* Brand block */}
         <div>

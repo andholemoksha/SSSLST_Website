@@ -43,7 +43,7 @@ export function Navbar() {
           "sticky top-0 z-50 border-b transition-colors duration-300",
           transparent
             ? "border-transparent bg-transparent"
-            : "border-primary/20 bg-nav-gradient"
+            : "border-primary bg-nav-gradient"
         )}
       >
         <Container className="relative flex h-20 items-center justify-between">
