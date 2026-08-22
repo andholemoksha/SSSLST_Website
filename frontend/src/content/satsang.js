@@ -1,6 +1,5 @@
 export const satsang = {
   hero: {
-    label: "SATSANG",
     title: "Satsangatve Nissangatvam",
     subtitle:
       "Listen to renowned leaders, artists and devotees of Swami share stories of hard work, devotion and surrender, with uplifting guidance for today's youth.",

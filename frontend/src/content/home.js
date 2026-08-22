@@ -1,9 +1,9 @@
 export const home = {
       hero: {
-        eyebrow: "The Flagship Program of the Sri Sathya Sai Seva Organisations, India",
+        eyebrow: "The Flagship Programme of the Sri Sathya Sai Seva Organisations, India",
         heading: "Sri Sathya Sai Leadership Through ",
         headingHighlight: "Self Transformation",
-        supporting: "In association with Sri Sathya Sai Institute of Higher Learning, Prasanthi Nilayam",
+        supporting: "In association with the Sri Sathya Sai Institute of Higher Learning, Prasanthi Nilayam",
         quote: {
           text: "I want you to be leaders to protect the world. Leaders like lions, self-reliant, courageous, majestic, and just. The lion is the king of animals and I want you to be king among men.",
           attribution: "Bhagawan Sri Sathya Sai Baba - Summer Course, 1992",

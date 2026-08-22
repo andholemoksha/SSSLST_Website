@@ -39,7 +39,7 @@ export function NavLogo() {
           <span
             className={cn(
               "block text-xs transition-colors",
-              transparent ? "text-white/75" : "text-white/75"
+              transparent ? "text-white/75" : "text-muted-foreground"
             )}
           >
             {navigation.logoSubtitle}

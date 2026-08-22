@@ -4,7 +4,7 @@ import { colors } from "@/components/ui/palette";
 
 export function HighlightsSection() {
   return (
-    <Section className="bg-muted/40">
+    <Section className="bg-soft-beige">
       <div className="mx-auto max-w-3xl text-center">
         <Text
           as="h2"

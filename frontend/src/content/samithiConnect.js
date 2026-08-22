@@ -46,7 +46,6 @@ export const samithiSections = [
 
 export const samithiContent = {
   hero: {
-    label: "SAMITHI CONNECT",
     title: "Samithi Connect",
     subtitle:
       "A 3 month initiative designed to deepen the connection between youth participants and the organisation through active service and local engagement at the grassroots level.",

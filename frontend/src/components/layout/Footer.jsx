@@ -3,7 +3,6 @@ import { ExternalLink } from "lucide-react";
 import { footer } from "@/content/footer";
 import { Container } from "@/components/layout/Container";
 import { Text } from "@/components/ui/Text/text";
-import { backgroundGradients } from "@/components/ui/palette";
 import ssslstLogo from "@/assets/logos/SSSLST.jpg";
 
 function YoutubeIcon({ className }) {
@@ -73,17 +72,7 @@ function FooterLink({ link }) {
 
 export function Footer() {
   return (
-    <footer
-      className="border-t border-white/15"
-      style={{
-        background: `linear-gradient(
-          90deg,
-          ${backgroundGradients.purpleCta[0]} 0%,
-          ${backgroundGradients.purpleCta[1]} 50%,
-          ${backgroundGradients.purpleCta[0]} 100%
-        )`,
-      }}
-    >
+    <footer className="border-t border-white/15 bg-footer-gradient">
       <Container className="grid gap-8 py-10 sm:grid-cols-[2fr_1fr_1fr_1fr]">
         {/* Brand block */}
         <div>

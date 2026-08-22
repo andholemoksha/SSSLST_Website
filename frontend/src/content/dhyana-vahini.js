@@ -1,7 +1,6 @@
 export const dhyanaVahini = {
   hero: {
     eyebrow: "Dhyana Vahini",
-    label: "DHYANA VAHINI",
     title: "Dhyana Vahini",
     subtitle:
     "Dhyana Vahini Parayanam explores one pointedness and concentration \nwhich lays the foundation for inner discipline and self awareness.",
