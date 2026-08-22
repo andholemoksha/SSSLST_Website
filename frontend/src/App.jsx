@@ -10,6 +10,8 @@ import { CurriculumPage } from "@/pages/CurriculumPage";
 import { WeeklySessionsPage } from "@/pages/WeeklySessionsPage";
 import { SathvamPage } from "@/pages/SathvamPage";
 import { DhyanaVahiniPage } from "@/pages/DhyanaVahiniPage";
+import { DhyanaVahiniVideoReflectionsPage } from "@/pages/DhyanaVahiniVideoReflectionsPage";
+import { DhyanaVahiniTextReflectionsPage } from "@/pages/DhyanaVahiniTextReflectionsPage";
 import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
 import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
@@ -58,6 +60,14 @@ function App() {
           <Route
             path="/programme/dhyana-vahini"
             element={<DhyanaVahiniPage />}
+          />
+          <Route
+            path="/programme/dhyana-vahini/video-reflections"
+            element={<DhyanaVahiniVideoReflectionsPage />}
+          />
+          <Route
+            path="/programme/dhyana-vahini/text-reflections"
+            element={<DhyanaVahiniTextReflectionsPage />}
           />
           <Route
             path="/programme/samithi-connect"

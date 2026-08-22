@@ -57,20 +57,22 @@ export const dhyanaVahini = {
     ],
   },
   gallery: {
-    eyebrow: "Gallery",
+    eyebrow: "Explore",
     title: "A glimpse of the journey",
     description:
-      "Placeholder gallery imagery that can later be replaced with curated visuals and archival moments.",
+      "Explore video and written reflections from the Dhyana Vahini journey.",
     items: [
       {
         title: "Stillness",
         caption: "Quiet reflection",
         image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-01.jpg",
+        to: "/programme/dhyana-vahini/video-reflections",
       },
       {
         title: "Devotion",
         caption: "Sacred focus",
         image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-02.jpg",
+        to: "/programme/dhyana-vahini/text-reflections",
       },
       {
         title: "Inner Light",

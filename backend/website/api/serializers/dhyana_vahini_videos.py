@@ -1,4 +1,11 @@
-"""Serializer module for the Dhyana Vahini videos endpoint.
+"""Serializers for Dhyana Vahini video responses."""
 
-Use this file to validate the videoLink values submitted for /dhyana-vahini/videos.
-"""
+from rest_framework import serializers
+
+from website.models import DhyanaVahiniVideo
+
+
+class DhyanaVahiniVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DhyanaVahiniVideo
+        fields = ['video_id', 'title', 'published_at', 'order']
