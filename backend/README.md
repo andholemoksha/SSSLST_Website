@@ -13,8 +13,11 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
-python manage.py seed_sathvam
 ```
+
+> Initial Sathvam data (playlists + videos for 2020-2026) is seeded automatically
+> via a data migration when you run `python manage.py migrate`. Any further content
+> should be managed through the admin portal.
 
 ## How to run the backend
 
@@ -96,7 +99,7 @@ Response:
 
 ## Sathvam Sync (Admin Feature)
 
-The Sathvam video integration uses an auto-sync approach to keep the website in sync with YouTube playlists without any code changes.
+The Sathvam video integration uses an auto-sync approach to keep the website in sync with YouTube playlists without any code changes. Initial data is loaded via a data migration; all ongoing content is managed through the admin portal.
 
 ### What is "Sync Now"?
 
@@ -191,12 +194,6 @@ python manage.py migrate
 
 ```powershell
 python manage.py createsuperuser
-```
-
-### Seed initial Sathvam video data
-
-```powershell
-python manage.py seed_sathvam
 ```
 
 ### Stop the server

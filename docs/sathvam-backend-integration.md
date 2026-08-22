@@ -262,19 +262,19 @@ backend/website/
 │   └── serializers/sathvam.py           # DRF serializer for video response
 ├── services/sathvam_service.py          # Business logic (get_videos_by_year, get_available_years)
 └── management/commands/
-    ├── seed_sathvam.py                  # Initial data seeder (development)
     └── sync_sathvam.py                  # YouTube RSS sync command + helper
 ```
+
+> Initial data (playlists + videos for 2020-2026) is seeded automatically via the
+> data migration `0008_seed_sathvam_data.py` when you run `python manage.py migrate`.
+> All ongoing content is managed through the admin portal.
 
 ---
 
 ## Developer Commands
 
 ```powershell
-# Seed initial video data (first-time setup)
-python manage.py seed_sathvam
-
-# Sync all playlists from YouTube
+# Sync all playlists from YouTube (also available as "Sync Now" in admin)
 python manage.py sync_sathvam
 
 # Sync only one year
@@ -293,12 +293,11 @@ git fetch origin
 git checkout feature/sathvam-video-integration
 git pull origin feature/sathvam-video-integration
 
-# 2. Backend setup
+# 2. Backend setup (migrate auto-seeds initial data)
 cd backend
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py seed_sathvam
 
 # 3. Frontend setup
 cd ..\frontend
@@ -323,7 +322,6 @@ py -m venv venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py seed_sathvam
 python manage.py createsuperuser
 
 # 3. Frontend setup

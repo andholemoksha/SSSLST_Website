@@ -1,8 +1,15 @@
-"""Management command to seed the SathvamVideo and SathvamPlaylist tables."""
+"""Data migration: seed initial Sathvam playlists and videos (2020-2026).
 
-from django.core.management.base import BaseCommand
+This replaces the previous seed_sathvam management command. Running
+`python manage.py migrate` now populates the initial data automatically.
 
-from website.models import SathvamVideo, SathvamPlaylist
+Further content should be managed through the admin portal, not code.
+"""
+
+from urllib.parse import urlparse, parse_qs
+
+from django.db import migrations
+
 
 PLAYLISTS = [
     {'year': 2020, 'playlist_url': 'https://www.youtube.com/playlist?list=PLqbrDbtQp9JreR8brrP9CSiZVQ3ImHmaR'},
@@ -15,7 +22,7 @@ PLAYLISTS = [
 ]
 
 VIDEOS = [
-    # ─── 2020 (12 videos) ───
+    # ─── 2020 ───
     {'year': 2020, 'video_id': 'WbzUEb4QFjM', 'title': 'Shri Sairam Iyer - Satsang', 'published_at': '2020-05-10', 'order': 1},
     {'year': 2020, 'video_id': 'NyyZQiao4p0', 'title': 'Shri Tribhuvan Sachdeva - Satsang', 'published_at': '2020-05-09', 'order': 2},
     {'year': 2020, 'video_id': '4YiNpoy7WGY', 'title': 'Dr. T. Ravikumar - Satsang', 'published_at': '2020-06-07', 'order': 3},
@@ -29,7 +36,7 @@ VIDEOS = [
     {'year': 2020, 'video_id': '_0IJMwL5Vio', 'title': 'Padma Shri Dr. V. Mohan - Essentials of Good Health', 'published_at': '2020-10-18', 'order': 11},
     {'year': 2020, 'video_id': '0baOUrXImPo', 'title': 'Professor Sudhir Bhaskar - Values Centered Leadership', 'published_at': '2020-11-01', 'order': 12},
 
-    # ─── 2021 (11 videos) ───
+    # ─── 2021 ───
     {'year': 2021, 'video_id': 'RG8YVRiIxDA', 'title': 'The Sai who Lends Music - Sai Shravanam', 'published_at': '2021-04-28', 'order': 1},
     {'year': 2021, 'video_id': 'ciClXa_3BEc', 'title': 'Divinely Driven Ambassador - Ambassador Anil Trigunayat', 'published_at': '2021-06-18', 'order': 2},
     {'year': 2021, 'video_id': 'eUlxk0Hw4L8', 'title': 'Goal Oriented Optimistic Guided Leader - Madhuri Duggirala', 'published_at': '2021-06-18', 'order': 3},
@@ -42,7 +49,7 @@ VIDEOS = [
     {'year': 2021, 'video_id': 'Z0zr_JrMC2M', 'title': 'Satsang by Organising Team Members', 'published_at': '2021-11-05', 'order': 10},
     {'year': 2021, 'video_id': '93SfwJAH8Ok', 'title': 'Divinely Chartered - Air Chief Marshal Sri Nirmal Chandra Suri', 'published_at': '2022-03-23', 'order': 11},
 
-    # ─── 2022 (12 videos) ───
+    # ─── 2022 ───
     {'year': 2022, 'video_id': 'sV6exFdAhCA', 'title': "Divinely Blessed... In Almighty's Service - Smt A Sridevasena, IAS", 'published_at': '2022-03-23', 'order': 1},
     {'year': 2022, 'video_id': '46XyTy-Dmlw', 'title': 'Goal Oriented Optimistic Guided Leader - Smt. Madhuri Duggirala', 'published_at': '2022-04-03', 'order': 2},
     {'year': 2022, 'video_id': 'i5YpfVuECrs', 'title': 'His Holiness in HIS Service - Swami Sri Atmanandaji Maharaj', 'published_at': '2022-04-18', 'order': 3},
@@ -56,7 +63,7 @@ VIDEOS = [
     {'year': 2022, 'video_id': 'ldEUHRaO7Kg', 'title': 'In Real Seva to the Nation - Sri Jasthi Krishna Kishore, IRS', 'published_at': '2022-10-14', 'order': 11},
     {'year': 2022, 'video_id': 'VKYFO4I6k1U', 'title': 'SSSNLPST Organizing Team', 'published_at': '2022-10-14', 'order': 12},
 
-    # ─── 2023 (10 videos) ───
+    # ─── 2023 ───
     {'year': 2023, 'video_id': 'fhzkPeN0z24', 'title': 'Leading by Being an Example - Sri L V Subrahmanyam, IAS', 'published_at': '2023-04-21', 'order': 1},
     {'year': 2023, 'video_id': 'QzzRDBB1zUo', 'title': 'Inspiring Patriotism, The SAI Way - Sri A K Khan, IPS (Retd.)', 'published_at': '2023-07-13', 'order': 2},
     {'year': 2023, 'video_id': 'Cff3VsjvAlY', 'title': 'AUM - The Primordial Call of The Divine - Dr U S Vishal Rao', 'published_at': '2023-07-13', 'order': 3},
@@ -68,7 +75,7 @@ VIDEOS = [
     {'year': 2023, 'video_id': 'ECvwluJ8Bvg', 'title': 'Transformation Comes from Within - SSSNLP Org Team', 'published_at': '2023-09-13', 'order': 9},
     {'year': 2023, 'video_id': 'lZTuJ7ecez0', 'title': 'Classroom of Compassion - Prof. Dr. Yoginder Verma', 'published_at': '2023-09-25', 'order': 10},
 
-    # ─── 2024 (10 videos) ───
+    # ─── 2024 ───
     {'year': 2024, 'video_id': 'ybXOGk4onY4', 'title': 'Heartful Seva At Thy Lotus Feet - Dr Manoj Bhimani', 'published_at': '2024-06-22', 'order': 1},
     {'year': 2024, 'video_id': 'pK2AlAzFzTA', 'title': "In Almighty's Seva - Sri Hari Ranjan Rao, IAS", 'published_at': '2024-08-06', 'order': 2},
     {'year': 2024, 'video_id': '95G4H46g_DE', 'title': 'Unity in Thought, Word and Deed - Sri TVSN Prasad, IAS', 'published_at': '2024-08-09', 'order': 3},
@@ -80,7 +87,7 @@ VIDEOS = [
     {'year': 2024, 'video_id': 'BKw5wkfDSjI', 'title': 'Life is a Game, Play It - Smt. Madhuri Duggirala', 'published_at': '2025-06-05', 'order': 9},
     {'year': 2024, 'video_id': '_51Pe2SZq0o', 'title': 'Transformation Comes from Within - SSSNLP Org Team (2024)', 'published_at': '2026-04-18', 'order': 10},
 
-    # ─── 2025 (11 videos) ───
+    # ─── 2025 ───
     {'year': 2025, 'video_id': 'KWJUbAlVgdE', 'title': 'A Journey of JOY - Prof Dr Rani P L', 'published_at': '2025-03-21', 'order': 1},
     {'year': 2025, 'video_id': 'hAKrn7V-Z0I', 'title': "In Antaryami's Seva - Dr M Sai Kumar, IAS", 'published_at': '2025-04-03', 'order': 2},
     {'year': 2025, 'video_id': 'uATjzex5aUY', 'title': 'Nivedanam: Surrendering to Lead - Smt Deepti Gaur Mukerjee, IAS', 'published_at': '2025-06-08', 'order': 3},
@@ -93,7 +100,7 @@ VIDEOS = [
     {'year': 2025, 'video_id': 'WsGOFDMeWJk', 'title': 'Valuing Life Through The Values of Sai - Sri Srinivasulu Huggahalli', 'published_at': '2025-09-29', 'order': 10},
     {'year': 2025, 'video_id': 'LRBoQXGggYg', 'title': 'Atmarama - Sri C.V. Sankar, IAS (Retd.)', 'published_at': '2025-11-07', 'order': 11},
 
-    # ─── 2026 (5 videos) ───
+    # ─── 2026 ───
     {'year': 2026, 'video_id': 'lm9OumywtKg', 'title': 'Resonating With The Voice Within - Sri Girish Krishnamurthy', 'published_at': '2026-04-24', 'order': 1},
     {'year': 2026, 'video_id': 'xRj42cJdZaQ', 'title': 'ANTARJYOTI - Awakening the Flame Within - Sri Narayan Sethuramon', 'published_at': '2026-05-10', 'order': 2},
     {'year': 2026, 'video_id': 'tZvAmmMg6KI', 'title': 'Vaatsalya: The Grace that Governs - Smt Vandita Sharma, IAS (Retd.)', 'published_at': '2026-06-21', 'order': 3},
@@ -102,38 +109,59 @@ VIDEOS = [
 ]
 
 
-class Command(BaseCommand):
-    help = 'Seed the SathvamPlaylist and SathvamVideo tables with initial data for 2020-2026'
+def _extract_playlist_id(url):
+    parsed = urlparse(url)
+    params = parse_qs(parsed.query)
+    return params.get('list', [None])[0]
 
-    def handle(self, *args, **options):
-        # Seed playlists
-        playlist_count = 0
-        for pl in PLAYLISTS:
-            _, created = SathvamPlaylist.objects.get_or_create(
-                year=pl['year'],
-                defaults={'playlist_url': pl['playlist_url']},
-            )
-            if created:
-                playlist_count += 1
 
-        self.stdout.write(f'{playlist_count} playlists created.')
+def seed_data(apps, schema_editor):
+    SathvamPlaylist = apps.get_model('website', 'SathvamPlaylist')
+    SathvamVideo = apps.get_model('website', 'SathvamVideo')
 
-        # Seed videos
-        created_count = 0
-        for video in VIDEOS:
-            _, created = SathvamVideo.objects.update_or_create(
-                video_id=video['video_id'],
-                defaults={
-                    'year': video['year'],
-                    'title': video['title'],
-                    'published_at': video['published_at'],
-                    'order': video['order'],
-                    'is_active': True,
-                },
-            )
-            if created:
-                created_count += 1
-
-        self.stdout.write(
-            self.style.SUCCESS(f'Done. {playlist_count} playlists + {created_count} new videos created, {len(VIDEOS) - created_count} videos updated.')
+    # Seed playlists (historical model manager bypasses custom save(),
+    # so set playlist_id explicitly)
+    for pl in PLAYLISTS:
+        SathvamPlaylist.objects.update_or_create(
+            year=pl['year'],
+            defaults={
+                'playlist_url': pl['playlist_url'],
+                'playlist_id': _extract_playlist_id(pl['playlist_url']),
+                'is_active': True,
+            },
         )
+
+    # Seed videos
+    for video in VIDEOS:
+        SathvamVideo.objects.update_or_create(
+            video_id=video['video_id'],
+            defaults={
+                'year': video['year'],
+                'title': video['title'],
+                'published_at': video['published_at'],
+                'order': video['order'],
+                'is_active': True,
+            },
+        )
+
+
+def unseed_data(apps, schema_editor):
+    SathvamPlaylist = apps.get_model('website', 'SathvamPlaylist')
+    SathvamVideo = apps.get_model('website', 'SathvamVideo')
+
+    playlist_years = [pl['year'] for pl in PLAYLISTS]
+    video_ids = [v['video_id'] for v in VIDEOS]
+
+    SathvamVideo.objects.filter(video_id__in=video_ids).delete()
+    SathvamPlaylist.objects.filter(year__in=playlist_years).delete()
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('website', '0007_sathvam_playlist_url'),
+    ]
+
+    operations = [
+        migrations.RunPython(seed_data, unseed_data),
+    ]
