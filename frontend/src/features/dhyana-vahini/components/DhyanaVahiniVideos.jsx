@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text/text";
-import {
-  useDhyanaVahiniVideos,
-  useDhyanaVahiniYears,
-} from "@/features/dhyana-vahini/hooks/useDhyanaVahiniVideos";
+import { useDhyanaVahiniVideosByYear } from "@/features/dhyana-vahini/hooks/useDhyanaVahiniVideos";
 
 function VideoCard({ video }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -43,70 +39,60 @@ function VideoCard({ video }) {
           </span>
         </button>
       )}
-      <div className="px-4 py-3">
-        <Text as="h3" size="sm" className="line-clamp-2 font-medium text-heading">
-          {video.title}
-        </Text>
-      </div>
     </article>
   );
 }
 
+function YearSection({ year, videos }) {
+  return (
+    <div>
+      <Text as="h3" variant="heading" size="xl" leading="tight" className="sm:text-2xl">
+        {`${year} Participants Reflections On Their Dhyana Vahini Journey.`}
+      </Text>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {videos.map((video) => (
+          <VideoCard key={video.video_id} video={video} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function DhyanaVahiniVideos() {
-  const { years, isLoading: yearsLoading, isError: yearsError } = useDhyanaVahiniYears();
-  const [selectedYear, setSelectedYear] = useState(null);
-  const activeYear = years.includes(selectedYear) ? selectedYear : (years[0] ?? null);
-  const { videos, isLoading: videosLoading, isError: videosError } = useDhyanaVahiniVideos(activeYear);
-  const hasMultipleYears = years.length > 1;
+  const { groups, isLoading, isError } = useDhyanaVahiniVideosByYear();
 
   return (
     <section className="rounded-[2rem] border border-border bg-background p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-2xl">
-          <Text variant="eyebrow" size="sm">Dhyana Vahini</Text>
-          <Text as="h2" variant="heading" size="3xl" leading="tight" className="mt-4 sm:text-4xl">
-            Video Reflections
-          </Text>
-          <Text size="base" leading="relaxed" className="mt-4">
-            Watch guided reflections from the Dhyana Vahini journey.
-          </Text>
-        </div>
-        {!yearsLoading && !yearsError && years.length === 1 && (
-          <Text variant="label" size="sm" color="text-accent">{years[0]}</Text>
-        )}
+      <div className="max-w-2xl">
+        <Text variant="eyebrow" size="sm">Dhyana Vahini</Text>
+        <Text as="h2" variant="heading" size="3xl" leading="tight" className="mt-4 sm:text-4xl">
+          Video Reflections
+        </Text>
+        <Text size="base" leading="relaxed" className="mt-4">
+          Watch guided reflections from the Dhyana Vahini journey.
+        </Text>
       </div>
 
-      {hasMultipleYears && (
-        <div className="mt-7 flex flex-wrap gap-3">
-          {years.map((year) => (
-            <button
-              key={year}
-              type="button"
-              onClick={() => setSelectedYear(year)}
-              aria-pressed={activeYear === year}
-              className={cn(
-                "rounded-full px-5 py-2 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40",
-                activeYear === year ? "bg-primary text-white" : "bg-secondary text-secondary-foreground hover:bg-primary/10"
-              )}
-            >
-              {year}
-            </button>
+      {isLoading ? (
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="aspect-video animate-pulse rounded-xl bg-muted" />
           ))}
         </div>
-      )}
-
-      {yearsLoading || videosLoading ? (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, index) => <div key={index} className="aspect-video animate-pulse rounded-xl bg-muted" />)}
-        </div>
-      ) : yearsError || videosError ? (
-        <Text variant="muted" className="py-12 text-center">Unable to load videos. Please try again later.</Text>
-      ) : videos.length ? (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {videos.map((video) => <VideoCard key={video.video_id} video={video} />)}
+      ) : isError ? (
+        <Text variant="muted" className="py-12 text-center">
+          Unable to load videos. Please try again later.
+        </Text>
+      ) : groups.length ? (
+        <div className="mt-10 space-y-12">
+          {groups.map((group) => (
+            <YearSection key={group.year} year={group.year} videos={group.videos} />
+          ))}
         </div>
       ) : (
-        <Text variant="muted" className="py-12 text-center">Video reflections will be published soon.</Text>
+        <Text variant="muted" className="py-12 text-center">
+          Video reflections will be published soon.
+        </Text>
       )}
     </section>
   );

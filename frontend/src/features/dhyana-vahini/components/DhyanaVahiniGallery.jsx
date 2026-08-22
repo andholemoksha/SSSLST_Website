@@ -26,6 +26,7 @@ export function DhyanaVahiniGallery() {
             title={item.title}
             description={item.caption}
             image={item.image}
+            imageClassName={item.imageClassName}
             to={item.to}
             showFooter={false}
             className="w-full sm:w-60"

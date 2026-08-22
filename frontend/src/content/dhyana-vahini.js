@@ -63,21 +63,17 @@ export const dhyanaVahini = {
       "Explore video and written reflections from the Dhyana Vahini journey.",
     items: [
       {
-        title: "Stillness",
-        caption: "Quiet reflection",
+        title: "Video Reflections",
+        caption: "From participants",
         image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-01.jpg",
+        imageClassName: "object-top",
         to: "/programme/dhyana-vahini/video-reflections",
       },
       {
-        title: "Devotion",
-        caption: "Sacred focus",
+        title: "Text Reflections",
+        caption: "From participants",
         image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-02.jpg",
         to: "/programme/dhyana-vahini/text-reflections",
-      },
-      {
-        title: "Inner Light",
-        caption: "Peaceful glow",
-        image: "/assets/dhyana-vahini/gallery/dhyana-vahini-gallery-02.jpg",
       },
     ],
   },

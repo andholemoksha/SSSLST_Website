@@ -7,7 +7,7 @@ from website.services.dhyana_vahini_videos_service import sync_playlist
 
 
 class Command(BaseCommand):
-    help = 'Sync Dhyana Vahini videos from YouTube RSS feeds'
+    help = 'Sync Dhyana Vahini videos from the YouTube Data API v3'
 
     def add_arguments(self, parser):
         parser.add_argument('--year', type=int, help='Sync only one year')
