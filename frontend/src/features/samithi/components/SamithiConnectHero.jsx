@@ -6,7 +6,7 @@ export function SamithiConnectHero() {
 
   return (
     <HeroSection
-      label={hero.label}
+
       title={hero.title}
       subtitle={hero.subtitle}
       quote={hero.quote}

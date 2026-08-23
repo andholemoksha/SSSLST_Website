@@ -3,19 +3,12 @@ import { NavLink } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavUnderlineLink } from "@/components/layout/nav/NavUnderlineLink";
-import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
 
-/**
- * One top-level desktop nav item. Renders a plain underline link when it
- * has no children, or a trigger + dropdown panel when it does.
- * Dropdown opens on hover/focus and closes on mouse-leave, blur, or Escape.
- */
 export function DesktopNavItem({ item }) {
   const [open, setOpen] = useState(false);
   const closeTimer = useRef(null);
   const menuId = useId();
   const rootRef = useRef(null);
-  const { transparent } = useNavTheme();
 
   const hasChildren = Boolean(item.children?.length);
 
@@ -25,7 +18,9 @@ export function DesktopNavItem({ item }) {
     function handleKeyDown(event) {
       if (event.key === "Escape") setOpen(false);
     }
+
     document.addEventListener("keydown", handleKeyDown);
+
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
@@ -60,15 +55,13 @@ export function DesktopNavItem({ item }) {
     >
       <div className="flex items-center gap-1">
         {item.href ? (
-          <NavUnderlineLink to={item.href}>{item.title}</NavUnderlineLink>
-        ) : (
-          <span
-            className={cn(
-              "relative inline-flex py-2 text-sm font-medium transition-colors",
-              transparent ? "text-white" : "text-link"
-            )}
-          >
+          <NavUnderlineLink to={item.href}>
             {item.title}
+          </NavUnderlineLink>
+        ) : (
+          <span className="relative inline-flex py-2 text-sm font-medium text-white transition-colors">
+            {item.title}
+
             <span
               aria-hidden="true"
               className={cn(
@@ -79,19 +72,20 @@ export function DesktopNavItem({ item }) {
             />
           </span>
         )}
+
         <button
           type="button"
           aria-expanded={open}
           aria-controls={menuId}
           aria-label={`Toggle ${item.title} submenu`}
           onClick={() => setOpen((prev) => !prev)}
-          className={cn(
-            "rounded p-0.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
-            transparent ? "text-white" : "text-accent"
-          )}
+          className="rounded p-0.5 text-white outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ChevronDown
-            className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-180")}
+            className={cn(
+              "h-4 w-4 transition-transform duration-200",
+              open && "rotate-180"
+            )}
           />
         </button>
       </div>

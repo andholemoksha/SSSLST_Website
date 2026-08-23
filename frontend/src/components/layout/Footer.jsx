@@ -17,7 +17,10 @@ function YoutubeIcon({ className }) {
         d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"
         fill="#FF0000"
       />
-      <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#FFFFFF" />
+      <path
+        d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+        fill="#FFFFFF"
+      />
     </svg>
   );
 }
@@ -25,7 +28,13 @@ function YoutubeIcon({ className }) {
 function FooterLink({ link }) {
   if (link.type === "mailto") {
     return (
-      <Text as="a" href={link.href} variant="link" size="sm">
+      <Text
+        as="a"
+        href={link.href}
+        variant="link"
+        size="sm"
+        className="text-white-light hover:text-white"
+      >
         {link.label}
       </Text>
     );
@@ -40,7 +49,7 @@ function FooterLink({ link }) {
         rel="noopener noreferrer"
         variant="link"
         size="sm"
-        className="inline-flex items-center gap-1"
+        className="inline-flex items-center gap-1 text-white-light hover:text-white"
       >
         {link.label}
         <ExternalLink className="h-3 w-3" />
@@ -49,7 +58,13 @@ function FooterLink({ link }) {
   }
 
   return (
-    <Text as={Link} to={link.href} variant="link" size="sm">
+    <Text
+      as={Link}
+      to={link.href}
+      variant="link"
+      size="sm"
+      className="text-white-light hover:text-white"
+    >
       {link.label}
     </Text>
   );
@@ -67,33 +82,57 @@ export function Footer() {
               alt="SSSLST logo"
               className="h-10 w-10 shrink-0 rounded object-contain"
             />
+
             <div className="leading-tight">
-              <Text as="span" variant="heading" size="sm" className="block">
+              {/* Default Text → renders as <p> */}
+              <Text
+                variant="heading"
+                size="sm"
+                className="text-white"
+              >
                 {footer.brand.logoText}
               </Text>
-              <Text as="span" variant="muted" size="xs" className="block max-w-48">
+
+              <Text
+                size="xs"
+                className="max-w-48 text-white-light"
+              >
                 {footer.brand.logoSubtitle}
               </Text>
             </div>
           </div>
+
           <a
             href={footer.brand.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube channel"
-            className="mt-4 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
+            className="mt-4 inline-flex items-center gap-2 text-white-light transition-colors hover:text-white"
           >
             <YoutubeIcon className="h-8 w-8" />
-            <Text as="span" size="sm">Our virtual presence</Text>
+
+            <Text
+              as="a"
+              size="sm"
+              className="text-white-light"
+            >
+              Our virtual presence
+            </Text>
           </a>
         </div>
 
         {/* Link columns */}
         {footer.columns.map((column) => (
           <div key={column.title}>
-            <Text as="h3" variant="heading" size="sm">
+            <Text
+              as="h3"
+              variant="heading"
+              size="sm"
+              className="text-white"
+            >
               {column.title}
             </Text>
+
             <ul className="mt-3 space-y-2">
               {column.links.map((link) => (
                 <li key={link.href}>
@@ -104,8 +143,11 @@ export function Footer() {
           </div>
         ))}
       </Container>
-      <Container className="border-t border-border py-4">
-        <Text size="xs">{footer.copyright}</Text>
+
+      <Container className="border-t border-white/15 py-4">
+        <Text size="xs" className="text-white-light">
+          {footer.copyright}
+        </Text>
       </Container>
     </footer>
   );

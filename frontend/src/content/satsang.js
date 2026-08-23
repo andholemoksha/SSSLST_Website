@@ -1,10 +1,9 @@
 export const satsang = {
   hero: {
-    label: "SATSANG",
-    title: "Satsangs",
+    title: "Satsangatve Nissangatvam",
     subtitle:
-      "Placeholder subtitle for the Satsang module. This text will be replaced with approved SSSNLP content later.",
-    quote: "Where hearts unite in the remembrance of the Divine.",
+      "Listen to renowned leaders, artists and devotees of Swami share stories of hard work, devotion and surrender, with uplifting guidance for today's youth.",
+    quote: "Inspiring Journeys. Spiritual Insights",
     backgroundImage: "/assets/satsang/hero/satsang-hero.jpg",
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
     overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",

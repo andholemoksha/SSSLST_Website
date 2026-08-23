@@ -3,15 +3,23 @@ import { Text } from "@/components/ui/Text/text";
 
 export function HighlightsSection() {
   return (
-    <Section className="bg-muted/40">
+    <Section className="bg-soft-beige">
       <div className="mx-auto max-w-3xl text-center">
-        <Text as="h2" variant="heading" size="4xl" weight="bold" color="text-primary">
+        <Text
+          as="h2"
+          variant="heading"
+          size="4xl"
+          weight="bold"
+          className="text-highlight-pink"
+        >
           What makes this course unique?
         </Text>
 
         <Text size="lg" leading="relaxed" className="mt-6">
           Through{" "}
-          <span className="font-bold">impactful sessions, Satsangs and live projects</span>{" "}
+          <span className="font-bold">
+            impactful sessions, Satsangs and live projects
+          </span>{" "}
           that enable Experiential Leadership,{" "}
           <em className="font-bold">
             the physical and mental prowess of the youth is strengthened
