@@ -53,21 +53,11 @@ Response:
   }
 ]
 
+The application route includes the `/api/` prefix and trailing slash:
+`GET /api/dhyana-vahini/text/?year=2026`.
 
-POST /dhyana-vahini/text
-
-Request:
-{
-  "id": "roll-number",
-  "name": "string",
-  "reflection": "string",
-  "year": 2026
-}
-
-Response:
-{
-  "status": "ok"
-}
+Written reflections are added through the yearly CSV importer or Django admin;
+there is no public POST endpoint.
 
 
 4. DHYANA VAHINI - VIDEOS
@@ -77,9 +67,12 @@ GET /dhyana-vahini/videos?year=2026
 
 Response:
 [
-  "video-link-1",
-  "video-link-2",
-  "video-link-3"
+  {
+    "video_id": "youtube-video-id",
+    "title": "Video title",
+    "published_at": "2026-01-01",
+    "order": 1
+  }
 ]
 
 

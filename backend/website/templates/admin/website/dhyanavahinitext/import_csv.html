@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <h1>Import Dhyana Vahini reflections</h1>
+  {% if error %}
+    <p class="errornote">{{ error }}</p>
+  {% endif %}
+  <p>CSV columns required: <code>id,name,reflection</code></p>
+  <p>Use a complete file for the selected year. Existing rows missing from the file can be deactivated.</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="module aligned">
+      <div class="form-row">
+        <label for="id_year">Year:</label>
+        <input id="id_year" type="number" name="year" value="{{ year }}" min="2000" max="2100" required>
+      </div>
+      <div class="form-row">
+        <label for="id_file">CSV file:</label>
+        <input id="id_file" type="file" name="file" accept=".csv,text/csv" required>
+      </div>
+      <div class="form-row">
+        <label for="id_complete">Complete year:</label>
+        <input id="id_complete" type="checkbox" name="complete" checked>
+        <span class="help">Deactivate existing records for this year that are not in the file.</span>
+      </div>
+    </fieldset>
+    <div class="submit-row">
+      <input type="submit" value="Import reflections" class="default">
+      <a href="../" class="closelink">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
