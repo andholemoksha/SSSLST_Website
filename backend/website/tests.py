@@ -48,8 +48,12 @@ class DhyanaVahiniVideoEndpointTests(TestCase):
     def test_videos_filters_to_active_records_for_the_requested_year(self):
         response = self.client.get('/api/dhyana-vahini/videos/?year=2026')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()[0]['video_id'], 'first-video')
-        self.assertEqual(len(response.json()), 1)
+        video_ids = [video['video_id'] for video in response.json()]
+        # The active record is returned; the inactive one is filtered out.
+        # (Assert presence/absence rather than an exact count, since a data
+        # migration also seeds videos for this year.)
+        self.assertIn('first-video', video_ids)
+        self.assertNotIn('hidden-video', video_ids)
 
     def test_videos_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/videos/').status_code, 400)
