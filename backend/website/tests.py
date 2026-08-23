@@ -1,5 +1,7 @@
 from django.test import SimpleTestCase, TestCase
 
+from website.models import DhyanaVahiniVideo
+
 
 class HealthEndpointTests(SimpleTestCase):
     def test_health_endpoint(self):
@@ -20,3 +22,35 @@ class HomeStatsEndpointTests(TestCase):
         self.assertEqual(payload['current_participants'], 340)
         self.assertNotIn('label', str(payload))
         self.assertNotIn('icon', str(payload))
+
+
+class DhyanaVahiniVideoEndpointTests(TestCase):
+    def setUp(self):
+        DhyanaVahiniVideo.objects.create(
+            year=2026,
+            video_id='first-video',
+            title='First Dhyana Vahini Video',
+            order=1,
+        )
+        DhyanaVahiniVideo.objects.create(
+            year=2026,
+            video_id='hidden-video',
+            title='Hidden Dhyana Vahini Video',
+            order=2,
+            is_active=False,
+        )
+
+    def test_years_lists_only_years_with_active_videos(self):
+        response = self.client.get('/api/dhyana-vahini/years/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [2026])
+
+    def test_videos_filters_to_active_records_for_the_requested_year(self):
+        response = self.client.get('/api/dhyana-vahini/videos/?year=2026')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]['video_id'], 'first-video')
+        self.assertEqual(len(response.json()), 1)
+
+    def test_videos_requires_an_integer_year(self):
+        self.assertEqual(self.client.get('/api/dhyana-vahini/videos/').status_code, 400)
+        self.assertEqual(self.client.get('/api/dhyana-vahini/videos/?year=invalid').status_code, 400)
