@@ -1,10 +1,12 @@
 import { Section } from "@/components/layout/Section";
 import { SatsangYearCard } from "@/features/satsang/components/SatsangYearCard";
 import { useSatsangContent } from "@/features/satsang/hooks/useSatsangContent";
+import { useSathvamYears } from "@/features/sathvam/hooks/useSathvamYears";
 import { Text } from "@/components/ui/Text/text";
 
 export function SatsangYearGrid() {
   const { yearsSection } = useSatsangContent();
+  const { years, isLoading } = useSathvamYears();
 
   return (
     <Section className="bg-white py-12 sm:py-16 lg:py-18">
@@ -21,12 +23,22 @@ export function SatsangYearGrid() {
       </div>
 
       <div className="mt-12 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
-        {yearsSection.years.map((item) => (
-          <SatsangYearCard
-            key={item.year}
-            item={item}
-          />
-        ))}
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-52 w-full animate-pulse rounded-lg bg-muted sm:w-60" />
+          ))
+        ) : (
+          years.map((year) => (
+            <SatsangYearCard
+              key={year}
+              item={{
+                year: String(year),
+                title: `Satsang Highlights ${year}`,
+                image: `/assets/years/${year}/${year}logo.jpeg`,
+              }}
+            />
+          ))
+        )}
       </div>
     </Section>
   );

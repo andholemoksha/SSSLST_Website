@@ -10,8 +10,11 @@ from django.urls import path
 
 from .views.health import health_check
 from .views.stats import home_stats
+from .views.sathvam import sathvam_videos, sathvam_years
 
 urlpatterns = [
     path('health/', health_check, name='health'),
     path('home/stats/', home_stats, name='home-stats'),
+    path('sathvam/videos/', sathvam_videos, name='sathvam-videos'),
+    path('sathvam/years/', sathvam_years, name='sathvam-years'),
 ]

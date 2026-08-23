@@ -9,5 +9,5 @@ from .dhyana_vahini_videos import *
 from .photo_gallery import *
 from .publications import *
 from .samithi_connect import *
-from .sathvam import *
+from .sathvam import SathvamVideo, SathvamPlaylist
 from .common import WebsiteStat
