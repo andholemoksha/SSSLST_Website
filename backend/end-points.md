@@ -129,6 +129,26 @@ Response:
 7. SAMITHI CONNECT
 ------------------
 
+### Text reflections
+
+GET /samithi-connect/text?year=2026
+
+The application route includes the `/api/` prefix and trailing slash:
+`GET /api/samithi-connect/text/?year=2026`.
+
+Response:
+[
+  {
+    "id": "roll-number",
+    "name": "string",
+    "reflection": "string"
+  }
+]
+
+Only active reflections for the requested year are returned. The `year`
+query parameter is required and must be an integer. There is no public POST
+endpoint; records are managed through Django Admin.
+
 GET /samithi-connect?wing=string&activity=string
 
 Response:

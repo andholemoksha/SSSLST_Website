@@ -1,4 +1,13 @@
-"""Serializer module for the Samithi Connect endpoint.
+"""Serializers for Samithi Connect written reflections."""
 
-Use this file to validate the wing, activity, and image path payload for /samithi-connect.
-"""
+from rest_framework import serializers
+
+from website.models import SamithiConnectText
+
+
+class SamithiConnectTextSerializer(serializers.ModelSerializer):
+	id = serializers.CharField(source='roll_number')
+
+	class Meta:
+		model = SamithiConnectText
+		fields = ['id', 'name', 'reflection']
