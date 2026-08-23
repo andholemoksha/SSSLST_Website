@@ -17,9 +17,6 @@ export function DhyanaVahiniGallery() {
           </Text>
           <Text size="base" leading="relaxed" className="mt-4">{gallery.description}</Text>
         </div>
-        <button className="inline-flex items-center justify-center rounded-full border border-accent/60 bg-surface px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-secondary">
-          <Text as="span" variant="label" size="sm" color="text-accent">View More</Text>
-        </button>
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
@@ -29,6 +26,8 @@ export function DhyanaVahiniGallery() {
             title={item.title}
             description={item.caption}
             image={item.image}
+            imageClassName={item.imageClassName}
+            to={item.to}
             showFooter={false}
             className="w-full sm:w-60"
           />

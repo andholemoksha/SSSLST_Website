@@ -29,6 +29,7 @@ export function TileCard({
   showFooter = true,
   className,
   cardClassName,
+  imageClassName,
   onImageError,
 }) {
   const Wrapper = to ? Link : "div";
@@ -60,7 +61,10 @@ export function TileCard({
               alt={title}
               loading="lazy"
               onError={onImageError}
-              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+              className={cn(
+                "h-full w-full object-cover transition-transform duration-200 group-hover:scale-105",
+                imageClassName
+              )}
             />
           ) : initials ? (
             <span className="text-4xl font-bold tracking-wide text-white">

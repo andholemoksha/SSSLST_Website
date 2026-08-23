@@ -149,7 +149,4 @@ REST_FRAMEWORK = {
     ],
 }
 
-# YouTube Data API v3 key — used by the Sathvam sync command to fetch playlist
-# videos. Get a free key from https://console.cloud.google.com/ (enable
-# "YouTube Data API v3"). Set it in the backend .env file:  YOUTUBE_API_KEY=...
 YOUTUBE_API_KEY = config('YOUTUBE_API_KEY', default='')
