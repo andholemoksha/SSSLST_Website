@@ -40,10 +40,16 @@ class DhyanaVahiniVideoEndpointTests(TestCase):
             is_active=False,
         )
 
-    def test_years_lists_only_years_with_active_videos(self):
+    def test_years_lists_active_video_and_text_years(self):
+        DhyanaVahiniText.objects.create(
+            year=2025,
+            roll_number='text-only-001',
+            name='Text Only Student',
+            reflection='A text-only year.',
+        )
         response = self.client.get('/api/dhyana-vahini/years/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), [2026])
+        self.assertEqual(response.json(), [2026, 2025])
 
     def test_videos_filters_to_active_records_for_the_requested_year(self):
         response = self.client.get('/api/dhyana-vahini/videos/?year=2026')

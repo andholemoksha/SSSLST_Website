@@ -231,7 +231,7 @@ copy .env.example .env
 
 ---
 
-## Dhyana Vahini Video Reflections
+## Dhyana Vahini Reflections
 
 The Dhyana Vahini page shows YouTube video reflections from participants,
 grouped by year. It follows the same pattern as the Sathvam integration.
@@ -241,6 +241,9 @@ grouped by year. It follows the same pattern as the Sathvam integration.
 ```
 GET /api/dhyana-vahini/years/
 ```
+
+Returns distinct years that contain at least one active video or written
+reflection:
 
 Response:
 ```json
@@ -304,6 +307,16 @@ CSV file per year with these columns:
 id,name,reflection
 roll-001,Student Name,"The complete reflection text."
 ```
+
+Written reflections can also be added individually from the Django Admin by
+opening **Dhyana Vahini Text Reflections** and selecting **ADD**. To delete
+records, select them in the list, choose **Delete selected** from the
+**Action** dropdown, and confirm the deletion.
+
+For many reflections, use the **Import CSV** button on the same Admin list
+page. The importer validates the complete file before saving, updates matching
+`year` + `id` records, creates new records, and can deactivate records missing
+from a complete yearly file. There is no public POST endpoint.
 
 Import it from the backend directory:
 

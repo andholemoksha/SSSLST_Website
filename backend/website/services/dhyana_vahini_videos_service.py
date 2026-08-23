@@ -13,7 +13,7 @@ from urllib.request import Request, urlopen
 from django.conf import settings
 from django.utils import timezone
 
-from website.models import DhyanaVahiniVideo
+from website.models import DhyanaVahiniText, DhyanaVahiniVideo
 
 
 API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems'
@@ -24,11 +24,11 @@ def get_videos_by_year(year):
 
 
 def get_available_years():
-    return (
-        DhyanaVahiniVideo.objects.filter(is_active=True)
-        .values_list('year', flat=True)
-        .distinct()
-        .order_by('-year')
+    video_years = DhyanaVahiniVideo.objects.filter(is_active=True).values_list('year', flat=True)
+    text_years = DhyanaVahiniText.objects.filter(is_active=True).values_list('year', flat=True)
+    return sorted(
+        set(video_years).union(text_years),
+        reverse=True,
     )
 
 

@@ -75,20 +75,6 @@ Response:
   }
 ]
 
-
-POST /dhyana-vahini/videos
-
-Request:
-{
-  "videoLink": "string",
-  "year": 2026
-}
-
-Response:
-{
-  "status": "ok"
-}
-
 5. SATHVAM
 ----------
 
