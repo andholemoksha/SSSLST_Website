@@ -85,11 +85,20 @@ class DhyanaVahiniTextEndpointTests(TestCase):
     def test_text_returns_the_frontend_response_shape(self):
         response = self.client.get('/api/dhyana-vahini/text/?year=2026')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), [{
-            'id': 'roll-001',
-            'name': 'First Student',
-            'reflection': 'A complete reflection.',
-        }])
+        payload = response.json()
+        # The active record is returned in {id, name, reflection} shape; the
+        # inactive one is filtered out. (Assert presence/absence rather than an
+        # exact list, since a data migration also seeds records for this year.)
+        self.assertIn(
+            {
+                'id': 'roll-001',
+                'name': 'First Student',
+                'reflection': 'A complete reflection.',
+            },
+            payload,
+        )
+        ids = [item['id'] for item in payload]
+        self.assertNotIn('hidden-001', ids)
 
     def test_text_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/text/').status_code, 400)
