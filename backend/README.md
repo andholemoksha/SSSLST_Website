@@ -231,7 +231,7 @@ copy .env.example .env
 
 ---
 
-## Dhyana Vahini Video Reflections
+## Dhyana Vahini Reflections
 
 The Dhyana Vahini page shows YouTube video reflections from participants,
 grouped by year. It follows the same pattern as the Sathvam integration.
@@ -241,6 +241,9 @@ grouped by year. It follows the same pattern as the Sathvam integration.
 ```
 GET /api/dhyana-vahini/years/
 ```
+
+Returns distinct years that contain at least one active video or written
+reflection:
 
 Response:
 ```json
@@ -288,6 +291,42 @@ seeded videos and Sync Now reports a clear "key not set" message.
 2. Enter the year (e.g. 2027) and paste the YouTube playlist URL → Save
 3. Videos auto-sync. A new "2027 Participants Reflections..." section appears
    automatically below the existing years on the Video Reflections page.
+
+### Written reflections
+
+Written reflections are returned by:
+
+```text
+GET /api/dhyana-vahini/text/?year=2026
+```
+
+The response contains `id`, `name`, and `reflection`. Prepare one complete
+CSV file per year with these columns:
+
+```text
+id,name,reflection
+roll-001,Student Name,"The complete reflection text."
+```
+
+Written reflections can also be added individually from the Django Admin by
+opening **Dhyana Vahini Text Reflections** and selecting **ADD**. To delete
+records, select them in the list, choose **Delete selected** from the
+**Action** dropdown, and confirm the deletion.
+
+For many reflections, use the **Import CSV** button on the same Admin list
+page. The importer validates the complete file before saving, updates matching
+`year` + `id` records, creates new records, and can deactivate records missing
+from a complete yearly file. There is no public POST endpoint.
+
+Import it from the backend directory:
+
+```powershell
+python manage.py import_dhyana_vahini_text --year 2026 --file data/dhyana-vahini-2026.csv --complete
+```
+
+Use `--dry-run` to validate and preview the counts without changing the
+database. The `--complete` option deactivates old records for that year that
+are not present in the file.
 
 ### Developer command
 

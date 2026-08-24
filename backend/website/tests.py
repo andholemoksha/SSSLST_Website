@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase, TestCase
 
-from website.models import DhyanaVahiniVideo
+from website.models import DhyanaVahiniText, DhyanaVahiniVideo
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -40,10 +40,16 @@ class DhyanaVahiniVideoEndpointTests(TestCase):
             is_active=False,
         )
 
-    def test_years_lists_only_years_with_active_videos(self):
+    def test_years_lists_active_video_and_text_years(self):
+        DhyanaVahiniText.objects.create(
+            year=2025,
+            roll_number='text-only-001',
+            name='Text Only Student',
+            reflection='A text-only year.',
+        )
         response = self.client.get('/api/dhyana-vahini/years/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), [2026])
+        self.assertEqual(response.json(), [2026, 2025])
 
     def test_videos_filters_to_active_records_for_the_requested_year(self):
         response = self.client.get('/api/dhyana-vahini/videos/?year=2026')
@@ -58,3 +64,33 @@ class DhyanaVahiniVideoEndpointTests(TestCase):
     def test_videos_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/videos/').status_code, 400)
         self.assertEqual(self.client.get('/api/dhyana-vahini/videos/?year=invalid').status_code, 400)
+
+
+class DhyanaVahiniTextEndpointTests(TestCase):
+    def setUp(self):
+        DhyanaVahiniText.objects.create(
+            year=2026,
+            roll_number='roll-001',
+            name='First Student',
+            reflection='A complete reflection.',
+        )
+        DhyanaVahiniText.objects.create(
+            year=2026,
+            roll_number='hidden-001',
+            name='Hidden Student',
+            reflection='Do not publish this.',
+            is_active=False,
+        )
+
+    def test_text_returns_the_frontend_response_shape(self):
+        response = self.client.get('/api/dhyana-vahini/text/?year=2026')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [{
+            'id': 'roll-001',
+            'name': 'First Student',
+            'reflection': 'A complete reflection.',
+        }])
+
+    def test_text_requires_an_integer_year(self):
+        self.assertEqual(self.client.get('/api/dhyana-vahini/text/').status_code, 400)
+        self.assertEqual(self.client.get('/api/dhyana-vahini/text/?year=invalid').status_code, 400)

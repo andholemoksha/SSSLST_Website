@@ -1,4 +1,7 @@
-"""Service placeholder for the Dhyana Vahini text endpoint.
+"""Querying services for Dhyana Vahini written reflections."""
 
-Use this module to contain the business logic for listing and creating reflection records.
-"""
+from website.models import DhyanaVahiniText
+
+
+def get_text_by_year(year):
+	return DhyanaVahiniText.objects.filter(year=year, is_active=True)

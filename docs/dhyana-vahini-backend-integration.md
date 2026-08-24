@@ -8,9 +8,10 @@ gallery, and reflections) and links to two dedicated reflection pages:
 - **Video Reflections** — YouTube videos from participants, grouped by year
 - **Text Reflections** — written reflections
 
-This document covers the **Video Reflections** integration, which mirrors the
-Sathvam architecture: a facade YouTube-card grid for performance, YouTube data
-synced through the Django admin, and initial data seeded via a data migration.
+This document covers the **Video Reflections** and **Text Reflections**
+integrations. Both use Django models and the Django Admin as the CMS interface;
+videos are synchronized from YouTube playlists, while written reflections can
+be entered individually or imported in bulk from a yearly CSV file.
 
 ---
 
@@ -30,6 +31,12 @@ synced through the Django admin, and initial data seeded via a data migration.
 │               └── Adds new videos                                    │
 │               └── Deactivates videos removed on YouTube              │
 │               └── Leaves manual videos untouched                     │
+│                                                                      │
+│  Admin Panel (/admin/) → Dhyana Vahini Text Reflections              │
+│       │                                                              │
+│       ├── Add or edit one reflection                                 │
+│       ├── Select rows → Delete selected                              │
+│       └── Import CSV → add/update many reflections for a year         │
 └─────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -56,6 +63,12 @@ synced through the Django admin, and initial data seeded via a data migration.
 │              [facade thumbnail grid]                                  │
 │                                                                      │
 │           Each thumbnail loads its YouTube iframe only on click.     │
+│                                                                      │
+│  /programme/dhyana-vahini/text-reflections                           │
+│       │                                                              │
+│       │  GET /api/dhyana-vahini/years/                               │
+│       │  GET /api/dhyana-vahini/text/?year=<y>                       │
+│       └── Renders written reflections for the selected year           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -65,8 +78,9 @@ synced through the Django admin, and initial data seeded via a data migration.
 
 | Endpoint | Method | Description | Response |
 |---|---|---|---|
-| `/api/dhyana-vahini/years/` | GET | Years with active videos (desc) | `[2026]` |
+| `/api/dhyana-vahini/years/` | GET | Years with active videos or text reflections (desc) | `[2026]` |
 | `/api/dhyana-vahini/videos/?year=2026` | GET | Active videos for a year | Array of video objects |
+| `/api/dhyana-vahini/text/?year=2026` | GET | Active written reflections for a year | Array of reflection objects |
 
 ### GET /api/dhyana-vahini/years/
 
@@ -90,6 +104,24 @@ Returns active videos for the year, ordered by `order`.
 ```
 
 Returns `400` if `year` is missing or not an integer.
+
+### GET /api/dhyana-vahini/text/?year=2026
+
+Returns active written reflections for the year, ordered by roll number.
+
+```json
+[
+  {
+    "id": "roll-001",
+    "name": "Student Name",
+    "reflection": "The complete reflection text."
+  }
+]
+```
+
+The `id` response field is the stored roll number. This endpoint returns `400`
+if `year` is missing or not an integer. There is no public `POST` endpoint;
+writes are handled through the Admin or CSV import workflow.
 
 ---
 
@@ -122,6 +154,20 @@ into `playlist_id`, raising a `ValidationError` if it is missing.
 
 The `source` field is important: sync only touches `playlist`-sourced videos,
 so manually added reflections are never removed by a sync.
+
+### DhyanaVahiniText
+
+| Field | Type | Description |
+|---|---|---|
+| year | Integer | Year the reflection belongs to |
+| roll_number | CharField | Participant identifier; unique within a year |
+| name | CharField | Participant name |
+| reflection | TextField | Complete written reflection |
+| is_active | Boolean | Whether to return it from the API |
+| created_at / updated_at | DateTime | Record timestamps |
+
+The public API exposes `roll_number` as `id` and returns only `id`, `name`, and
+`reflection`.
 
 ---
 
@@ -197,6 +243,50 @@ automatically below the 2026 section. No code changes required.
 To re-sync after new videos are uploaded to an existing playlist, click the
 **Sync Now** button on that year's row.
 
+### Adding written reflections
+
+Written reflections are managed from **Dhyana Vahini Text Reflections** in the
+Django Admin.
+
+For an individual reflection:
+
+1. Click **Add Dhyana Vahini Text Reflection**.
+2. Enter the year, roll number, name, and complete reflection.
+3. Leave **Is active** enabled to publish it through the API.
+4. Save the record.
+
+To remove reflections, select one or more records in the list and choose
+**Delete selected Dhyana Vahini texts** from the **Action** dropdown. Django
+Admin asks for confirmation before permanently deleting the selected records.
+
+### CSV bulk import
+
+For a yearly batch, click **Import CSV** on the Dhyana Vahini Text Reflections
+list page. The CSV must contain these columns:
+
+```csv
+id,name,reflection
+roll-001,Student One,"The complete reflection text."
+roll-002,Student Two,"Another complete reflection."
+```
+
+The year is entered separately in the upload form. CSV values may contain
+commas, quotes, and line breaks when quoted according to standard CSV rules.
+The importer validates all rows before saving, rejects duplicate IDs and empty
+required fields, and saves the batch in one database transaction. Existing
+rows with the same year and ID are updated; new rows are created. With
+**Complete year** enabled, existing rows missing from the file are marked
+inactive rather than deleted.
+
+The same import is available to developers from the backend directory:
+
+```powershell
+python manage.py import_dhyana_vahini_text --year 2026 --file data/dhyana-vahini-2026.csv --complete
+```
+
+Use `--dry-run` to validate the file and preview counts without changing the
+database.
+
 ---
 
 ## Frontend Structure
@@ -205,11 +295,13 @@ To re-sync after new videos are uploaded to an existing playlist, click the
 frontend/src/
 ├── features/dhyana-vahini/
 │   ├── services/
-│   │   └── dhyanaVahiniVideo.service.js   # API calls (years, videos)
+│   │   ├── dhyanaVahiniVideo.service.js   # Video API calls
+│   │   └── dhyanaVahiniText.service.js    # Text reflection API calls
 │   ├── hooks/
 │   │   └── useDhyanaVahiniVideos.js        # useDhyanaVahiniYears,
 │   │                                       # useDhyanaVahiniVideos(year),
 │   │                                       # useDhyanaVahiniVideosByYear (grouped)
+│   │   └── useDhyanaVahiniText.js           # Written reflection fetching
 │   └── components/
 │       ├── DhyanaVahiniGallery.jsx         # "glimpse of journey" cards
 │       └── DhyanaVahiniVideos.jsx          # per-year stacked video sections
@@ -241,14 +333,20 @@ accessibility labels).
 ```
 backend/website/
 ├── models/dhyana_vahini_videos.py          # DhyanaVahiniPlaylist + DhyanaVahiniVideo
-├── admin/dhyana_vahini_videos.py           # Admin + Sync Now button + auto-sync on save
+├── models/dhyana_vahini_text.py             # DhyanaVahiniText
+├── admin/dhyana_vahini_videos.py            # Admin + Sync Now button + auto-sync on save
+├── admin/dhyana_vahini_text.py              # Admin + CSV upload + delete action
 ├── api/
 │   ├── urls.py                             # /years/ and /videos/ routes
 │   ├── views/dhyana_vahini_videos.py       # dhyana_vahini_years, dhyana_vahini_videos
-│   └── serializers/dhyana_vahini_videos.py # DhyanaVahiniVideoSerializer
+│   ├── views/dhyana_vahini_text.py          # Written reflection GET endpoint
+│   ├── serializers/dhyana_vahini_videos.py # DhyanaVahiniVideoSerializer
+│   └── serializers/dhyana_vahini_text.py  # DhyanaVahiniTextSerializer
+├── services/dhyana_vahini_text_service.py  # Active text query by year
 ├── services/dhyana_vahini_videos_service.py # get_*_by_year + YouTube Data API v3 sync
 ├── management/commands/
-│   └── sync_dhyana_vahini.py               # sync command (backs the Sync Now button)
+│   ├── sync_dhyana_vahini.py               # sync command (backs the Sync Now button)
+│   └── import_dhyana_vahini_text.py        # yearly CSV importer
 └── migrations/
     └── 0007_seed_dhyana_vahini_data.py     # initial data (playlist + 9 videos)
 ```
@@ -280,3 +378,5 @@ python manage.py sync_dhyana_vahini --year 2026
 | Initial data | Seeded via data migration `0007_seed_dhyana_vahini_data.py` |
 | Cost? | Free (YouTube Data API v3 — 10,000 units/day) |
 | YouTube API key needed? | Yes — one-time free key set as `YOUTUBE_API_KEY` in `.env` |
+| Text reflections | Add individually in Admin or import a complete yearly CSV |
+| Text deletion | Select records in Admin and use the Delete selected action |
