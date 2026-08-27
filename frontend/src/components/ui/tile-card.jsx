@@ -32,8 +32,13 @@ export function TileCard({
   imageClassName,
   onImageError,
 }) {
-  const Wrapper = to ? Link : "div";
-  const wrapperProps = to ? { to } : {};
+  const isExternal = to && (to.startsWith('http://') || to.startsWith('https://'));
+  const Wrapper = to ? (isExternal ? "a" : Link) : "div";
+  const wrapperProps = to
+    ? isExternal
+      ? { href: to, target: "_blank", rel: "noopener noreferrer" }
+      : { to }
+    : {};
 
   return (
     <Wrapper
