@@ -9,7 +9,7 @@ export const prerna = {
     quote:
       "Through Prerana, the journey of self-transformation is recorded, celebrated, and sanctified.",
     backgroundImage: "",
-    accentImage: "/assets/prerna/prerana-hero.png",
+    accentImage: "/assets/prerna/prerana-hero.jpg",
     overlay: "bg-gradient-highlight",
   },
 

@@ -10,12 +10,12 @@ from django.db import migrations
 DRIVE_PARENT = 'https://drive.google.com/drive/folders/1qtc_1DX_ls1Nf_R0GgfvwgbsHDu2cufT'
 
 EDITIONS = [
-    {'year': 2020, 'title': 'Prerana 2020', 'description': '', 'cover': '/assets/prerna/prerana-2020.png'},
-    {'year': 2021, 'title': 'Prerana 2021', 'description': '', 'cover': '/assets/prerna/prerana-2021.png'},
-    {'year': 2022, 'title': 'Prerana 2022', 'description': '', 'cover': '/assets/prerna/prerana-2022.png'},
-    {'year': 2023, 'title': 'Prerana 2023', 'description': '', 'cover': '/assets/prerna/prerana-2023.png'},
-    {'year': 2024, 'title': 'Prerana 2024', 'description': '', 'cover': '/assets/prerna/prerana-2024.png'},
-    {'year': 2025, 'title': 'Prerana 2025', 'description': '', 'cover': '/assets/prerna/prerana-2025.png'},
+    {'year': 2020, 'title': 'Prerana 2020', 'description': '', 'cover': '/assets/prerna/prerana-2020.jpg'},
+    {'year': 2021, 'title': 'Prerana 2021', 'description': '', 'cover': '/assets/prerna/prerana-2021.jpg'},
+    {'year': 2022, 'title': 'Prerana 2022', 'description': '', 'cover': '/assets/prerna/prerana-2022.jpg'},
+    {'year': 2023, 'title': 'Prerana 2023', 'description': '', 'cover': '/assets/prerna/prerana-2023.jpg'},
+    {'year': 2024, 'title': 'Prerana 2024', 'description': '', 'cover': '/assets/prerna/prerana-2024.jpg'},
+    {'year': 2025, 'title': 'Prerana 2025', 'description': '', 'cover': '/assets/prerna/prerana-2025.jpg'},
 ]
 
 
