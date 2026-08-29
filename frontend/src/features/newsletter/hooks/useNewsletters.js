@@ -13,7 +13,8 @@ export function useNewsletters() {
   useEffect(() => {
     let isCurrent = true;
 
-    setIsLoading(true);
+    // isLoading already starts true; the effect runs once on mount, so there is
+    // no need to set it synchronously here (avoids react-hooks/set-state-in-effect).
     fetchNewsletters()
       .then((result) => {
         if (isCurrent) {
