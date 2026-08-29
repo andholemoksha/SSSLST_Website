@@ -8,6 +8,7 @@ from .views.dhyana_vahini_videos import dhyana_vahini_videos, dhyana_vahini_year
 from .views.sathvam import sathvam_videos, sathvam_years
 from .views.dhyana_vahini_text import get_dhyana_vahini_text
 from .views.samithi_connect import get_samithi_connect_text, get_samithi_connect_text_years
+from .views.newsletter import get_newsletters
 
 urlpatterns = [
     path('health/', health_check, name='health'),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('sathvam/years/', sathvam_years, name='sathvam-years'),
     path('samithi-connect/text/', get_samithi_connect_text, name='samithi-connect-text'),
     path('samithi-connect/text/years/', get_samithi_connect_text_years, name='samithi-connect-text-years'),
+    path('newsletters/', get_newsletters, name='newsletters'),
 ]

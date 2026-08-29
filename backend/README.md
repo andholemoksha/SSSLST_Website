@@ -337,3 +337,72 @@ python manage.py sync_dhyana_vahini
 # Sync only one year
 python manage.py sync_dhyana_vahini --year 2026
 ```
+
+---
+
+## Newsletter
+
+The Newsletter page shows the SSSLST monthly newsletter — one edition per month,
+each backed by a HeyZine flip-book link. It is reached from the **Publications**
+side panel ("Monthly / Newsletter" → **View This Month**) at the route
+`/newsletter`. Full details are in
+[`docs/newsletter-backend-integration.md`](../docs/newsletter-backend-integration.md).
+
+### API endpoint
+
+```
+GET /api/newsletters/
+```
+
+Public, read-only. Returns the latest edition plus all active editions grouped
+by year:
+
+```json
+{
+  "latest": { "id": 6, "title": "July 2026", "month": 7, "year": 2026, "flipbook_url": "https://heyzine.com/flip-book/88086dd966.html", "cover_image": "" },
+  "groups": [
+    {
+      "year": 2026,
+      "is_current": true,
+      "issues": [
+        { "id": 1, "title": "February 2026", "month": 2, "year": 2026, "flipbook_url": "https://heyzine.com/flip-book/f08c3400d1.html", "cover_image": "" }
+      ]
+    }
+  ]
+}
+```
+
+- `latest` — the most recent edition (highest year, then month); shown as the
+  highlighted "Latest issue" card. Computed automatically (no admin flag).
+- `groups` — editions grouped by year, ascending; `is_current` marks the newest
+  year (rendered expanded) versus older years (rendered as collapsible archive
+  cards). Months run January → December within a year.
+
+### How data is managed (admin / CMS)
+
+- Initial data (the six 2026 editions, February–July) is seeded automatically
+  via the data migration `0015_seed_newsletter_data.py` when you run
+  `python manage.py migrate`. There is no seed command. The seeder is
+  idempotent (`update_or_create`), so redeploys never duplicate rows and never
+  overwrite admin-added editions.
+- All ongoing content is managed from **Website → Newsletters** in the Django
+  admin. On the deployed site, admin-added editions are visible to every visitor
+  immediately because all users share the production database.
+
+### How to add a new month (e.g. August 2026)
+
+1. Go to `http://127.0.0.1:8000/admin/` → **Newsletters** → **Add newsletter**
+2. Choose the **Month** and enter the **Year**
+3. Paste the **Flipbook URL** (the HeyZine link — the only required field)
+4. (Optional) Add a cover: upload a file **or** paste a cover image URL
+5. Leave **Is active** enabled and click **Save**
+
+The edition appears on `/newsletter` on the next page load, in calendar order.
+The newest edition becomes the "Latest issue" card. When the first edition of a
+new year is added, that year becomes the expanded current year and the previous
+year automatically collapses into a **Past editions** archive card. No code
+changes required.
+
+> Cover-image uploads use Django media files (`MEDIA_URL` / `MEDIA_ROOT`, served
+> in `DEBUG`). In production, point `media/` at persistent storage so uploaded
+> covers survive restarts. The URL-based cover option avoids file storage.
