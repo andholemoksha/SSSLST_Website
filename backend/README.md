@@ -31,6 +31,10 @@ copy .env.example .env
   API v3"). Required only for the "Sync Now" feature. The site works without it
   since initial data is seeded via migration.
 
+- PostgreSQL deployment settings: set `DB_ENGINE=django.db.backends.postgresql`
+  together with `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT`.
+  Without these values, local development uses SQLite.
+
 ## How to run the backend
 
 Every time you want to start the backend, run:

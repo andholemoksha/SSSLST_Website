@@ -17,6 +17,7 @@ export const home = {
                 type: "Magazine",
                 summary: "Inspiring leadership stories, insights and reflections from our SSSLST community.",
                 cta: "Read Latest Issue",
+                to: "/publications",
             },
             secondary: {
                 label: "Monthly",

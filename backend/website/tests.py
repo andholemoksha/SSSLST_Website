@@ -1,6 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
 
-from website.models import DhyanaVahiniText, DhyanaVahiniVideo
+from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Publication
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -103,3 +104,46 @@ class DhyanaVahiniTextEndpointTests(TestCase):
     def test_text_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/text/').status_code, 400)
         self.assertEqual(self.client.get('/api/dhyana-vahini/text/?year=invalid').status_code, 400)
+
+
+class PublicationsEndpointTests(TestCase):
+    def setUp(self):
+        Publication.objects.all().update(is_featured=False, is_active=False)
+        self.featured = Publication.objects.create(
+            title='Netritvam 8',
+            issue_number=8,
+            description='The current Netritvam publication.',
+            publication_url='https://heyzine.com/flip-book/issue-eight.html',
+            is_featured=True,
+        )
+        self.previous_issue = Publication.objects.create(
+            title='Netritvam 100',
+            issue_number=100,
+            publication_url='https://heyzine.com/flip-book/issue-one-hundred.html',
+        )
+        Publication.objects.create(
+            title='Hidden Netritvam publication',
+            issue_number=99,
+            publication_url='https://heyzine.com/flip-book/hidden-issue.html',
+            is_active=False,
+        )
+
+    def test_versioned_publications_endpoint_returns_featured_and_active_issues(self):
+        response = self.client.get('/api/v1/publications/')
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+
+        self.assertEqual(payload['featured']['issue_number'], self.featured.issue_number)
+        self.assertEqual(payload['featured']['publication_url'], self.featured.publication_url)
+        self.assertEqual([item['issue_number'] for item in payload['issues']], [100])
+        self.assertNotIn('is_active', payload['featured'])
+
+    def test_only_one_active_publication_can_be_featured(self):
+        duplicate_featured = Publication(
+            title='Another featured Netritvam publication',
+            issue_number=9,
+            publication_url='https://heyzine.com/flip-book/issue-nine.html',
+            is_featured=True,
+        )
+        with self.assertRaises(ValidationError):
+            duplicate_featured.full_clean()

@@ -47,7 +47,7 @@ function PublicationArtwork({ featured }) {
   );
 }
 
-function PublicationItem({ publication, featured = false }) {
+function PublicationItem({ publication, featured = false, onNavigate }) {
   return (
     <article className="flex gap-4 py-4 first:pt-0 sm:gap-6 sm:py-6">
       <PublicationArtwork featured={featured} />
@@ -63,10 +63,12 @@ function PublicationItem({ publication, featured = false }) {
           {publication.summary}
         </Text>
         <Button
+          to={publication.to}
           variant="outline"
           size="sm"
           icon={<ArrowRight className="h-4 w-4" style={{ color: 'var(--accent)' }} />}
           className="mt-4 w-fit"
+          onClick={() => publication.to && onNavigate?.()}
         >
           {publication.cta}
         </Button>
@@ -138,9 +140,9 @@ export function PublicationsPanel({ publications }) {
             {publications.title}
           </Text>
           <div className="my-4 border-t border-border sm:my-6" />
-          <PublicationItem publication={publications.featured} featured />
+          <PublicationItem publication={publications.featured} featured onNavigate={() => setOpen(false)} />
           <div className="border-t border-border" />
-          <PublicationItem publication={publications.secondary} />
+          <PublicationItem publication={publications.secondary} onNavigate={() => setOpen(false)} />
         </div>
       </aside>
     </>

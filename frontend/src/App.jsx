@@ -21,6 +21,7 @@ import { SatsangPage } from "@/pages/SatsangPage";
 import { SatsangYearPage } from "@/pages/SatsangYearPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
+import { PublicationsPage } from "@/pages/PublicationsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
@@ -92,6 +93,7 @@ function App() {
           <Route path="/satsang/:year" element={<SatsangYearPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/publications" element={<PublicationsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
