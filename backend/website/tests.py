@@ -1,7 +1,6 @@
-from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
 
-from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Publication
+from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Netritvam
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -107,43 +106,63 @@ class DhyanaVahiniTextEndpointTests(TestCase):
 
 
 class PublicationsEndpointTests(TestCase):
-    def setUp(self):
-        Publication.objects.all().update(is_featured=False, is_active=False)
-        self.featured = Publication.objects.create(
-            title='Netritvam 8',
-            issue_number=8,
-            description='The current Netritvam publication.',
-            publication_url='https://heyzine.com/flip-book/issue-eight.html',
-            is_featured=True,
-        )
-        self.previous_issue = Publication.objects.create(
-            title='Netritvam 100',
-            issue_number=100,
-            publication_url='https://heyzine.com/flip-book/issue-one-hundred.html',
-        )
-        Publication.objects.create(
-            title='Hidden Netritvam publication',
-            issue_number=99,
-            publication_url='https://heyzine.com/flip-book/hidden-issue.html',
-            is_active=False,
-        )
+    """Netritvam mirrors the Newsletter feature: latest + year groups, no featured flag."""
 
-    def test_versioned_publications_endpoint_returns_featured_and_active_issues(self):
+    def test_publications_endpoint_returns_latest_and_year_groups(self):
         response = self.client.get('/api/v1/publications/')
         self.assertEqual(response.status_code, 200)
         payload = response.json()
+        self.assertIn('latest', payload)
+        self.assertIn('groups', payload)
+        # Seeded 2026 issues should appear.
+        years = [group['year'] for group in payload['groups']]
+        self.assertIn(2026, years)
 
-        self.assertEqual(payload['featured']['issue_number'], self.featured.issue_number)
-        self.assertEqual(payload['featured']['publication_url'], self.featured.publication_url)
-        self.assertEqual([item['issue_number'] for item in payload['issues']], [100])
-        self.assertNotIn('is_active', payload['featured'])
-
-    def test_only_one_active_publication_can_be_featured(self):
-        duplicate_featured = Publication(
-            title='Another featured Netritvam publication',
-            issue_number=9,
-            publication_url='https://heyzine.com/flip-book/issue-nine.html',
-            is_featured=True,
+    def test_latest_is_the_most_recent_active_issue(self):
+        Netritvam.objects.create(
+            serial_number=1,
+            year=2099,
+            publication_url='https://heyzine.com/flip-book/latest.html',
         )
-        with self.assertRaises(ValidationError):
-            duplicate_featured.full_clean()
+        response = self.client.get('/api/v1/publications/')
+        latest = response.json()['latest']
+        self.assertIsNotNone(latest)
+        self.assertEqual(latest['year'], 2099)
+
+    def test_groups_are_ascending_with_newest_year_current(self):
+        Netritvam.objects.create(
+            serial_number=1,
+            year=2097,
+            publication_url='https://heyzine.com/flip-book/older.html',
+        )
+        Netritvam.objects.create(
+            serial_number=1,
+            year=2099,
+            publication_url='https://heyzine.com/flip-book/newer.html',
+        )
+        payload = self.client.get('/api/v1/publications/').json()
+        years = [group['year'] for group in payload['groups']]
+        self.assertEqual(years, sorted(years))  # ascending
+        current_years = [g['year'] for g in payload['groups'] if g['is_current']]
+        self.assertEqual(current_years, [max(years)])
+
+    def test_issues_are_ordered_by_serial_number_within_a_year(self):
+        # Insert out of order for a fresh year.
+        Netritvam.objects.create(serial_number=3, year=2098, publication_url='https://heyzine.com/flip-book/3.html')
+        Netritvam.objects.create(serial_number=1, year=2098, publication_url='https://heyzine.com/flip-book/1.html')
+        Netritvam.objects.create(serial_number=2, year=2098, publication_url='https://heyzine.com/flip-book/2.html')
+        payload = self.client.get('/api/v1/publications/').json()
+        group = next(g for g in payload['groups'] if g['year'] == 2098)
+        numbers = [issue['serial_number'] for issue in group['issues']]
+        self.assertEqual(numbers, [1, 2, 3])
+
+    def test_excludes_inactive_issues(self):
+        Netritvam.objects.create(
+            serial_number=9,
+            year=2098,
+            publication_url='https://heyzine.com/flip-book/hidden.html',
+            is_active=False,
+        )
+        payload = self.client.get('/api/v1/publications/').json()
+        urls = [issue['publication_url'] for g in payload['groups'] for issue in g['issues']]
+        self.assertNotIn('https://heyzine.com/flip-book/hidden.html', urls)

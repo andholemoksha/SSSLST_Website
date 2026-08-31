@@ -341,3 +341,71 @@ python manage.py sync_dhyana_vahini
 # Sync only one year
 python manage.py sync_dhyana_vahini --year 2026
 ```
+
+---
+
+## Netritvam
+
+The Netritvam page shows the SSSLST Netritvam publication — numbered issues, each
+backed by a HeyZine flip-book link. It lives at the route `/publications`
+(heading "Netritvam"). It mirrors the Newsletter feature but orders issues by a
+**serial number** within a year (1, 2, 3 ...) instead of by month. Full details
+are in [`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
+
+### API endpoint
+
+```
+GET /api/v1/publications/
+```
+
+Public, read-only. Returns the latest issue plus all active issues grouped by
+year:
+
+```json
+{
+  "latest": { "id": 7, "title": "Netritvam-7", "serial_number": 7, "year": 2026, "publication_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "" },
+  "groups": [
+    {
+      "year": 2026,
+      "is_current": true,
+      "issues": [
+        { "id": 1, "title": "Netritvam-1", "serial_number": 1, "year": 2026, "publication_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" }
+      ]
+    }
+  ]
+}
+```
+
+- `latest` — the most recent issue (highest year, then serial number); shown as
+  the highlighted "Latest Release" card. Computed automatically (no admin flag).
+- `groups` — issues grouped by year, ascending; `is_current` marks the newest
+  year (rendered expanded) versus older years (rendered as collapsible archive
+  cards). Issues run 1 → N within a year.
+
+### How data is managed (admin / CMS)
+
+- Initial data (the seven 2026 issues) is seeded automatically via the data
+  migration `0015_seed_netritvam_data.py` when you run `python manage.py migrate`.
+  There is no seed command. The seeder is idempotent (`update_or_create`), so
+  redeploys never duplicate rows and never overwrite admin-added issues.
+- All ongoing content is managed from **Website → Netritvam** in the Django
+  admin. On the deployed site, admin-added issues are visible to every visitor
+  immediately because all users share the production database.
+
+### How to add a new issue (e.g. Netritvam-8, 2026)
+
+1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
+2. Enter the **Serial number** and the **Year**
+3. Paste the **Publication URL** (the HeyZine link — the only required field)
+4. (Optional) Add a cover: upload a file **or** paste a cover image URL
+5. Leave **Is active** enabled and click **Save**
+
+The issue appears on `/publications` on the next page load, in serial order. The
+newest issue becomes the "Latest Release" card. When the first issue of a new
+year is added, that year becomes the expanded current year and the previous year
+automatically collapses into a **Past editions** archive card. No code changes
+required.
+
+> Cover-image uploads use Django media files (`MEDIA_URL` / `MEDIA_ROOT`, served
+> in `DEBUG`). In production, point `media/` at persistent storage so uploaded
+> covers survive restarts. The URL-based cover option avoids file storage.

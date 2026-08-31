@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from .views.publications import get_publications
+from .views.netritvam import get_publications
 
 
 urlpatterns = [
