@@ -51,9 +51,8 @@ export const samithiContent = {
       "A 3 month initiative designed to deepen the connection between youth participants and the organisation through active service and local engagement at the grassroots level.",
     quote:
       "Young hearts. Meaningful service. Lasting change.",
-    backgroundImage: "/assets/satsang/hero/satsang-hero.jpg",
+    backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
-    overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",
   },
 
   emptyMessage:
