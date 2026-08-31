@@ -23,10 +23,12 @@ export function HeroSection({
         />
       </div>
 
-      {/* Overlay */}
-      <div
-        className={`absolute inset-y-0 left-1/2 z-10 w-screen -translate-x-1/2 ${overlay}`}
-      />
+      {/* Overlay (only rendered when a page provides one) */}
+      {overlay ? (
+        <div
+          className={`absolute inset-y-0 left-1/2 z-10 w-screen -translate-x-1/2 ${overlay}`}
+        />
+      ) : null}
 
       {/* Bottom Gradient */}
       <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-background via-background/35 to-transparent" />
