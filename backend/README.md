@@ -337,3 +337,55 @@ python manage.py sync_dhyana_vahini
 # Sync only one year
 python manage.py sync_dhyana_vahini --year 2026
 ```
+
+---
+
+## Photo Gallery
+
+The Photo Gallery organises photos as **Year → Album → Photos** (e.g.
+`2026 → Induction Session → [photos]`). Photos live in Google Drive; their
+metadata is **synced into the database by an admin action**, and the public site
+reads only from the database — so normal page loads never call Google Drive
+(fast, cache-friendly, safe for many simultaneous users and Drive rate limits).
+Full details: [`docs/gallery-backend-integration.md`](../docs/gallery-backend-integration.md).
+
+### API endpoints (public, read-only)
+
+```
+GET /api/gallery/years/               -> [{ year, album_count, photo_count, cover_image }]
+GET /api/gallery/albums/?year=YYYY    -> [{ id, title, description, photo_count, cover_image }]
+GET /api/gallery/photos/?album=ID     -> { count, next, previous, results:[{ id, title, thumbnail_link, full_link, width, height }] }
+```
+
+- Only years/albums that actually contain active photos are returned (no empty cards).
+- Photos are paginated (24 per page, max 60) so large albums never load all at once.
+
+### Google Drive setup (required)
+
+Add to the backend `.env` (backend only — never exposed to the frontend):
+
+```
+GOOGLE_API_KEY=your-key-here
+```
+
+1. Google Cloud Console → enable **Google Drive API** → create an **API key**.
+2. Share each gallery Drive folder as **Anyone with the link → Viewer**.
+
+### How an administrator manages the gallery
+
+There is a single **Photo Gallery** section (no separate year/photo screens).
+
+- **Add a card:** Admin → **Website → Photo Gallery → Add** → enter the **Year**
+  and a **Title** (e.g. "Induction Session"), paste the **Drive folder link**,
+  optionally add a cover → Save. The card auto-syncs photos; use **Sync from
+  Drive** on the list to pull in new/removed photos later.
+- **Two cards in one year:** add another entry with the same year and a different
+  title (e.g. 2025 "Induction" and 2025 "Valedictory") → two cards under 2025.
+- **Photos** are populated by sync (not added by hand). **Delete is disabled** —
+  untick **Is active** to hide a card or photo.
+
+No React/code changes are needed to add a new year or card.
+
+> Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
+> In production, point `media/` at persistent storage. The gallery images
+> themselves are served from Google's CDN, not stored on our server.
