@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase, TestCase
 
-from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Newsletter
+from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Netritvam, Newsletter
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -174,3 +174,48 @@ class NewsletterEndpointTests(TestCase):
     def test_newsletter_title_defaults_to_month_and_year(self):
         edition = Newsletter.objects.get(month=1, year=2099)
         self.assertEqual(edition.display_title, 'January 2099')
+
+
+class NetritvamEndpointTests(TestCase):
+    # Use high serial numbers that the seed migration (1-7) never uses, so these
+    # tests are independent of the seeded data.
+    def setUp(self):
+        # Insert out of order to prove ordering is by serial number.
+        Netritvam.objects.create(serial_number=91, flipbook_url='https://heyzine.com/flip-book/n91.html')
+        Netritvam.objects.create(serial_number=93, flipbook_url='https://heyzine.com/flip-book/n93.html')
+        Netritvam.objects.create(serial_number=92, flipbook_url='https://heyzine.com/flip-book/n92.html')
+        Netritvam.objects.create(
+            serial_number=99,
+            flipbook_url='https://heyzine.com/flip-book/hidden.html',
+            is_active=False,
+        )
+
+    def test_returns_latest_and_issues(self):
+        response = self.client.get('/api/netritvam/')
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertIn('latest', payload)
+        self.assertIn('issues', payload)
+
+    def test_latest_is_highest_active_serial(self):
+        payload = self.client.get('/api/netritvam/').json()
+        # 93 is the highest active serial across seed (7) + these test rows.
+        self.assertEqual(payload['latest']['serial_number'], 93)
+        self.assertEqual(payload['latest']['title'], 'Netritvam-93')
+
+    def test_issues_ordered_by_serial_ascending(self):
+        payload = self.client.get('/api/netritvam/').json()
+        serials = [issue['serial_number'] for issue in payload['issues']]
+        self.assertEqual(serials, sorted(serials))
+        # Our active test rows appear in order; the inactive one does not.
+        test_serials = [s for s in serials if s in (91, 92, 93, 99)]
+        self.assertEqual(test_serials, [91, 92, 93])
+
+    def test_inactive_issue_excluded(self):
+        payload = self.client.get('/api/netritvam/').json()
+        serials = [issue['serial_number'] for issue in payload['issues']]
+        self.assertNotIn(99, serials)
+
+    def test_display_title_defaults_to_serial(self):
+        issue = Netritvam.objects.get(serial_number=92)
+        self.assertEqual(issue.display_title, 'Netritvam-92')
