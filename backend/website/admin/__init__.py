@@ -7,6 +7,7 @@ logic for the corresponding data model.
 from .apply import *
 from .dhyana_vahini_text import *
 from .dhyana_vahini_videos import *
+from .newsletter import NewsletterAdmin
 from .photo_gallery import *
 from .netritvam import *
 from .samithi_connect import *

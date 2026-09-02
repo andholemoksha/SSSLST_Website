@@ -19,6 +19,7 @@ import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { SatsangYearPage } from "@/pages/SatsangYearPage";
+import { NewsletterPage } from "@/pages/NewsletterPage";
 import { PrernaPage } from "@/pages/PrernaPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { ContactPage } from "@/pages/ContactPage";
@@ -89,6 +90,8 @@ function App() {
 
           <Route path="/testimonials" element={<TestimonialsPage />} />
           
+
+          <Route path="/newsletter" element={<NewsletterPage />} />
 
           <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/satsang/:year" element={<SatsangYearPage />} />
