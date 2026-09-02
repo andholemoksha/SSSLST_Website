@@ -120,8 +120,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Media files (user uploads)
-MEDIA_URL = '/media/'
+# Media files (user uploads, e.g. newsletter cover images)
+# https://docs.djangoproject.com/en/6.1/topics/files/
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
