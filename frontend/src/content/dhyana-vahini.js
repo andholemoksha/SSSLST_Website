@@ -5,9 +5,8 @@ export const dhyanaVahini = {
     subtitle:
     "Dhyana Vahini Parayanam explores one pointedness and concentration \nwhich lays the foundation for inner discipline and self awareness.",
     quote: "The divine guidebook on Jyothi meditation by our beloved Bhagavan Sri Sathya Sai Baba.",
-    backgroundImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
+    backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
-    overlay: "bg-gradient-to-r from-hero-bg/80 via-hero-bg/55 to-hero-bg/25",
   },
   about: {
     eyebrow: "About Dhyana Vahini",

@@ -3,9 +3,9 @@ export const curriculum = {
     label: "CURRICULUM",
     title: "A Transformative Learning Journey",
     subtitle: "An integrated curriculum that combines spirituality, values, leadership, service and practical learning to nurture compassionate and responsible leaders.",
-    backgroundImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
+    backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
-    overlay: "bg-gradient-to-r from-hero-bg/85 via-hero-bg/60 to-hero-bg/30",
+    
     actions: [
       { label: "Download Curriculum", href: "#course-details", variant: "primary" },
       { label: "View Brochure", href: "#journey", variant: "outline" },

@@ -23,10 +23,12 @@ export function HeroSection({
         />
       </div>
 
-      {/* Overlay */}
-      <div
-        className={`absolute inset-y-0 left-1/2 z-10 w-screen -translate-x-1/2 ${overlay}`}
-      />
+      {/* Overlay (only rendered when a page provides one) */}
+      {overlay ? (
+        <div
+          className={`absolute inset-y-0 left-1/2 z-10 w-screen -translate-x-1/2 ${overlay}`}
+        />
+      ) : null}
 
       {/* Bottom Gradient */}
       <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-background via-background/35 to-transparent" />
@@ -42,7 +44,7 @@ export function HeroSection({
             as="h1"
             variant="heading"
             size="5xl"
-            color="text-white"
+            color="text-heading"
             className="mt-6 leading-[0.95] tracking-[0.01em] sm:text-6xl lg:text-7xl"
           >
             {title}
@@ -53,7 +55,7 @@ export function HeroSection({
           {/* Subtitle */}
           <Text
   size="base"
-  color="text-white"
+  color="text-muted-foreground"
   leading="relaxed"
   className="mt-6 max-w-2xl whitespace-pre-line sm:text-lg"
 >
@@ -66,7 +68,7 @@ export function HeroSection({
             <Text
               variant="quote"
               size="lg"
-              color="text-white-light"
+              color="text-primary"
               leading="relaxed"
               className="mt-8 max-w-xl border-l border-accent/70 pl-5 text-left sm:text-xl"
             >
