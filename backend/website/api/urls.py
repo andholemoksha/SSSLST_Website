@@ -8,6 +8,8 @@ from .views.dhyana_vahini_videos import dhyana_vahini_videos, dhyana_vahini_year
 from .views.sathvam import sathvam_videos, sathvam_years
 from .views.dhyana_vahini_text import get_dhyana_vahini_text
 from .views.samithi_connect import get_samithi_connect_text, get_samithi_connect_text_years
+from .views.newsletter import get_newsletters
+from .views.prerna import prerna_editions
 from .views.photo_gallery import gallery_years, gallery_albums, gallery_photos
 
 urlpatterns = [
@@ -20,6 +22,8 @@ urlpatterns = [
     path('sathvam/years/', sathvam_years, name='sathvam-years'),
     path('samithi-connect/text/', get_samithi_connect_text, name='samithi-connect-text'),
     path('samithi-connect/text/years/', get_samithi_connect_text_years, name='samithi-connect-text-years'),
+    path('newsletters/', get_newsletters, name='newsletters'),
+    path('prerna/editions/', prerna_editions, name='prerna-editions'),
     path('gallery/years/', gallery_years, name='gallery-years'),
     path('gallery/albums/', gallery_albums, name='gallery-albums'),
     path('gallery/photos/', gallery_photos, name='gallery-photos'),

@@ -5,6 +5,7 @@ from website.models import (
     DhyanaVahiniVideo,
     GalleryAlbum,
     GalleryPhoto,
+    Newsletter,
 )
 from website.models.photo_gallery import extract_drive_folder_id
 
@@ -202,3 +203,74 @@ class GalleryEndpointTests(TestCase):
         titles = [a['title'] for a in response.json()]
         # Graduation now has no active photos -> hidden
         self.assertNotIn('Graduation', titles)
+
+
+class NewsletterEndpointTests(TestCase):
+    def setUp(self):
+        # An active edition in a fresh year so we can assert on it deterministically
+        # without depending on the seeded 2026 rows.
+        Newsletter.objects.create(
+            month=1,
+            year=2099,
+            flipbook_url='https://heyzine.com/flip-book/test-active.html',
+        )
+        Newsletter.objects.create(
+            month=2,
+            year=2099,
+            flipbook_url='https://heyzine.com/flip-book/test-hidden.html',
+            is_active=False,
+        )
+
+    def test_newsletters_groups_are_ascending_with_newest_year_current(self):
+        # Add an older year so we have two groups to compare.
+        Newsletter.objects.create(month=5, year=2097, flipbook_url='https://heyzine.com/flip-book/older.html')
+
+        response = self.client.get('/api/newsletters/')
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertIn('groups', payload)
+
+        years = [group['year'] for group in payload['groups']]
+        self.assertIn(2099, years)
+        self.assertIn(2097, years)
+        # Groups are ordered oldest year first (ascending) for the archive layout.
+        self.assertEqual(years, sorted(years))
+
+        # Only the newest year is flagged current; older years are archived.
+        current_years = [g['year'] for g in payload['groups'] if g['is_current']]
+        self.assertEqual(current_years, [max(years)])
+
+    def test_newsletters_are_ordered_january_to_december_within_a_year(self):
+        # Insert months out of order for a fresh year.
+        Newsletter.objects.create(month=12, year=2098, flipbook_url='https://heyzine.com/flip-book/dec.html')
+        Newsletter.objects.create(month=3, year=2098, flipbook_url='https://heyzine.com/flip-book/mar.html')
+        Newsletter.objects.create(month=8, year=2098, flipbook_url='https://heyzine.com/flip-book/aug.html')
+
+        response = self.client.get('/api/newsletters/')
+        group_2098 = next(g for g in response.json()['groups'] if g['year'] == 2098)
+        months = [issue['month'] for issue in group_2098['issues']]
+        # Calendar order regardless of insertion order.
+        self.assertEqual(months, [3, 8, 12])
+
+    def test_newsletters_latest_is_the_most_recent_active_edition(self):
+        # Highest year, then highest month, among active editions.
+        Newsletter.objects.create(month=6, year=2099, flipbook_url='https://heyzine.com/flip-book/latest.html')
+        response = self.client.get('/api/newsletters/')
+        latest = response.json()['latest']
+        self.assertIsNotNone(latest)
+        self.assertEqual(latest['year'], 2099)
+        self.assertEqual(latest['month'], 6)
+
+    def test_newsletters_excludes_inactive_editions(self):
+        response = self.client.get('/api/newsletters/')
+        urls = [
+            issue['flipbook_url']
+            for group in response.json()['groups']
+            for issue in group['issues']
+        ]
+        self.assertIn('https://heyzine.com/flip-book/test-active.html', urls)
+        self.assertNotIn('https://heyzine.com/flip-book/test-hidden.html', urls)
+
+    def test_newsletter_title_defaults_to_month_and_year(self):
+        edition = Newsletter.objects.get(month=1, year=2099)
+        self.assertEqual(edition.display_title, 'January 2099')
