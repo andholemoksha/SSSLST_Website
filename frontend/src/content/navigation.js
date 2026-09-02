@@ -17,6 +17,7 @@ export const navigation = {
       children: [
         { title: "Testimonials", href: "/testimonials" },
         { title: "Photo Gallery", href: "/projects" },
+        { title: "Prerana", href: "/prerna" },
       ],
     },
     { title: "FAQs", href: "/faq" },

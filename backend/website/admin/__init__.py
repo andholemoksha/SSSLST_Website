@@ -13,3 +13,4 @@ from .publications import *
 from .samithi_connect import *
 from .sathvam import *
 from .common import WebsiteStatAdmin
+from .prerna import PrernaEditionAdmin

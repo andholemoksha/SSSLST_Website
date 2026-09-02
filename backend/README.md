@@ -347,6 +347,11 @@ each backed by a HeyZine flip-book link. It is reached from the **Publications**
 side panel ("Monthly / Newsletter" → **View This Month**) at the route
 `/newsletter`. Full details are in
 [`docs/newsletter-backend-integration.md`](../docs/newsletter-backend-integration.md).
+## Prerana Yearbook
+
+The Prerana page displays year-wise yearbook editions. Each card links to the
+PDF on Google Drive (opens in a new tab). Cover images, titles, and PDF links
+are managed via the admin panel.
 
 ### API endpoint
 
@@ -406,3 +411,48 @@ changes required.
 > Cover-image uploads use Django media files (`MEDIA_URL` / `MEDIA_ROOT`, served
 > in `DEBUG`). In production, point `media/` at persistent storage so uploaded
 > covers survive restarts. The URL-based cover option avoids file storage.
+GET /api/prerna/editions/
+```
+
+Response:
+```json
+[
+  {
+    "year": 2025,
+    "title": "Prerana 2025",
+    "description": "",
+    "pdf_url": "https://drive.google.com/...",
+    "cover_image_url": "/assets/prerna/prerana-2025.png"
+  }
+]
+```
+
+### How data is managed (admin / CMS)
+
+- Initial data (6 editions: 2020–2025 with cover images) is seeded automatically
+  via the data migration `0015_seed_prerna_editions.py` on `migrate`.
+- All ongoing content is managed through the Django admin portal:
+  - **Prerna Editions** — add year + title + PDF URL + cover image (upload or URL)
+  - New cards appear on the website within 30 seconds (auto-refresh)
+
+### How to add a new year's edition
+
+1. Go to http://127.0.0.1:8000/admin/ → **Prerna Editions** → Add
+2. Enter year, title, PDF URL, and upload/paste cover image → Save
+3. Card appears automatically on the website. No code change needed.
+
+### Cover image options
+
+| Method | How |
+|---|---|
+| Upload file | Use the "Cover image" file chooser in admin |
+| Paste URL | Put an external URL in "Cover image URL" field |
+| Neither | Card shows the year number on a purple panel (fallback) |
+
+Uploaded file takes priority over pasted URL.
+
+### Performance
+
+The PDF opens on Google Drive's servers (not yours). The website only serves
+a small JSON list of editions (~1 KB). Cover images are static files cached
+by the browser. Multiple concurrent users are handled without any server load.
