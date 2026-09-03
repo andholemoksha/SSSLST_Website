@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Media files (user uploads, e.g. newsletter cover images)
+# Media files (user uploads, e.g. newsletter/prerna covers, gallery album covers)
 # https://docs.djangoproject.com/en/6.1/topics/files/
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -155,3 +155,6 @@ REST_FRAMEWORK = {
 }
 
 YOUTUBE_API_KEY = config('YOUTUBE_API_KEY', default='')
+
+# Google Drive API v3 key — backend only, used by the Photo Gallery sync action.
+GOOGLE_API_KEY = config('GOOGLE_API_KEY', default='')
