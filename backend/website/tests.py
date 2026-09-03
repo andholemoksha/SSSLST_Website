@@ -1,6 +1,13 @@
 from django.test import SimpleTestCase, TestCase
 
-from website.models import DhyanaVahiniText, DhyanaVahiniVideo, Newsletter
+from website.models import (
+    DhyanaVahiniText,
+    DhyanaVahiniVideo,
+    GalleryAlbum,
+    GalleryPhoto,
+    Newsletter,
+)
+from website.models.photo_gallery import extract_drive_folder_id
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -103,6 +110,99 @@ class DhyanaVahiniTextEndpointTests(TestCase):
     def test_text_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/text/').status_code, 400)
         self.assertEqual(self.client.get('/api/dhyana-vahini/text/?year=invalid').status_code, 400)
+
+
+class GalleryModelTests(SimpleTestCase):
+    def test_extract_drive_folder_id_from_url(self):
+        url = 'https://drive.google.com/drive/folders/1ABCdef_-XYZ?usp=drive_link'
+        self.assertEqual(extract_drive_folder_id(url), '1ABCdef_-XYZ')
+
+    def test_extract_drive_folder_id_from_bare_id(self):
+        self.assertEqual(extract_drive_folder_id('1ABCdef_-XYZ0'), '1ABCdef_-XYZ0')
+
+    def test_extract_drive_folder_id_empty(self):
+        self.assertEqual(extract_drive_folder_id(''), '')
+        self.assertEqual(extract_drive_folder_id('not a link'), '')
+
+
+class GalleryEndpointTests(TestCase):
+    # Use a far-future year that the seed migration never touches, so these
+    # tests are independent of the seeded gallery data.
+    YEAR = 2099
+    EMPTY_YEAR = 2098
+
+    def setUp(self):
+        self.induction = GalleryAlbum.objects.create(
+            year=self.YEAR, title='Induction Session', order=1,
+        )
+        self.graduation = GalleryAlbum.objects.create(
+            year=self.YEAR, title='Graduation', order=2,
+        )
+        # Card with no photos -> should not appear in albums list
+        GalleryAlbum.objects.create(year=self.YEAR, title='Empty Album', order=3)
+        # A year with a card but no photos -> should be hidden from years
+        GalleryAlbum.objects.create(year=self.EMPTY_YEAR, title='Empty Year Card', order=1)
+
+        for i in range(1, 4):
+            GalleryPhoto.objects.create(
+                album=self.induction,
+                drive_file_id=f'induction-{i}',
+                thumbnail_link=f'https://drive.google.com/thumbnail?id=induction-{i}&sz=w400',
+                full_link=f'https://drive.google.com/thumbnail?id=induction-{i}&sz=w1600',
+                order=i,
+            )
+        GalleryPhoto.objects.create(
+            album=self.graduation,
+            drive_file_id='grad-1',
+            thumbnail_link='https://drive.google.com/thumbnail?id=grad-1&sz=w400',
+            full_link='https://drive.google.com/thumbnail?id=grad-1&sz=w1600',
+            order=1,
+        )
+
+    def test_years_endpoint_only_returns_years_with_photos(self):
+        response = self.client.get('/api/gallery/years/')
+        self.assertEqual(response.status_code, 200)
+        years = [row['year'] for row in response.json()]
+        self.assertIn(self.YEAR, years)
+        self.assertNotIn(self.EMPTY_YEAR, years)  # empty year hidden
+
+    def test_years_endpoint_reports_counts(self):
+        response = self.client.get('/api/gallery/years/')
+        row = next(r for r in response.json() if r['year'] == self.YEAR)
+        self.assertEqual(row['album_count'], 2)   # only albums with photos
+        self.assertEqual(row['photo_count'], 4)   # 3 + 1
+
+    def test_albums_endpoint_hides_empty_albums(self):
+        response = self.client.get(f'/api/gallery/albums/?year={self.YEAR}')
+        self.assertEqual(response.status_code, 200)
+        titles = [a['title'] for a in response.json()]
+        self.assertIn('Induction Session', titles)
+        self.assertIn('Graduation', titles)
+        self.assertNotIn('Empty Album', titles)
+
+    def test_albums_endpoint_requires_year(self):
+        self.assertEqual(self.client.get('/api/gallery/albums/').status_code, 400)
+
+    def test_photos_endpoint_is_paginated(self):
+        response = self.client.get(f'/api/gallery/photos/?album={self.induction.id}')
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertIn('results', payload)
+        self.assertIn('count', payload)
+        self.assertEqual(payload['count'], 3)
+        self.assertEqual(len(payload['results']), 3)
+        self.assertIn('thumbnail_link', payload['results'][0])
+        self.assertIn('full_link', payload['results'][0])
+
+    def test_photos_endpoint_requires_album(self):
+        self.assertEqual(self.client.get('/api/gallery/photos/').status_code, 400)
+
+    def test_inactive_photos_excluded(self):
+        GalleryPhoto.objects.filter(album=self.graduation).update(is_active=False)
+        response = self.client.get(f'/api/gallery/albums/?year={self.YEAR}')
+        titles = [a['title'] for a in response.json()]
+        # Graduation now has no active photos -> hidden
+        self.assertNotIn('Graduation', titles)
 
 
 class NewsletterEndpointTests(TestCase):
