@@ -20,6 +20,7 @@ import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { SatsangYearPage } from "@/pages/SatsangYearPage";
 import { NewsletterPage } from "@/pages/NewsletterPage";
+import { NetritvamPage } from "@/pages/NetritvamPage";
 import { PrernaPage } from "@/pages/PrernaPage";
 import { PhotoGalleryPage } from "@/pages/PhotoGalleryPage";
 import { FaqPage } from "@/pages/FaqPage";
@@ -92,6 +93,7 @@ function App() {
           
 
           <Route path="/newsletter" element={<NewsletterPage />} />
+          <Route path="/netritvam" element={<NetritvamPage />} />
 
           <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/satsang/:year" element={<SatsangYearPage />} />

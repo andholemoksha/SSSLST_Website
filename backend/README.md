@@ -508,3 +508,65 @@ Uploaded file takes priority over pasted URL.
 The PDF opens on Google Drive's servers (not yours). The website only serves
 a small JSON list of editions (~1 KB). Cover images are static files cached
 by the browser. Multiple concurrent users are handled without any server load.
+
+---
+
+## Netritvam
+
+The Netritvam page shows the SSSLST Netritvam magazine — a numbered series of
+issues (Netritvam-1, Netritvam-2, …), each backed by a HeyZine flip-book link.
+It is reached from the **Publications** side panel (the featured "Netritvam" card
+→ **Read Latest Issue**) at the route `/netritvam`. It mirrors the Newsletter
+feature but is keyed on a **serial number** instead of month/year, and shown as a
+flat list. Full details:
+[`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
+
+### API endpoint
+
+```
+GET /api/netritvam/
+```
+
+Public, read-only. Returns the latest issue plus all active issues (ordered by
+serial number):
+
+```json
+{
+  "latest": { "id": 7, "title": "Netritvam-7", "serial_number": 7, "flipbook_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "" },
+  "issues": [
+    { "id": 1, "title": "Netritvam-1", "serial_number": 1, "flipbook_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" }
+  ]
+}
+```
+
+- `latest` — the most recent issue (highest serial number); shown as the
+  highlighted "Latest issue" card. Computed automatically (no admin flag).
+- `issues` — all active issues ordered by serial number ascending
+  (Netritvam-1 → N). The frontend removes the latest from the grid so it appears
+  once.
+
+### How data is managed (admin / CMS)
+
+- Initial data (the seven issues) is seeded automatically via the data migration
+  `0018_seed_netritvam_data.py` when you run `python manage.py migrate`. There is
+  no seed command. The seeder is idempotent (`update_or_create`), so redeploys
+  never duplicate rows and never overwrite admin-added issues.
+- All ongoing content is managed from **Website → Netritvam** in the Django
+  admin. On the deployed site, admin-added issues are visible to every visitor
+  immediately because all users share the production database.
+
+### How to add a new issue (e.g. Netritvam-8)
+
+1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
+2. Enter the **Serial number** (`8`)
+3. Paste the **Flipbook URL** (the HeyZine link — the only required field)
+4. (Optional) Add a cover: upload a file **or** paste a cover image URL
+5. Leave **Is active** enabled and click **Save**
+
+The issue appears on `/netritvam` on the next page load. Because it has the
+highest serial number, it becomes the new "Latest issue" card and the previous
+latest drops into the grid. No code changes required.
+
+> Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
+> In production, point `media/` at persistent storage so uploaded covers survive
+> restarts. The URL-based cover option avoids file storage.

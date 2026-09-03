@@ -8,6 +8,7 @@ from .apply import get_apply, put_apply
 from .dhyana_vahini_text import get_dhyana_vahini_text
 from .dhyana_vahini_videos import dhyana_vahini_videos, dhyana_vahini_years
 from .newsletter import get_newsletters
+from .netritvam import get_netritvam
 from .photo_gallery import get_photo_gallery, post_photo_gallery
 from .publications import get_publications
 from .samithi_connect import (
