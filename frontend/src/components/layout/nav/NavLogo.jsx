@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { navigation } from "@/content/navigation";
-import { cn } from "@/lib/utils";
-import { useNavTheme } from "@/components/layout/nav/NavThemeContext";
+import { Text } from "@/components/ui/Text/text";
 import ssslstLogo from "@/assets/logos/SSSLST.jpg";
 
 function LogoMark() {
@@ -15,8 +14,6 @@ function LogoMark() {
 }
 
 export function NavLogo() {
-  const { transparent } = useNavTheme();
-
   return (
     <NavLink
       to="/"
@@ -26,25 +23,14 @@ export function NavLogo() {
       <LogoMark />
 
       <div className="leading-tight">
-        <span
-          className={cn(
-            "block font-heading text-base md:text-lg font-semibold leading-tight whitespace-pre-line transition-colors",
-            "text-white"
-          )}
+        <Text
+          as="span"
+          variant="heading"
+          color="text-white"
+          className="whitespace-pre-line leading-tight"
         >
           {navigation.logoText}
-        </span>
-
-        {navigation.logoSubtitle && (
-          <span
-            className={cn(
-              "block text-xs transition-colors",
-              transparent ? "text-white/75" : "text-muted-foreground"
-            )}
-          >
-            {navigation.logoSubtitle}
-          </span>
-        )}
+        </Text>
       </div>
     </NavLink>
   );

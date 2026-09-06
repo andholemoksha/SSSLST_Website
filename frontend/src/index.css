@@ -84,6 +84,7 @@
   /* Gradient — highlight/statistic/feature cards ONLY. Never navbar, footer,
      buttons, or full-page backgrounds. See DESIGN_SYSTEM.md "Gradient Usage". */
   --gradient-highlight: linear-gradient(135deg, #feeff8 0%, #eee6ff 50%, #fff2e8 100%);
+    --gradient-purple-to-pink: linear-gradient(90deg, #4b1f82, #7b36a8, #b24b8c);
   --nav-gradient: linear-gradient(90deg, var(--primary) 0%, var(--purple-gradient-middle) 50%, var(--primary) 100%);
   --footer-gradient: linear-gradient(90deg, var(--primary) 0%, var(--purple-gradient-middle) 50%, var(--primary) 100%);
 

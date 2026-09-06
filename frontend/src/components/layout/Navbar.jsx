@@ -59,14 +59,14 @@ export function Navbar() {
             onClick={() => setMobileOpen((prev) => !prev)}
             className={cn(
               buttonVariants({ variant: "nav", size: "icon" }),
-              "lg:hidden text-primary"
+              "xl:hidden text-white"
             )}
           >
             {mobileOpen ? <X /> : <Menu />}
           </button>
         </Container>
 
-        <div id="mobile-nav">
+        <div id="mobile-nav" className="absolute inset-x-0 top-full">
           <MobileNav
             open={mobileOpen}
             onClose={() => setMobileOpen(false)}
