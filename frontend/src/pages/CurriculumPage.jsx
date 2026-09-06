@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/ui/hero-section";
-import { Button } from "@/components/ui/Button/button";
 import { CourseDetails } from "@/features/curriculum/components/CourseDetails";
 import { SelectionInformationBanner } from "@/features/curriculum/components/SelectionInformationBanner";
 import { CurriculumJourney } from "@/features/curriculum/components/CurriculumJourney";
