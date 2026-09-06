@@ -11,18 +11,7 @@ export function CurriculumPage() {
 
   return (
     <>
-      <HeroSection
-        {...hero}
-        actions={(
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            {hero.actions.map((action) => (
-              <Button key={action.label} to={action.to} href={action.href} variant={action.variant} size="lg">
-                {action.label}
-              </Button>
-            ))}
-          </div>
-        )}
-      />
+      <HeroSection {...hero}/>
       <CourseDetails />
       <SelectionInformationBanner />
       <CurriculumJourney />

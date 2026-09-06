@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { navigation } from "@/content/navigation";
 import { Text } from "@/components/ui/Text/text";
-import ssslstLogo from "@/assets/logos/SSSLST.jpg";
+import ssslstLogo from "@/assets/logos/SSSLS Logo PNG.png";
 
 function LogoMark() {
   return (
-    <img
-      src={ssslstLogo}
-      alt="SSSLST logo"
-      className="h-9 w-9 shrink-0 rounded object-contain"
-    />
+    <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white">
+      <img
+        src={ssslstLogo}
+        alt="SSSLST logo"
+        className="h-24 w-24"
+      />
+    </span>
   );
 }
 
