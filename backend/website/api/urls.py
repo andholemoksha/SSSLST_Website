@@ -11,6 +11,7 @@ from .views.samithi_connect import get_samithi_connect_text, get_samithi_connect
 from .views.newsletter import get_newsletters
 from .views.netritvam import get_netritvam
 from .views.prerna import prerna_editions
+from .views.apply import get_apply
 from .views.photo_gallery import gallery_years, gallery_albums, gallery_photos
 
 urlpatterns = [
@@ -26,6 +27,7 @@ urlpatterns = [
     path('newsletters/', get_newsletters, name='newsletters'),
     path('netritvam/', get_netritvam, name='netritvam'),
     path('prerna/editions/', prerna_editions, name='prerna-editions'),
+    path('apply/', get_apply, name='apply'),
     path('gallery/years/', gallery_years, name='gallery-years'),
     path('gallery/albums/', gallery_albums, name='gallery-albums'),
     path('gallery/photos/', gallery_photos, name='gallery-photos'),

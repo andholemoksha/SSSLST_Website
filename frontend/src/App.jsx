@@ -27,7 +27,7 @@ import { FaqPage } from "@/pages/FaqPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
-import { applyNow } from "@/content/applynow";
+import { useAdmissions } from "@/features/admissions/hooks/useAdmissions";
 import { home } from "@/content/home";
 import { PublicationsPanel } from "@/components/layout/PublicationsPanel";
 
@@ -42,6 +42,8 @@ function ScrollToTop() {
 }
 
 function App() {
+  const { data: admissions } = useAdmissions();
+
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
@@ -103,7 +105,13 @@ function App() {
         </Routes>
       </main>
 
-      {applyNow.enabled && <AdmissionsLotusCard />}
+      {admissions?.is_active && admissions.apply_url ? (
+        <AdmissionsLotusCard
+          applyUrl={admissions.apply_url}
+          headline={admissions.headline}
+          subtext={admissions.subtext}
+        />
+      ) : null}
       <PublicationsPanel publications={home.hero.publications} />
 
       <Footer />

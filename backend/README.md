@@ -570,3 +570,55 @@ latest drops into the grid. No code changes required.
 > Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
 > In production, point `media/` at persistent storage so uploaded covers survive
 > restarts. The URL-based cover option avoids file storage.
+
+---
+
+## Admissions ("Apply Now" card)
+
+The floating **"Apply Now"** lotus card (bottom-right of every page) is
+admin-controlled. Admissions are open only part of the year, so an admin can
+turn the card on/off and set the application link without any code change. Full
+details: [`docs/admissions-apply-now-integration.md`](../docs/admissions-apply-now-integration.md).
+
+### API endpoint
+
+```
+GET /api/apply/
+```
+
+Public, read-only. Returns the single settings row:
+
+```json
+{
+  "is_active": true,
+  "apply_url": "https://forms.gle/your-application-form",
+  "headline": "Admissions Open",
+  "subtext": "Applications for the upcoming batch are now open."
+}
+```
+
+- `is_active` — the on/off toggle. The frontend shows the card only when this is
+  `true` **and** an `apply_url` is set.
+- `apply_url` — where "Apply Now" links (opens in a new tab).
+- `headline` / `subtext` — the card text.
+
+If no row exists, the endpoint returns a safe default with `is_active: false`.
+
+### How data is managed (admin / CMS)
+
+- A single `AdmissionsSetting` row is created (inactive) automatically by the
+  migration `0020_seed_admissions_setting.py` on `python manage.py migrate`, so
+  the card stays hidden until an admin turns it on.
+- Managed from **Website → Admissions** in the Django admin — a single settings
+  entry (you can edit it, but not add or delete rows). On the deployed site, an
+  admin toggle is visible to all visitors immediately (shared production DB).
+
+### What the admin does
+
+- **Open admissions (show the card):** Admin → **Admissions** → paste the
+  application link into **Apply url** → tick **Is active** → **Save**.
+- **Close admissions (hide the card):** Admin → **Admissions** → untick
+  **Is active** → **Save**. (The URL is kept for next time.)
+
+The card appears on every page automatically when active, and disappears when
+off. No React/code changes are needed.
