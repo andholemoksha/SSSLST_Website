@@ -11,6 +11,7 @@ from .netritvam import Netritvam
 from .photo_gallery import *
 from .publications import *
 from .samithi_connect import *
+from .samithi_photos import SamithiActivity, SamithiPhoto
 from .sathvam import SathvamVideo, SathvamPlaylist
 from .prerna import PrernaEdition
 from .common import WebsiteStat

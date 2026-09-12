@@ -4,6 +4,9 @@ import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
 import { TextReflectionsPanel } from "@/components/ui/text-reflections-panel";
 import { samithiContent } from "@/content/samithiConnect";
 import { useSamithiConnectText, useSamithiConnectTextYears } from "@/features/samithi/hooks/useSamithiConnectText";
+import { SamithiActivityGallery } from "@/features/samithi/components/SamithiActivityGallery";
+
+const PHOTO_WINGS = new Set(["spiritual", "service", "education"]);
 
 /** Turn a slug into a title, e.g. "nagar-sankeertan" -> "Nagar Sankeertan". */
 function slugToTitle(slug) {
@@ -57,6 +60,23 @@ export function SamithiActivityPage() {
         backLabel={activityPage.backLabel}
       >
         <SamithiTextReflections />
+      </PagePlaceholder>
+    );
+  }
+
+  if (PHOTO_WINGS.has(sectionSlug)) {
+    return (
+      <PagePlaceholder
+        title={activityName}
+        description={activityPage.description(slugToTitle(sectionSlug))}
+        backTo="/programme/samithi-connect"
+        backLabel={activityPage.backLabel}
+      >
+        <SamithiActivityGallery
+          wing={sectionSlug}
+          activitySlug={activitySlug}
+          activityName={activityName}
+        />
       </PagePlaceholder>
     );
   }

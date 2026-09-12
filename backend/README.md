@@ -622,3 +622,45 @@ If no row exists, the endpoint returns a safe default with `is_active: false`.
 
 The card appears on every page automatically when active, and disappears when
 off. No React/code changes are needed.
+
+---
+
+## Samithi Connect Activity Photos
+
+The Samithi Connect page has three wings — **Spiritual, Service, Education** —
+each with activity cards (e.g. "Vedam", "Narayan Seva", "Vidya Jyoti"), and each
+activity has photos synced from a Google Drive folder. It reuses the Photo
+Gallery pattern (admin-managed, Drive-synced, read from the DB). Full details:
+[`docs/samithi-connect-photos-integration.md`](../docs/samithi-connect-photos-integration.md).
+
+### API endpoints (public, read-only)
+
+```
+GET /api/samithi-connect/wings/                 -> [{ wing, label, activity_count, photo_count, cover_image }]
+GET /api/samithi-connect/activities/?wing=X     -> [{ id, wing, title, slug, description, photo_count, cover_image }]
+GET /api/samithi-connect/photos/?activity=ID    -> { count, next, previous, results:[{ id, title, thumbnail_link, full_link, width, height }] }
+```
+
+Only wings/activities that actually have active photos are returned. Photos are
+paginated (24 per page). The existing `samithi-connect/text/*` reflection
+endpoints are a separate feature and unchanged.
+
+### How data is managed (admin / CMS)
+
+- 16 activity cards + their synced photos are seeded automatically via migrations
+  `0022_seed_samithi_activities.py` and `0023_seed_samithi_photos.py` on
+  `python manage.py migrate` — the photos use public Drive CDN links, so a fresh
+  clone/production sees them **without any API key**.
+- Ongoing content is managed from **Website → Samithi Connect Activities** in the
+  admin: set a Drive folder link and click **Sync from Drive**. On the live site,
+  synced photos are visible to all visitors immediately (shared production DB).
+
+### How to add / update photos
+
+1. Admin → **Samithi Connect Activities** → open (or add) an activity
+2. Choose the **Wing**, enter the **Activity title**, paste the **Drive folder link**
+3. **Save** (auto-syncs) or click **Sync from Drive** on the list
+
+Syncing NEW photos requires `GOOGLE_API_KEY` in the backend `.env` (Google Drive
+API enabled) and the folder shared "Anyone with the link → Viewer". Viewing the
+already-seeded photos needs no key.
