@@ -1,15 +1,71 @@
 import { useEffect, useState } from "react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 
 import { apiClient } from "@/api/client";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { Button } from "@/components/ui/Button/button";
 import { Loader } from "@/components/ui/loader";
 import { Text } from "@/components/ui/Text/text";
-import { NetritvamCard } from "@/features/netritvam/components/NetritvamCard";
-import { NetritvamYearArchive } from "@/features/netritvam/components/NetritvamYearArchive";
+
+function PublicationCard({ publication, featured = false }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const hasCover = Boolean(publication.cover_image_url) && !imageFailed;
+
+  return (
+    <article className={`flex flex-col rounded-2xl border bg-surface p-6 shadow-sm ${featured ? "border-primary/40" : "border-border"}`}>
+      <div className="flex items-start justify-between gap-4">
+        <span className={`flex h-11 w-11 items-center justify-center rounded-full ${featured ? "bg-primary text-primary-foreground" : "bg-muted text-primary"}`}>
+          <BookOpen className="h-5 w-5" aria-hidden="true" />
+        </span>
+        {featured ? (
+          <Text as="span" variant="eyebrow" size="xs" className="rounded-full bg-primary/10 px-3 py-1 text-primary">
+            Latest issue
+          </Text>
+        ) : null}
+      </div>
+
+      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-muted/30">
+        {hasCover ? (
+          <img
+            src={publication.cover_image_url}
+            alt={publication.title}
+            className="h-64 w-full object-contain"
+            onError={() => setImageFailed(true)}
+          />
+        ) : (
+          <div className="flex h-64 w-full items-center justify-center bg-muted/30 text-primary">
+            <BookOpen className="h-14 w-14" aria-hidden="true" />
+          </div>
+        )}
+      </div>
+
+      <Text as="h2" variant="heading" size="xl" className="mt-6">
+        {publication.title}
+      </Text>
+      {publication.published_date ? (
+        <Text variant="muted" size="sm" className="mt-2">
+          Published {publication.published_date}
+        </Text>
+      ) : null}
+      <Text size="sm" leading="relaxed" className="mt-4 flex-1">
+        {publication.description || "Read this edition of Netritvam."}
+      </Text>
+      <Button
+        href={publication.publication_url}
+        target="_blank"
+        rel="noreferrer"
+        icon={<ArrowUpRight className="h-4 w-4" />}
+        className="mt-6 w-fit"
+      >
+        Read publication
+      </Button>
+    </article>
+  );
+}
 
 export function PublicationsPage() {
-  const [data, setData] = useState({ latest: null, groups: [] });
+  const [publications, setPublications] = useState({ featured: null, issues: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -17,8 +73,8 @@ export function PublicationsPage() {
     let isCurrent = true;
 
     apiClient.get("/v1/publications/")
-      .then(({ data: payload }) => {
-        if (isCurrent) setData(payload);
+      .then(({ data }) => {
+        if (isCurrent) setPublications(data);
       })
       .catch(() => {
         if (isCurrent) setIsError(true);
@@ -32,17 +88,10 @@ export function PublicationsPage() {
     };
   }, []);
 
-  const latest = data?.latest ?? null;
-  const groups = data?.groups ?? [];
-  const latestId = latest?.id;
-
-  // Newest year is shown expanded; older years collapse into archive cards.
-  const currentGroup = groups.find((group) => group.is_current) ?? null;
-  const archivedGroups = groups.filter((group) => !group.is_current); // ascending
-
-  const currentIssues = currentGroup
-    ? currentGroup.issues.filter((issue) => issue.id !== latestId)
-    : [];
+  const allPublications = [
+    ...(publications.featured ? [{ ...publications.featured, featured: true }] : []),
+    ...publications.issues.map((publication) => ({ ...publication, featured: false })),
+  ];
 
   return (
     <>
@@ -53,54 +102,27 @@ export function PublicationsPage() {
       <section className="bg-background py-12 sm:py-16 xl:py-24">
         <Container>
           {isLoading ? (
-            <div className="flex justify-center py-16" aria-label="Loading Netritvam issues">
+            <div className="flex justify-center py-16" aria-label="Loading publications">
               <Loader />
             </div>
           ) : isError ? (
             <Text variant="muted" className="py-16 text-center">
-              Netritvam issues could not be loaded. Please try again later.
+              Publications could not be loaded. Please try again later.
             </Text>
-          ) : groups.length === 0 ? (
-            <Text variant="muted" className="py-16 text-center">
-              Netritvam issues will be available soon.
-            </Text>
-          ) : (
-            <div className="space-y-14">
-              {/* Special "Latest issue" card, directly below the heading */}
-              {latest ? <NetritvamCard issue={latest} featured /> : null}
-
-              {/* Current (newest) year, expanded like a normal issue grid */}
-              {currentGroup && currentIssues.length > 0 ? (
-                <div>
-                  <Text as="h2" variant="heading" size="xl" leading="tight" className="sm:text-2xl">
-                    {currentGroup.year}
-                  </Text>
-                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {currentIssues.map((issue) => (
-                      <NetritvamCard key={issue.id} issue={issue} />
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              {/* Past years, collapsed into ascending archive cards */}
-              {archivedGroups.length > 0 ? (
-                <div>
-                  <Text as="h2" variant="heading" size="xl" leading="tight" className="mb-6 sm:text-2xl">
-                    Past editions
-                  </Text>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {archivedGroups.map((group) => (
-                      <NetritvamYearArchive
-                        key={group.year}
-                        year={group.year}
-                        issues={group.issues}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : null}
+          ) : allPublications.length ? (
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {allPublications.map((publication) => (
+                <PublicationCard
+                  key={publication.issue_number}
+                  publication={publication}
+                  featured={publication.featured}
+                />
+              ))}
             </div>
+          ) : (
+            <Text variant="muted" className="py-16 text-center">
+              Publications will be available soon.
+            </Text>
           )}
         </Container>
       </section>
