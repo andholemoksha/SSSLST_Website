@@ -15,6 +15,7 @@ from .samithi_connect import (
 	get_samithi_connect_text,
 	get_samithi_connect_text_years
 )
+from .samithi_photos import samithi_wings, samithi_activities, samithi_photos
 from .sathvam import sathvam_videos, sathvam_years
 from .health import health_check
 from .stats import home_stats

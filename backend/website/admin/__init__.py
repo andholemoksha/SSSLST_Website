@@ -12,6 +12,7 @@ from .netritvam import NetritvamAdmin
 from .photo_gallery import *
 from .publications import *
 from .samithi_connect import *
+from .samithi_photos import SamithiActivityAdmin
 from .sathvam import *
 from .common import WebsiteStatAdmin
 from .prerna import PrernaEditionAdmin
