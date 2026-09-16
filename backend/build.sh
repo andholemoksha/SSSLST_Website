@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Render build script for the Django backend.
-# Runs on every deploy: installs dependencies, collects static files, and
-# applies migrations (which also populate baseline seed content via data
-# migrations) against the SQLite database on the persistent disk.
+# Render BUILD script for the Django backend.
+# The persistent disk is NOT mounted during the build, so this step only does
+# build-safe work: install dependencies and collect static files (written to
+# the app directory). Database migrations run at startup in start.sh instead,
+# when the disk is mounted.
 set -o errexit
 
 # Force production settings for the build regardless of dashboard env vars.
@@ -10,18 +11,7 @@ set -o errexit
 # define STATIC_ROOT and would break collectstatic.
 export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-config.settings.production}"
 
-# Provide safe defaults for the persistent-disk paths so the build works even
-# before the disk env vars are applied. The mounted disk lives at /var/data.
-export SQLITE_PATH="${SQLITE_PATH:-/var/data/db.sqlite3}"
-export MEDIA_ROOT="${MEDIA_ROOT:-/var/data/media}"
-
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Ensure the persistent-disk directories exist (disk is mounted at /var/data).
-mkdir -p "$(dirname "$SQLITE_PATH")"
-mkdir -p "$MEDIA_ROOT"
-
 python manage.py collectstatic --no-input
-
-python manage.py migrate --no-input
