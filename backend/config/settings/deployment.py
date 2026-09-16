@@ -61,13 +61,26 @@ DATABASES = {
 }
 
 # CORS / CSRF: allow the Vercel frontend to call this API.
+# FRONTEND_URL may be a comma-separated list of exact origins (scheme + host,
+# no trailing slash), e.g. "https://ssslst-website-psi.vercel.app,https://www.example.com".
 FRONTEND_URL = config('FRONTEND_URL', default='https://ssslst-website-psi.vercel.app')
+_frontend_origins = [
+    origin.strip().rstrip('/')
+    for origin in FRONTEND_URL.split(',')
+    if origin.strip()
+]
 
+# The public API uses AllowAny and the frontend does not send cookies, so we do
+# not need credentialed CORS. This keeps preflight handling simple.
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOWED_ORIGINS = _frontend_origins
+# Allow any Vercel deployment URL (production + preview builds) as a fallback,
+# so preview deploys and alternate Vercel domains are not blocked.
+CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://[a-z0-9-]+\.vercel\.app$']
 
-CSRF_TRUSTED_ORIGINS = [FRONTEND_URL]
+CSRF_TRUSTED_ORIGINS = list(_frontend_origins)
+CSRF_TRUSTED_ORIGINS.append('https://*.vercel.app')
 if _render_host:
     CSRF_TRUSTED_ORIGINS.append(f'https://{_render_host}')
 
