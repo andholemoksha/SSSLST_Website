@@ -8,10 +8,8 @@ services:
     buildCommand: "./build.sh"
     startCommand: "./start.sh"
     healthCheckPath: /admin/login/
-    disk:
-      name: sqlite-data
-      mountPath: /var/data
-      sizeGB: 1
+    # No persistent disk (free plan). SQLite is ephemeral and lives in the app
+    # directory; seed data is repopulated on every startup by data migrations.
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.6"
@@ -21,11 +19,6 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
-      # SQLite lives on the persistent disk mounted at /var/data
-      - key: SQLITE_PATH
-        value: /var/data/db.sqlite3
-      - key: MEDIA_ROOT
-        value: /var/data/media
       # Comma-separated allowed hosts. RENDER_EXTERNAL_HOSTNAME is added
       # automatically by the settings, so this can stay blank if you like.
       - key: ALLOWED_HOSTS

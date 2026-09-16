@@ -50,8 +50,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = config('MEDIA_ROOT', default=str(BASE_DIR / 'media'))
 
-# SQLite lives on the Render persistent disk so it survives across requests
-# within a deploy. Baseline content is populated by data migrations at build time.
+# SQLite in the app directory (ephemeral on the free plan). Baseline content is
+# repopulated by data migrations on every startup. Set SQLITE_PATH to a
+# persistent-disk path if you later move to a paid plan with a disk.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
