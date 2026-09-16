@@ -10,4 +10,8 @@ export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-config.settings.product
 
 python manage.py migrate --no-input
 
+# Recreate the admin superuser from env vars (the DB is ephemeral on the free
+# plan, so this runs on every startup). No-op if the env vars are unset.
+python manage.py ensure_superuser
+
 exec gunicorn config.wsgi:application --bind "0.0.0.0:${PORT:-10000}"
