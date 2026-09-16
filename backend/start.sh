@@ -9,8 +9,14 @@ export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-config.settings.product
 export SQLITE_PATH="${SQLITE_PATH:-/var/data/db.sqlite3}"
 export MEDIA_ROOT="${MEDIA_ROOT:-/var/data/media}"
 
-# The persistent disk is mounted at runtime; ensure the directories exist.
-mkdir -p "$(dirname "$SQLITE_PATH")"
+# The persistent disk is mounted at runtime. Create only the leaf directories
+# inside the mounted disk (the mount root itself is provided by Render).
+DB_DIR="$(dirname "$SQLITE_PATH")"
+if [ ! -d "$DB_DIR" ]; then
+  echo "ERROR: '$DB_DIR' does not exist. Add a Render disk mounted there, or"
+  echo "set SQLITE_PATH/MEDIA_ROOT to a writable path." >&2
+  exit 1
+fi
 mkdir -p "$MEDIA_ROOT"
 
 python manage.py migrate --no-input
