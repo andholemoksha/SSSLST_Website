@@ -18,7 +18,6 @@ export const footer = {
     {
       title: "Get in touch",
       links: [
-        { label: "+91 XXXXX XXXXX", href: "tel:+91XXXXXXXXXX", type: "mailto" },
         {
           label: "SSSNLP@SSSSOINDIA.ORG",
           href: "mailto:SSSNLP@SSSSOINDIA.ORG",

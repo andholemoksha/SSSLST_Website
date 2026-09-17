@@ -100,27 +100,27 @@ export const home = {
     exploreSections: [
         {
             title: "Curriculum",
-            image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644",
+            image: "/src/assets/explore/curriculum1.jpg",
             link: "/curriculum",
         },
         {
             title: "Samithi Connect",
-            image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952",
+            image: "/src/assets/explore/samithiconnect.jpeg",
             link: "/programme/samithi-connect",
         },
         {
             title: "Dhyana Vahini",
-            image: "https://images.unsplash.com/photo-1509062522246-3755977927d7",
+            image: "/src/assets/explore/jyothimeditation.jpg",
             link: "/programme/dhyana-vahini",
         },
         {
             title: "Projects",
-            image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+            image: "/src/assets/explore/projects.jpg",
             link: "/projects",
         },
         {
             title: "Photo Gallery",
-            image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+            image: "/src/assets/explore/photogallery.jpg",
             link: "/projects",
         },
     ],

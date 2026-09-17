@@ -6,6 +6,9 @@ export function useDhyanaVahiniText(year) {
   const [state, setState] = useState({ year, reflections: [], isError: false });
 
   useEffect(() => {
+    // Skip the request until a year is known; otherwise the API is called with
+    // an empty year and returns 400 (year is required).
+    if (!year) return undefined;
     let isCurrent = true;
     getDhyanaVahiniText(year)
       .then((data) => isCurrent && setState({ year, reflections: data, isError: false }))
@@ -15,7 +18,7 @@ export function useDhyanaVahiniText(year) {
 
   return {
     reflections: state.year === year ? state.reflections : [],
-    isLoading: state.year !== year,
+    isLoading: Boolean(year) && state.year !== year,
     isError: state.year === year && state.isError,
   };
 }
