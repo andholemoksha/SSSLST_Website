@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
 
-import { applyNow } from "@/content/applynow";
-
 const medallionOutline = "M300 18C462 18 584 122 584 280C584 438 462 542 300 542C138 542 16 438 16 280C16 122 138 18 300 18Z";
 
 function LotusIcon({ className = "" }) {
@@ -52,9 +50,11 @@ function LotusSurface() {
   );
 }
 
-export function AdmissionsLotusCard() {
-  const isFormPlaceholder = applyNow.formLink.includes("your-google-form");
-
+export function AdmissionsLotusCard({
+  applyUrl,
+  headline = "Admissions Open",
+  subtext = "Applications for the upcoming batch are now open.",
+}) {
   return (
     <motion.aside
       aria-label="Admissions are open"
@@ -63,12 +63,9 @@ export function AdmissionsLotusCard() {
       className="fixed bottom-2 right-2 z-[60] h-[158px] w-[170px] sm:bottom-5 sm:right-5"
     >
       <a
-        href={isFormPlaceholder ? "#" : applyNow.formLink}
-        target={isFormPlaceholder ? undefined : "_blank"}
-        rel={isFormPlaceholder ? undefined : "noopener noreferrer"}
-        aria-disabled={isFormPlaceholder}
-        title={isFormPlaceholder ? "Application form coming soon" : undefined}
-        onClick={isFormPlaceholder ? (event) => event.preventDefault() : undefined}
+        href={applyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className="group relative block h-full w-full transition duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F6D365] focus-visible:ring-offset-2"
       >
         <LotusSurface />
@@ -79,12 +76,12 @@ export function AdmissionsLotusCard() {
 
         <span className="absolute inset-x-[17%] top-[17%] z-10 flex flex-col items-center text-center">
           <LotusIcon className="mb-0.5 h-5 w-7 text-[#F6D365]" />
-          <span className="text-[7px] font-bold tracking-[0.2em] text-[#FB923C]">ADMISSIONS OPEN</span>
+          <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-[#FB923C]">{headline}</span>
           <span className="my-1 flex w-full items-center gap-1 text-[#F6D365] before:h-px before:flex-1 before:bg-current after:h-px after:flex-1 after:bg-current">
             <LotusIcon className="h-3 w-4 shrink-0" />
           </span>
           <span className="max-w-[150px] text-[11px] font-medium leading-4 text-white">
-            {applyNow.title}
+            {subtext}
           </span>
           <span className="mt-2.5 rounded-full border border-[#F6D365] bg-gradient-to-r from-[#E96820] to-[#F28B2A] px-3 py-1.5 text-[8px] font-bold tracking-[0.16em] text-white shadow-[0_5px_16px_rgba(249,115,22,0.35)] transition duration-300 group-hover:scale-[1.03] group-hover:from-[#FB923C] group-hover:to-[#FDBA3A] group-hover:shadow-[0_7px_22px_rgba(249,115,22,0.62)]">
             APPLY NOW <span aria-hidden="true">→</span>

@@ -2,26 +2,26 @@
 
 ## Overview
 
-The Netritvam page presents the SSSLST Netritvam publication — a set of numbered
-issues, each backed by an external HeyZine flip-book link. It lives at the route
-`/publications` (heading "Netritvam") and is served by a read-only API from the
-Django admin as the content management system (CMS).
+The Netritvam page presents the SSSLST Netritvam magazine — a numbered series of
+issues (Netritvam-1, Netritvam-2, …), each backed by a HeyZine flip-book link.
+It is reached from the **Publications** side panel (the featured "Netritvam" card
+→ **Read Latest Issue**) and lives at the route `/netritvam`.
 
-The feature is organised exactly like the Newsletter feature, with one
-difference: issues are ordered by a **serial number** within a year (1, 2, 3 ...)
-instead of by month. Everything else — the automatic "latest" highlight, the
-year grouping, and the collapsing archive — matches the Newsletter behaviour.
+The feature follows the same pattern as the Newsletter page: a Django model + a
+data migration for the initial issues + a read-only DRF endpoint + the Django
+Admin as the CMS interface + a dedicated frontend feature folder. The only
+difference from Newsletter is the organising key: Netritvam issues are ordered by
+a **serial number** rather than by month/year, and shown as a flat list rather
+than year-grouped.
 
 Everything an admin adds in the panel appears on the site automatically. The
-page organises issues so it stays clean as the years accumulate:
+page shows:
 
-- The **newest year** is shown expanded (a highlighted "Latest Release" card plus
-  an issue grid).
-- Every **past/completed year** collapses into a single archive card under
-  **Past editions**, shown in ascending order (2026, 2027, …). Clicking a year
-  card expands its issues inline.
-- All of this is automatic — the backend decides which year is "current" from
-  the data. The admin never sets a flag.
+- The **latest issue** (highest serial number) as a highlighted "Latest issue"
+  card at the top.
+- All issues below, in a flat grid ordered **Netritvam-1 → Netritvam-N**.
+- The "latest" is computed automatically from the data — the admin never sets a
+  flag.
 
 ---
 
@@ -34,32 +34,30 @@ page organises issues so it stays clean as the years accumulate:
 │  Admin Panel (/admin/) → Netritvam                                   │
 │       │                                                              │
 │       ├── Add Netritvam                                              │
-│       │      • Serial number + Year                                  │
-│       │      • Publication URL (HeyZine link — only required field)   │
+│       │      • Serial number (e.g. 8 for Netritvam-8)                │
+│       │      • Flipbook URL (HeyZine link — only required field)      │
 │       │      • Cover image (optional: upload a file OR paste a URL)   │
 │       │      • Is active (show on site)                              │
 │       │                                                              │
-│       └── Save → appears on /publications automatically              │
+│       └── Save → appears on /netritvam automatically                 │
 │               (no code change, no rebuild)                           │
 └─────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        USER EXPERIENCE                                │
 │                                                                      │
-│  /publications                                                       │
-│       │  GET /api/v1/publications/  → { latest, groups[] }           │
+│  Publications side panel → "Netritvam" → Read Latest Issue           │
 │       │                                                              │
-│       ├── "Latest Release" card  (newest issue, highlighted)         │
+│       v                                                              │
+│  /netritvam                                                          │
+│       │  GET /api/netritvam/  → { latest, issues[] }                 │
 │       │                                                              │
-│       ├── Current year (newest), expanded issue grid (1 → N)         │
-│       │      [ #1 ] [ #2 ] [ #3 ] ...                                │
+│       ├── "Latest issue" card  (highest serial, highlighted)         │
 │       │                                                              │
-│       └── Past editions (older years, ascending, collapsed)          │
-│              [ 📁 2026 ▸ ]  [ 📁 2027 ▸ ]                             │
-│                    │ click                                           │
-│                    v expands that year's issue grid inline           │
+│       └── All issues (flat grid, Netritvam-1 → N)                    │
+│              [ Netritvam-1 ] [ Netritvam-2 ] [ Netritvam-3 ] ...      │
 │                                                                      │
-│  Each issue card opens its HeyZine flip-book in a new browser tab.   │
+│  Each card opens its HeyZine flip-book in a new browser tab.         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -69,12 +67,13 @@ page organises issues so it stays clean as the years accumulate:
 
 | Endpoint | Method | Auth | Description |
 |---|---|---|---|
-| `/api/v1/publications/` | GET | Public (AllowAny) | Latest issue + all active issues grouped by year |
+| `/api/netritvam/` | GET | Public (AllowAny) | Latest issue + all active issues (ordered by serial number) |
 
 There is only **one** endpoint, and it is read-only (no POST/PUT/DELETE). All
-writes happen through the Django Admin.
+writes happen through the Django Admin. It uses the same flat `/api/` convention
+as the other features — there is no API versioning.
 
-### GET /api/v1/publications/
+### GET /api/netritvam/
 
 ```json
 {
@@ -82,34 +81,25 @@ writes happen through the Django Admin.
     "id": 7,
     "title": "Netritvam-7",
     "serial_number": 7,
-    "year": 2026,
-    "publication_url": "https://heyzine.com/flip-book/50ec5ecc53.html",
+    "flipbook_url": "https://heyzine.com/flip-book/50ec5ecc53.html",
     "cover_image": ""
   },
-  "groups": [
-    {
-      "year": 2026,
-      "is_current": true,
-      "issues": [
-        { "id": 1, "title": "Netritvam-1", "serial_number": 1, "year": 2026, "publication_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" },
-        { "id": 2, "title": "Netritvam-2", "serial_number": 2, "year": 2026, "publication_url": "https://heyzine.com/flip-book/160622ba0d.html", "cover_image": "" }
-      ]
-    }
+  "issues": [
+    { "id": 1, "title": "Netritvam-1", "serial_number": 1, "flipbook_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" },
+    { "id": 2, "title": "Netritvam-2", "serial_number": 2, "flipbook_url": "https://heyzine.com/flip-book/160622ba0d.html", "cover_image": "" }
   ]
 }
 ```
 
 Response fields:
 
-- **`latest`** — the single most recent issue (highest year, then highest serial
-  number). Rendered as the highlighted "Latest Release" card. `null` if there are
-  no issues. Computed automatically; there is no admin flag.
-- **`groups`** — every active issue grouped by year, ordered **oldest year first
-  (ascending)** so the frontend can lay out the archive cards in order. Within
-  each year, issues run **1 → N**.
-- **`is_current`** — `true` for the newest year only (rendered expanded), `false`
-  for older years (rendered as collapsible archive cards).
-- **`title`** — the stored title, or an auto-generated `"Netritvam-<serial_number>"`
+- **`latest`** — the single most recent issue (highest serial number). Rendered
+  as the highlighted "Latest issue" card. `null` if there are no issues.
+  Computed automatically; there is no admin flag.
+- **`issues`** — every active issue ordered **by serial number ascending**
+  (Netritvam-1, Netritvam-2, …), used for the grid below the featured card. The
+  frontend removes the latest issue from the grid so it only appears once.
+- **`title`** — the stored title, or an auto-generated `"Netritvam-<serial>"`
   when the title field is left blank.
 - **`cover_image`** — the effective cover: the uploaded file's absolute URL if a
   file was uploaded, otherwise the pasted cover image URL, otherwise `""`.
@@ -122,10 +112,9 @@ Response fields:
 
 | Field | Type | Description |
 |---|---|---|
-| serial_number | PositiveSmallInteger | Serial number within its year (1, 2, 3 ...) |
-| year | PositiveInteger (indexed) | Year the issue belongs to |
-| title | CharField (blank) | Optional custom title; defaults to `"Netritvam-<serial_number>"` |
-| publication_url | URLField (unique) | HeyZine flip-book link opened on click |
+| serial_number | PositiveInteger (unique, indexed) | Issue number, e.g. 1 for Netritvam-1. Higher = newer |
+| title | CharField (blank) | Optional custom title; defaults to `"Netritvam-<serial>"` |
+| flipbook_url | URLField (unique) | HeyZine flip-book link opened on click |
 | cover_image_url | URLField (blank) | Optional cover image URL |
 | cover_image | ImageField (blank) | Optional cover image upload; takes precedence over the URL |
 | is_active | Boolean | Whether to show on the website / return from the API |
@@ -133,11 +122,9 @@ Response fields:
 
 Constraints and behaviour:
 
-- **Unique `(year, serial_number)`** — prevents two issues with the same serial
-  number in a year.
-- **Ordering `['-year', 'serial_number', 'id']`** — newest year first, issues
-  run 1 → N within a year.
-- **`display_title`** — returns the custom title or `"Netritvam-<serial_number>"`.
+- **Unique `serial_number`** and **unique `flipbook_url`** — prevents duplicates.
+- **Ordering `['-serial_number', 'id']`** — highest issue number first.
+- **`display_title`** — returns the custom title or `"Netritvam-<serial>"`.
 - **`cover_image_source`** — returns the uploaded file's URL if present, else the
   URL field, else `""` (an uploaded file always wins over the URL).
 
@@ -146,18 +133,18 @@ Constraints and behaviour:
 ## Initial Data — Data Migration (not a seed command)
 
 Initial issues are seeded through the data migration
-`website/migrations/0015_seed_netritvam_data.py` using `RunPython`. Running
-`python manage.py migrate` populates the seven 2026 Netritvam issues.
+`website/migrations/0018_seed_netritvam_data.py` using `RunPython`. Running
+`python manage.py migrate` populates the seven Netritvam issues (1–7).
 
 ```
-0014_netritvam            → creates the Netritvam table
-0015_seed_netritvam_data  → seeds the 7 initial issues (Netritvam-1 .. 7, 2026)
+0017_netritvam             → creates the Netritvam table
+0018_seed_netritvam_data   → seeds the 7 initial issues (Netritvam-1 … 7)
 ```
 
-The seeder is **idempotent and non-destructive**: it uses `update_or_create`,
-so re-running it on a redeploy never duplicates rows and never overwrites issues
-an admin has added. There is **no** management command — this matches the
-reviewed Sathvam/Dhyana pattern (initial data lives in migrations, ongoing
+The seeder is **idempotent and non-destructive**: it uses `update_or_create`, so
+re-running it on a redeploy never duplicates rows and never overwrites issues an
+admin has added. There is **no** management command — this matches the reviewed
+Sathvam/Dhyana/Newsletter pattern (initial data lives in migrations, ongoing
 content is managed through the admin portal).
 
 ### Who sees what
@@ -171,8 +158,8 @@ content is managed through the admin portal).
 
 > Seed migrations are the initial baseline only. After deployment, the admin
 > panel is the ongoing source of truth and is shared across all users through
-> the production database. Issues added by an admin are **not** written back
-> into migration files.
+> the production database. Issues added by an admin are **not** written back into
+> migration files.
 
 ---
 
@@ -182,31 +169,23 @@ The admin page is at `/admin/` → **Website → Netritvam**.
 
 ### Change list
 
-Columns: **Title · Serial number · Year · Is active · Updated at**. `Is active`
-is editable inline. Filters: by year and by active. Search: by title or
-publication URL. Ordering: newest year first, then serial number 1 → N.
+Columns: **Title · Serial number · Is active · Updated at**. `Is active` is
+editable inline. Filter: by active. Search: by title or flip-book URL. Ordering:
+highest serial number first.
 
-### Add a new issue (e.g. Netritvam-8, 2026)
+### Add a new issue (e.g. Netritvam-8)
 
 1. Open `http://yoursite.com/admin/` → **Netritvam** → **Add Netritvam**.
-2. Enter the **Serial number** (`8`) and the **Year** (`2026`).
-3. Paste the **Publication URL** (the HeyZine link — the only required field).
+2. Enter the **Serial number** (`8`).
+3. Paste the **Flipbook URL** (the HeyZine link — the only required field).
 4. (Optional) Add a cover under **Cover image**: upload a file **or** paste a
    cover image URL. If both are set, the uploaded file wins.
 5. Leave **Is active** enabled.
 6. Click **Save**.
 
-Result: the issue appears on `/publications` on the next page load, in serial
-order. No code change, no rebuild.
-
-### How the layout evolves automatically
-
-- Adding a **higher serial number** in the current year → it becomes the
-  "Latest Release" card; the previous latest drops into the year's grid in serial
-  order.
-- Adding the **first issue of a new year** (e.g. Netritvam-1 for 2027) → the new
-  year becomes the expanded current year, and the previous year automatically
-  collapses into a **Past editions** archive card. Admin does nothing extra.
+Result: the issue appears on `/netritvam` on the next page load. Because it has
+the highest serial number, it becomes the new "Latest issue" card, and the
+previous latest drops into the grid.
 
 ---
 
@@ -215,34 +194,36 @@ order. No code change, no rebuild.
 ```
 frontend/src/
 ├── features/netritvam/
+│   ├── services/
+│   │   └── netritvam.service.js         # fetchNetritvam() → GET /netritvam/
+│   ├── hooks/
+│   │   └── useNetritvam.js              # { data, isLoading, error }
 │   └── components/
-│       ├── NetritvamCard.jsx           # issue card (default) + "Latest Release" (featured)
-│       └── NetritvamYearArchive.jsx    # collapsible past-year card (expands inline)
+│       └── NetritvamCard.jsx            # issue card (default) + "Latest issue" (featured)
 └── pages/
-    └── PublicationsPage.jsx            # hero + latest card + current year + archive
+    └── NetritvamPage.jsx                # hero + latest card + flat "All issues" grid
 ```
 
 Wiring:
 
-- The `/publications` route renders `PublicationsPage`.
-- The page calls `apiClient.get("/v1/publications/")`.
+- `App.jsx` — route `/netritvam` → `NetritvamPage`.
+- `components/layout/PublicationsPanel.jsx` — the featured "Read Latest Issue"
+  button navigates to `/netritvam` (and closes the panel).
 
 ### Rendering logic
 
-- `PublicationsPage` reads `{ latest, groups }`. It renders the `latest` issue as
-  the highlighted card, the `is_current` group as an expanded issue grid (with
-  the latest issue removed so it is not shown twice), and every other group as an
-  ascending list of `NetritvamYearArchive` cards.
+- `NetritvamPage` reads `{ latest, issues }`. It renders the `latest` issue as
+  the highlighted card, then the remaining `issues` (latest removed) as a flat
+  grid ordered Netritvam-1 → N.
 - `NetritvamCard` matches the Sathvam / Dhyana Vahini video card sizing exactly
   (`rounded-xl border border-border bg-white shadow-sm`, `aspect-video` media,
   `px-4 py-3` body, title `variant="body" size="sm" font-medium text-heading`).
-  Its `featured` variant renders the wider highlighted "Latest Release" band.
-- `NetritvamYearArchive` is a self-contained collapsible card; each past year
-  toggles independently and reuses `NetritvamCard` for the issues inside.
+  Its `featured` variant renders the wider highlighted "Latest issue" band.
 - Cards open the HeyZine flip-book in a new tab
   (`target="_blank" rel="noopener noreferrer"`). No colours are hardcoded — the
   components use design tokens (`border-border`, `bg-white`, `bg-muted`,
-  `bg-primary/90`, `text-heading`, `text-muted-foreground`).
+  `bg-primary/90`, `text-heading`, `text-muted-foreground`), and the hero band
+  uses the `bg-gradient-highlight` token.
 
 ---
 
@@ -251,15 +232,15 @@ Wiring:
 ```
 backend/website/
 ├── models/netritvam.py                          # Netritvam model
-├── admin/netritvam.py                            # Admin (serial/year/url + cover upload/url + is_active)
+├── admin/netritvam.py                            # Admin (serial + url + cover upload/url + is_active)
 ├── api/
-│   ├── v1_urls.py                               # /api/v1/publications/ route
-│   ├── views/netritvam.py                        # get_publications (latest + grouped, is_current)
+│   ├── urls.py                                  # /netritvam/ route
+│   ├── views/netritvam.py                        # get_netritvam (latest + issues)
 │   └── serializers/netritvam.py                  # NetritvamSerializer
-├── services/netritvam_service.py                 # get_active_publications, get_latest_publication
+├── services/netritvam_service.py                 # get_active_issues, get_latest_issue
 └── migrations/
-    ├── 0014_netritvam.py                         # create table
-    └── 0015_seed_netritvam_data.py               # seed 7 initial issues (idempotent)
+    ├── 0017_netritvam.py                         # create table
+    └── 0018_seed_netritvam_data.py               # seed 7 initial issues (idempotent)
 ```
 
 Media/config notes:
@@ -267,11 +248,8 @@ Media/config notes:
 - Cover-image uploads require media serving. `config/settings/base.py` sets
   `MEDIA_URL = 'media/'` and `MEDIA_ROOT = BASE_DIR / 'media'`; `config/urls.py`
   serves media in `DEBUG`. In production, point `media/` at persistent storage
-  (or object storage such as S3) so uploaded covers survive restarts. The
-  URL-based cover option avoids the need for file storage entirely.
-- The model class is `Netritvam` (DB table `website_netritvam`). The endpoint URL
-  (`/api/v1/publications/`) and the page route (`/publications`) are retained for
-  backwards compatibility.
+  so uploaded covers survive restarts. The URL-based cover option avoids the need
+  for file storage entirely.
 
 ---
 
@@ -281,8 +259,8 @@ From the repository root:
 
 ```powershell
 # 1. Get the branch
-git pull
-git checkout feature/netritvam-publications
+git fetch origin
+git checkout feature/netritvam
 
 # 2. Backend
 cd backend
@@ -299,7 +277,7 @@ npm install
 npm run dev                           # http://localhost:5173/
 ```
 
-Then open `http://localhost:5173/publications`. All seven 2026 issues appear
+Then open `http://localhost:5173/netritvam`. All seven issues appear
 automatically because they come from the seed migration. Log in at
 `http://127.0.0.1:8000/admin/` → **Netritvam** to add more.
 
@@ -310,14 +288,13 @@ automatically because they come from the seed migration. Log in at
 | Question | Answer |
 |---|---|
 | Does the admin need to write code? | No |
-| How does the admin add an issue? | Admin → Netritvam → Add → serial number + year + publication URL → Save |
+| How does the admin add an issue? | Admin → Netritvam → Add → serial number + flip-book URL → Save |
 | Cover image? | Optional — upload a file or paste a URL (upload wins) |
 | Does it appear in the UI automatically? | Yes — on the next page load, no rebuild |
-| New issue added? | Slots into serial order; newest becomes the "Latest Release" card |
-| New year (e.g. 2027)? | Becomes the expanded current year; the previous year auto-collapses into an archive card |
-| Ordering | Newest year on top; serial number 1 → N within a year |
-| API endpoint | `GET /api/v1/publications/` (public, read-only) |
-| Initial data | Seeded via data migration `0015_seed_netritvam_data.py` (7 issues, 2026) |
-| Will other developers see the data on pull? | Yes — the 7 seeded issues load on `migrate` (once the branch is committed/pushed) |
+| New issue added? | Slots into serial order; highest serial becomes the "Latest issue" card |
+| Ordering | Highest serial as the latest card; grid runs Netritvam-1 → N |
+| API endpoint | `GET /api/netritvam/` (public, read-only, no versioning) |
+| Initial data | Seeded via data migration `0018_seed_netritvam_data.py` (Netritvam-1 … 7) |
+| Will other developers see the data on pull? | Yes — the 7 seeded issues load on `migrate` |
 | Are admin-added issues shared via git? | No — they live in the database; on production all visitors see them via the shared DB |
 | Colours hardcoded? | No — design tokens only |

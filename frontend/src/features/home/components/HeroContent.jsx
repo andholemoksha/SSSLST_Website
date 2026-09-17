@@ -4,8 +4,8 @@ import { GlassCard } from "@/components/ui/glass-card";
 
 export function HeroContent({ hero }) {
   return (
-    <div className="text-white">
-      <Text variant="eyebrow" size="sm" className="hidden lg:block">
+    <div className="min-w-0 w-full text-white">
+      <Text variant="eyebrow" size="sm" weight="medium" color="text-accent">
         {hero.eyebrow}
       </Text>
 
@@ -44,34 +44,52 @@ export function HeroContent({ hero }) {
 
       {/* Programme Highlights */}
       <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
-        <GlassCard className="min-w-[120px] rounded-xl px-3 py-3 shrink-0">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/60">
+        <GlassCard className="min-w-[120px] shrink-0 rounded-xl px-3 py-3 text-center">
+          <Text
+            as="span"
+            variant="label"
+            size="xs"
+            color="text-white/60"
+            className="tracking-[0.2em]"
+          >
             Duration
-          </p>
+          </Text>
 
-          <h3 className="mt-1 text-sm sm:text-base font-semibold text-white">
+          <Text as="h3" variant="heading" size="base" color="text-white" className="mt-1">
             12 Months
-          </h3>
+          </Text>
         </GlassCard>
 
-        <GlassCard className="min-w-[120px] rounded-xl px-3 py-3 shrink-0">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/60">
+        <GlassCard className="min-w-[120px] shrink-0 rounded-xl px-3 py-3 text-center">
+          <Text
+            as="span"
+            variant="label"
+            size="xs"
+            color="text-white/60"
+            className="tracking-[0.2em]"
+          >
             Credits
-          </p>
+          </Text>
 
-          <h3 className="mt-1 text-sm sm:text-base font-semibold text-white">
+          <Text as="h3" variant="heading" size="base" color="text-white" className="mt-1">
             X Credits
-          </h3>
+          </Text>
         </GlassCard>
 
-        <GlassCard className="min-w-[155px] rounded-xl px-3 py-3 shrink-0">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/60">
+        <GlassCard className="min-w-[155px] shrink-0 rounded-xl px-3 py-3 text-center">
+          <Text
+            as="span"
+            variant="label"
+            size="xs"
+            color="text-white/60"
+            className="tracking-[0.2em]"
+          >
             Streams
-          </p>
+          </Text>
 
-          <h3 className="mt-1 text-sm sm:text-base font-semibold text-white">
+          <Text as="h3" variant="heading" size="base" color="text-white" className="mt-1">
             English & Hindi
-          </h3>
+          </Text>
         </GlassCard>
       </div>
     </div>

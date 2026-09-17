@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { footer } from "@/content/footer";
 import { Container } from "@/components/layout/Container";
 import { Text } from "@/components/ui/Text/text";
-import ssslstLogo from "@/assets/logos/SSSLST.jpg";
+import ssslstLogo from "@/assets/logos/SSSLS Logo PNG.png";
 
 function YoutubeIcon({ className }) {
   return (
@@ -77,11 +77,13 @@ export function Footer() {
         {/* Brand block */}
         <div>
           <div className="flex items-center gap-3">
-            <img
-              src={ssslstLogo}
-              alt="SSSLST logo"
-              className="h-10 w-10 shrink-0 rounded object-contain"
-            />
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white">
+                  <img
+                    src={ssslstLogo}
+                    alt="SSSLST logo"
+                    className="h-24 w-24"
+                  />
+                </span>
 
             <div className="leading-tight">
               {/* Default Text → renders as <p> */}

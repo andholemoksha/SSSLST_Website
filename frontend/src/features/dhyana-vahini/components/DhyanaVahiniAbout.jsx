@@ -10,14 +10,6 @@ export function DhyanaVahiniAbout() {
       <div className="relative grid items-center gap-8 sm:gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 xl:gap-16 2xl:gap-20">
         <div className="max-w-2xl">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-border/70 bg-surface shadow-inner shadow-accent/20">
-              <svg viewBox="0 0 64 64" className="h-8 w-8 text-accent" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 18h24a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4Z" />
-                <path d="M24 18V14a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4" />
-                <path d="M24 28h16" />
-                <path d="M24 34h10" />
-              </svg>
-            </div>
             <Text variant="eyebrow" size="sm">
               {about.eyebrow}
             </Text>

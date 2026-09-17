@@ -1,4 +1,4 @@
-"""Serializers for public Netritvam publication data."""
+"""Serializers for the Netritvam magazine publications."""
 
 from rest_framework import serializers
 
@@ -15,8 +15,7 @@ class NetritvamSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'serial_number',
-            'year',
-            'publication_url',
+            'flipbook_url',
             'cover_image',
         ]
 

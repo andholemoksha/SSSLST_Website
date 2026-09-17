@@ -1,4 +1,4 @@
-"""Django Admin configuration for Netritvam publications."""
+"""Django admin configuration for the Netritvam magazine publications."""
 
 from django.contrib import admin
 
@@ -7,15 +7,14 @@ from website.models import Netritvam
 
 @admin.register(Netritvam)
 class NetritvamAdmin(admin.ModelAdmin):
-    list_display = ('display_title', 'serial_number', 'year', 'is_active', 'updated_at')
-    list_filter = ('year', 'is_active')
+    list_display = ('display_title', 'serial_number', 'is_active', 'updated_at')
+    list_filter = ('is_active',)
     list_editable = ('is_active',)
-    search_fields = ('title', 'publication_url')
-    ordering = ('-year', 'serial_number')
-    readonly_fields = ('created_at', 'updated_at')
+    search_fields = ('title', 'flipbook_url')
+    ordering = ('-serial_number',)
     fieldsets = (
         (None, {
-            'fields': ('serial_number', 'year', 'title', 'publication_url'),
+            'fields': ('serial_number', 'title', 'flipbook_url'),
         }),
         ('Cover image (optional)', {
             'description': 'Provide a cover image by uploading a file or pasting an image URL. '
@@ -24,9 +23,6 @@ class NetritvamAdmin(admin.ModelAdmin):
         }),
         ('Visibility', {
             'fields': ('is_active',),
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
         }),
     )
 

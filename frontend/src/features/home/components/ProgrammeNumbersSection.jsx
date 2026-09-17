@@ -11,10 +11,7 @@ import {
   Users,
 } from "lucide-react";
 
-import {
-  colors,
-  textGradients,
-} from "@/components/ui/palette";
+import { colors } from "@/components/ui/palette";
 
 const iconMap = {
   graduation: GraduationCap,
@@ -90,12 +87,7 @@ export function ProgrammeNumbersSection() {
           <div
             className="mx-auto mt-5 h-1.5 w-24 rounded-full"
             style={{
-              background: `linear-gradient(
-                90deg,
-                ${textGradients.purpleToPink[0]},
-                ${textGradients.purpleToPink[1]},
-                ${textGradients.purpleToPink[2]}
-              )`,
+              background: "var(--gradient-purple-to-pink)",
             }}
           />
         </div>
@@ -107,18 +99,23 @@ export function ProgrammeNumbersSection() {
             border: `1px solid ${colors.neutral[4]}`,
           }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
             {programmeNumbers.map((item, index) => {
               const Icon = iconMap[item.icon];
               const currentColor = statColors[index];
+              const isTabletLastRow = index >= programmeNumbers.length - 2;
+              const isTabletRightColumn = index % 2 === 1;
+              const isDesktopLastColumn = index === programmeNumbers.length - 1;
 
               return (
                 <div
                   key={item.label}
                   className={`flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1 ${
-                    index !== programmeNumbers.length - 1
-                      ? "border-b md:border-b-0 md:border-r"
-                      : ""
+                    !isTabletLastRow ? "border-b" : ""
+                  } ${
+                    !isTabletRightColumn ? "border-r" : ""
+                  } lg:border-b-0 ${
+                    isDesktopLastColumn ? "lg:border-r-0" : "lg:border-r"
                   }`}
                   style={{
                     borderColor: colors.neutral[4],

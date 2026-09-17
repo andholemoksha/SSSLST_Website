@@ -1,11 +1,10 @@
 import { apiClient } from "@/api/client";
 
 /**
- * Fetch the Netritvam publication editions.
- * Returns { latest, groups: [{ year, is_current, issues: [...] }] }
- * (years ascending for the archive layout; issues 1 -> N within a year).
+ * Fetch the Netritvam issues.
+ * Returns { latest, issues: [...] } (issues ordered Netritvam-1 -> N).
  */
 export async function fetchNetritvam() {
-  const { data } = await apiClient.get("/v1/publications/");
+  const { data } = await apiClient.get("/netritvam/");
   return data;
 }

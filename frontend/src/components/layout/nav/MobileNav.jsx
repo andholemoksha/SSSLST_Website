@@ -30,7 +30,7 @@ export function MobileNav({ open, onClose }) {
 
   return (
     <div
-      className="grid overflow-hidden border-b border-border bg-background transition-[grid-template-rows] duration-250 ease-in-out lg:hidden"
+      className="grid overflow-hidden border-b border-border bg-background transition-[grid-template-rows] duration-250 ease-in-out xl:hidden"
       style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
     >
       <div className="min-h-0 overflow-hidden">

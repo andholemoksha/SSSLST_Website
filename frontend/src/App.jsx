@@ -20,14 +20,14 @@ import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { SatsangYearPage } from "@/pages/SatsangYearPage";
 import { NewsletterPage } from "@/pages/NewsletterPage";
+import { NetritvamPage } from "@/pages/NetritvamPage";
 import { PrernaPage } from "@/pages/PrernaPage";
+import { PhotoGalleryPage } from "@/pages/PhotoGalleryPage";
 import { FaqPage } from "@/pages/FaqPage";
-import { ContactPage } from "@/pages/ContactPage";
-import { PublicationsPage } from "@/pages/PublicationsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
-import { applyNow } from "@/content/applynow";
+import { useAdmissions } from "@/features/admissions/hooks/useAdmissions";
 import { home } from "@/content/home";
 import { PublicationsPanel } from "@/components/layout/PublicationsPanel";
 
@@ -42,6 +42,8 @@ function ScrollToTop() {
 }
 
 function App() {
+  const { data: admissions } = useAdmissions();
+
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
@@ -92,18 +94,24 @@ function App() {
           
 
           <Route path="/newsletter" element={<NewsletterPage />} />
+          <Route path="/netritvam" element={<NetritvamPage />} />
 
           <Route path="/satsang" element={<SatsangPage />} />
           <Route path="/satsang/:year" element={<SatsangYearPage />} />
           <Route path="/prerna" element={<PrernaPage />} />
+          <Route path="/gallery" element={<PhotoGalleryPage />} />
           <Route path="/faq" element={<FaqPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/publications" element={<PublicationsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
 
-      {applyNow.enabled && <AdmissionsLotusCard />}
+      {admissions?.is_active && admissions.apply_url ? (
+        <AdmissionsLotusCard
+          applyUrl={admissions.apply_url}
+          headline={admissions.headline}
+          subtext={admissions.subtext}
+        />
+      ) : null}
       <PublicationsPanel publications={home.hero.publications} />
 
       <Footer />

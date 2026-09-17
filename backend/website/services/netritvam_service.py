@@ -1,17 +1,17 @@
-"""Querying services for public Netritvam publication data."""
+"""Querying services for the Netritvam magazine publications."""
 
 from website.models import Netritvam
 
 
-def get_active_publications():
-    """All active issues, ordered newest year first then serial number ascending."""
+def get_active_issues():
+    """All active issues, ordered highest serial number first (newest leads)."""
     return Netritvam.objects.filter(is_active=True)
 
 
-def get_latest_publication():
-    """The most recent issue (highest year, then highest serial number), or None."""
+def get_latest_issue():
+    """The most recent issue (highest serial number), or None."""
     return (
         Netritvam.objects.filter(is_active=True)
-        .order_by('-year', '-serial_number')
+        .order_by('-serial_number')
         .first()
     )

@@ -63,7 +63,6 @@ function PublicationItem({ publication, featured = false, to, href, onNavigate }
           {publication.summary}
         </Text>
         <Button
-          to={publication.to}
           variant="outline"
           size="sm"
           to={to}
@@ -73,7 +72,6 @@ function PublicationItem({ publication, featured = false, to, href, onNavigate }
           onClick={onNavigate}
           icon={<ArrowRight className="h-4 w-4" style={{ color: 'var(--accent)' }} />}
           className="mt-4 w-fit"
-          onClick={() => publication.to && onNavigate?.()}
         >
           {publication.cta}
         </Button>
@@ -145,7 +143,12 @@ export function PublicationsPanel({ publications }) {
             {publications.title}
           </Text>
           <div className="my-4 border-t border-border sm:my-6" />
-          <PublicationItem publication={publications.featured} featured onNavigate={() => setOpen(false)} />
+          <PublicationItem
+            publication={publications.featured}
+            featured
+            to="/netritvam"
+            onNavigate={() => setOpen(false)}
+          />
           <div className="border-t border-border" />
           <PublicationItem
             publication={publications.secondary}

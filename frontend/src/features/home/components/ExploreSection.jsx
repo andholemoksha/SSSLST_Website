@@ -32,7 +32,7 @@ export function ExploreSection() {
             />
 
             {/* Base Dark Overlay */}
-            <div className="absolute inset-0 bg-black/45 transition-all duration-500 group-hover:bg-black/20" />
+            <div className="absolute inset-0 bg-black/60 transition-all duration-500 group-hover:bg-black/20" />
 
             {/* Brand Gradient Hover Overlay */}
             <div

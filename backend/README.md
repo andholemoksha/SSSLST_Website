@@ -31,10 +31,6 @@ copy .env.example .env
   API v3"). Required only for the "Sync Now" feature. The site works without it
   since initial data is seeded via migration.
 
-- PostgreSQL deployment settings: set `DB_ENGINE=django.db.backends.postgresql`
-  together with `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT`.
-  Without these values, local development uses SQLite.
-
 ## How to run the backend
 
 Every time you want to start the backend, run:
@@ -344,13 +340,58 @@ python manage.py sync_dhyana_vahini --year 2026
 
 ---
 
-## Netritvam
+## Photo Gallery
 
-The Netritvam page shows the SSSLST Netritvam publication — numbered issues, each
-backed by a HeyZine flip-book link. It lives at the route `/publications`
-(heading "Netritvam"). It mirrors the Newsletter feature but orders issues by a
-**serial number** within a year (1, 2, 3 ...) instead of by month. Full details
-are in [`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
+The Photo Gallery organises photos as **Year → Album → Photos** (e.g.
+`2026 → Induction Session → [photos]`). Photos live in Google Drive; their
+metadata is **synced into the database by an admin action**, and the public site
+reads only from the database — so normal page loads never call Google Drive
+(fast, cache-friendly, safe for many simultaneous users and Drive rate limits).
+Full details: [`docs/gallery-backend-integration.md`](../docs/gallery-backend-integration.md).
+
+### API endpoints (public, read-only)
+
+```
+GET /api/gallery/years/               -> [{ year, album_count, photo_count, cover_image }]
+GET /api/gallery/albums/?year=YYYY    -> [{ id, title, description, photo_count, cover_image }]
+GET /api/gallery/photos/?album=ID     -> { count, next, previous, results:[{ id, title, thumbnail_link, full_link, width, height }] }
+```
+
+- Only years/albums that actually contain active photos are returned (no empty cards).
+- Photos are paginated (24 per page, max 60) so large albums never load all at once.
+
+### Google Drive setup (required)
+
+Add to the backend `.env` (backend only — never exposed to the frontend):
+
+```
+GOOGLE_API_KEY=your-key-here
+```
+
+1. Google Cloud Console → enable **Google Drive API** → create an **API key**.
+2. Share each gallery Drive folder as **Anyone with the link → Viewer**.
+
+### How an administrator manages the gallery
+
+There is a single **Photo Gallery** section (no separate year/photo screens).
+
+- **Add a card:** Admin → **Website → Photo Gallery → Add** → enter the **Year**
+  and a **Title** (e.g. "Induction Session"), paste the **Drive folder link**,
+  optionally add a cover → Save. The card auto-syncs photos; use **Sync from
+  Drive** on the list to pull in new/removed photos later.
+- **Two cards in one year:** add another entry with the same year and a different
+  title (e.g. 2025 "Induction" and 2025 "Valedictory") → two cards under 2025.
+- **Photos** are populated by sync (not added by hand). **Delete is disabled** —
+  untick **Is active** to hide a card or photo.
+
+No React/code changes are needed to add a new year or card.
+
+> Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
+> In production, point `media/` at persistent storage. The gallery images
+> themselves are served from Google's CDN, not stored on our server.
+
+---
+
 ## Newsletter
 
 The Newsletter page shows the SSSLST monthly newsletter — one edition per month,
@@ -367,15 +408,6 @@ are managed via the admin panel.
 ### API endpoint
 
 ```
-GET /api/v1/publications/
-```
-
-Public, read-only. Returns the latest issue plus all active issues grouped by
-year:
-
-```json
-{
-  "latest": { "id": 7, "title": "Netritvam-7", "serial_number": 7, "year": 2026, "publication_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "" },
 GET /api/newsletters/
 ```
 
@@ -390,42 +422,6 @@ by year:
       "year": 2026,
       "is_current": true,
       "issues": [
-        { "id": 1, "title": "Netritvam-1", "serial_number": 1, "year": 2026, "publication_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" }
-      ]
-    }
-  ]
-}
-```
-
-- `latest` — the most recent issue (highest year, then serial number); shown as
-  the highlighted "Latest Release" card. Computed automatically (no admin flag).
-- `groups` — issues grouped by year, ascending; `is_current` marks the newest
-  year (rendered expanded) versus older years (rendered as collapsible archive
-  cards). Issues run 1 → N within a year.
-
-### How data is managed (admin / CMS)
-
-- Initial data (the seven 2026 issues) is seeded automatically via the data
-  migration `0015_seed_netritvam_data.py` when you run `python manage.py migrate`.
-  There is no seed command. The seeder is idempotent (`update_or_create`), so
-  redeploys never duplicate rows and never overwrite admin-added issues.
-- All ongoing content is managed from **Website → Netritvam** in the Django
-  admin. On the deployed site, admin-added issues are visible to every visitor
-  immediately because all users share the production database.
-
-### How to add a new issue (e.g. Netritvam-8, 2026)
-
-1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
-2. Enter the **Serial number** and the **Year**
-3. Paste the **Publication URL** (the HeyZine link — the only required field)
-4. (Optional) Add a cover: upload a file **or** paste a cover image URL
-5. Leave **Is active** enabled and click **Save**
-
-The issue appears on `/publications` on the next page load, in serial order. The
-newest issue becomes the "Latest Release" card. When the first issue of a new
-year is added, that year becomes the expanded current year and the previous year
-automatically collapses into a **Past editions** archive card. No code changes
-required.
         { "id": 1, "title": "February 2026", "month": 2, "year": 2026, "flipbook_url": "https://heyzine.com/flip-book/f08c3400d1.html", "cover_image": "" }
       ]
     }
@@ -512,3 +508,159 @@ Uploaded file takes priority over pasted URL.
 The PDF opens on Google Drive's servers (not yours). The website only serves
 a small JSON list of editions (~1 KB). Cover images are static files cached
 by the browser. Multiple concurrent users are handled without any server load.
+
+---
+
+## Netritvam
+
+The Netritvam page shows the SSSLST Netritvam magazine — a numbered series of
+issues (Netritvam-1, Netritvam-2, …), each backed by a HeyZine flip-book link.
+It is reached from the **Publications** side panel (the featured "Netritvam" card
+→ **Read Latest Issue**) at the route `/netritvam`. It mirrors the Newsletter
+feature but is keyed on a **serial number** instead of month/year, and shown as a
+flat list. Full details:
+[`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
+
+### API endpoint
+
+```
+GET /api/netritvam/
+```
+
+Public, read-only. Returns the latest issue plus all active issues (ordered by
+serial number):
+
+```json
+{
+  "latest": { "id": 7, "title": "Netritvam-7", "serial_number": 7, "flipbook_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "" },
+  "issues": [
+    { "id": 1, "title": "Netritvam-1", "serial_number": 1, "flipbook_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" }
+  ]
+}
+```
+
+- `latest` — the most recent issue (highest serial number); shown as the
+  highlighted "Latest issue" card. Computed automatically (no admin flag).
+- `issues` — all active issues ordered by serial number ascending
+  (Netritvam-1 → N). The frontend removes the latest from the grid so it appears
+  once.
+
+### How data is managed (admin / CMS)
+
+- Initial data (the seven issues) is seeded automatically via the data migration
+  `0018_seed_netritvam_data.py` when you run `python manage.py migrate`. There is
+  no seed command. The seeder is idempotent (`update_or_create`), so redeploys
+  never duplicate rows and never overwrite admin-added issues.
+- All ongoing content is managed from **Website → Netritvam** in the Django
+  admin. On the deployed site, admin-added issues are visible to every visitor
+  immediately because all users share the production database.
+
+### How to add a new issue (e.g. Netritvam-8)
+
+1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
+2. Enter the **Serial number** (`8`)
+3. Paste the **Flipbook URL** (the HeyZine link — the only required field)
+4. (Optional) Add a cover: upload a file **or** paste a cover image URL
+5. Leave **Is active** enabled and click **Save**
+
+The issue appears on `/netritvam` on the next page load. Because it has the
+highest serial number, it becomes the new "Latest issue" card and the previous
+latest drops into the grid. No code changes required.
+
+> Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
+> In production, point `media/` at persistent storage so uploaded covers survive
+> restarts. The URL-based cover option avoids file storage.
+
+---
+
+## Admissions ("Apply Now" card)
+
+The floating **"Apply Now"** lotus card (bottom-right of every page) is
+admin-controlled. Admissions are open only part of the year, so an admin can
+turn the card on/off and set the application link without any code change. Full
+details: [`docs/admissions-apply-now-integration.md`](../docs/admissions-apply-now-integration.md).
+
+### API endpoint
+
+```
+GET /api/apply/
+```
+
+Public, read-only. Returns the single settings row:
+
+```json
+{
+  "is_active": true,
+  "apply_url": "https://forms.gle/your-application-form",
+  "headline": "Admissions Open",
+  "subtext": "Applications for the upcoming batch are now open."
+}
+```
+
+- `is_active` — the on/off toggle. The frontend shows the card only when this is
+  `true` **and** an `apply_url` is set.
+- `apply_url` — where "Apply Now" links (opens in a new tab).
+- `headline` / `subtext` — the card text.
+
+If no row exists, the endpoint returns a safe default with `is_active: false`.
+
+### How data is managed (admin / CMS)
+
+- A single `AdmissionsSetting` row is created (inactive) automatically by the
+  migration `0020_seed_admissions_setting.py` on `python manage.py migrate`, so
+  the card stays hidden until an admin turns it on.
+- Managed from **Website → Admissions** in the Django admin — a single settings
+  entry (you can edit it, but not add or delete rows). On the deployed site, an
+  admin toggle is visible to all visitors immediately (shared production DB).
+
+### What the admin does
+
+- **Open admissions (show the card):** Admin → **Admissions** → paste the
+  application link into **Apply url** → tick **Is active** → **Save**.
+- **Close admissions (hide the card):** Admin → **Admissions** → untick
+  **Is active** → **Save**. (The URL is kept for next time.)
+
+The card appears on every page automatically when active, and disappears when
+off. No React/code changes are needed.
+
+---
+
+## Samithi Connect Activity Photos
+
+The Samithi Connect page has three wings — **Spiritual, Service, Education** —
+each with activity cards (e.g. "Vedam", "Narayan Seva", "Vidya Jyoti"), and each
+activity has photos synced from a Google Drive folder. It reuses the Photo
+Gallery pattern (admin-managed, Drive-synced, read from the DB). Full details:
+[`docs/samithi-connect-photos-integration.md`](../docs/samithi-connect-photos-integration.md).
+
+### API endpoints (public, read-only)
+
+```
+GET /api/samithi-connect/wings/                 -> [{ wing, label, activity_count, photo_count, cover_image }]
+GET /api/samithi-connect/activities/?wing=X     -> [{ id, wing, title, slug, description, photo_count, cover_image }]
+GET /api/samithi-connect/photos/?activity=ID    -> { count, next, previous, results:[{ id, title, thumbnail_link, full_link, width, height }] }
+```
+
+Only wings/activities that actually have active photos are returned. Photos are
+paginated (24 per page). The existing `samithi-connect/text/*` reflection
+endpoints are a separate feature and unchanged.
+
+### How data is managed (admin / CMS)
+
+- 16 activity cards + their synced photos are seeded automatically via migrations
+  `0022_seed_samithi_activities.py` and `0023_seed_samithi_photos.py` on
+  `python manage.py migrate` — the photos use public Drive CDN links, so a fresh
+  clone/production sees them **without any API key**.
+- Ongoing content is managed from **Website → Samithi Connect Activities** in the
+  admin: set a Drive folder link and click **Sync from Drive**. On the live site,
+  synced photos are visible to all visitors immediately (shared production DB).
+
+### How to add / update photos
+
+1. Admin → **Samithi Connect Activities** → open (or add) an activity
+2. Choose the **Wing**, enter the **Activity title**, paste the **Drive folder link**
+3. **Save** (auto-syncs) or click **Sync from Drive** on the list
+
+Syncing NEW photos requires `GOOGLE_API_KEY` in the backend `.env` (Google Drive
+API enabled) and the folder shared "Anyone with the link → Viewer". Viewing the
+already-seeded photos needs no key.

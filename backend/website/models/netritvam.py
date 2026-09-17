@@ -1,33 +1,25 @@
-"""Database model for the Netritvam publication."""
+"""Models for the Netritvam magazine (HeyZine flip-book) publications."""
 
 from django.db import models
 
 
 class Netritvam(models.Model):
-    """A single Netritvam issue backed by an external flip-book (HeyZine) link.
+    """A single Netritvam issue backed by a HeyZine flip-book link."""
 
-    Organised like the Newsletter feature: grouped by year, ordered by serial
-    number within a year. The most recent issue (newest year, then highest
-    serial number) is surfaced automatically as the "latest" — there is no
-    admin-managed featured flag.
-    """
-
-    serial_number = models.PositiveSmallIntegerField(
-        help_text='Serial number within its year (e.g. 1, 2, 3 ...).',
-    )
-    year = models.PositiveIntegerField(
+    serial_number = models.PositiveIntegerField(
+        unique=True,
         db_index=True,
-        help_text='Year this issue belongs to.',
+        help_text='Issue number, e.g. 1 for Netritvam-1. Higher numbers are newer.',
     )
     title = models.CharField(
         max_length=255,
         blank=True,
-        help_text='Optional custom title. Defaults to "Netritvam-<serial_number>" if left blank.',
+        help_text='Optional custom title. Defaults to "Netritvam-<serial number>" if left blank.',
     )
-    publication_url = models.URLField(
+    flipbook_url = models.URLField(
         max_length=500,
         unique=True,
-        help_text='HeyZine flip-book link opened when a reader clicks "Read publication".',
+        help_text='HeyZine flip-book link opened when a reader clicks "Read issue".',
     )
     cover_image_url = models.URLField(
         max_length=500,
@@ -45,16 +37,10 @@ class Netritvam(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        # Newest year first, but issues within a year run 1 -> N.
-        ordering = ['-year', 'serial_number', 'id']
+        # Highest issue number first (newest issue leads).
+        ordering = ['-serial_number', 'id']
         verbose_name = 'Netritvam'
         verbose_name_plural = 'Netritvam'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['year', 'serial_number'],
-                name='unique_netritvam_year_serial',
-            ),
-        ]
 
     def __str__(self):
         return self.display_title

@@ -4,7 +4,7 @@ import { Text } from "@/components/ui/Text/text";
 /**
  * A single Netritvam issue card.
  *
- * Default card matches the Sathvam / Dhyana Vahini video card sizing:
+ * Default card matches the Sathvam / Dhyana Vahini video card sizing exactly:
  *   shell  -> rounded-xl border border-border bg-white shadow-sm
  *   media  -> aspect-video, bg-muted
  *   body   -> px-4 py-3, title variant=body size=sm font-medium text-heading
@@ -18,7 +18,7 @@ export function NetritvamCard({ issue, featured = false }) {
   if (featured) {
     return (
       <a
-        href={issue.publication_url}
+        href={issue.flipbook_url}
         target="_blank"
         rel="noopener noreferrer"
         className="group flex flex-col overflow-hidden rounded-2xl border border-primary/40 bg-white shadow-sm ring-1 ring-primary/10 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40 sm:flex-row"
@@ -43,7 +43,7 @@ export function NetritvamCard({ issue, featured = false }) {
 
         <div className="flex flex-1 flex-col justify-center p-6 sm:p-8">
           <Text as="span" variant="eyebrow" size="xs" weight="bold" className="mb-2 tracking-widest text-primary">
-            Latest Release
+            Latest issue
           </Text>
           <Text as="h2" variant="heading" size="2xl" leading="tight" className="sm:text-3xl">
             {issue.title}
@@ -52,7 +52,7 @@ export function NetritvamCard({ issue, featured = false }) {
             Read the latest edition of Netritvam.
           </Text>
           <span className="mt-5 inline-flex items-center gap-2 font-medium text-primary">
-            Read publication
+            Read issue
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
           </span>
         </div>
@@ -62,7 +62,7 @@ export function NetritvamCard({ issue, featured = false }) {
 
   return (
     <a
-      href={issue.publication_url}
+      href={issue.flipbook_url}
       target="_blank"
       rel="noopener noreferrer"
       className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40"
