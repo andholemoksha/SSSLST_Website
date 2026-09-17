@@ -31,7 +31,8 @@ SECRET_KEY = config(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]','ssslst-website-1.onrender.com']
+# Local/dev hosts. Production hosts are set in deployment.py from the environment.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
