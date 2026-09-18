@@ -21,7 +21,7 @@ export const satsang = {
     eyebrow: "Satsang Archives",
     title: "Year-wise Satsang Archives",
     description:
-      "Placeholder content for year-wise Satsang archives. Each year will later include event details, photos, reflections, and related resources.",
+      "The Satsang Archives bring together cherished moments from the SSSLST journey across the years. Explore year-wise collections of Satsang sessions that capture the spirit of learning, connection, and self-transformation.",
     years: [
       {
         year: "2020",

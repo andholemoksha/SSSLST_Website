@@ -19,8 +19,8 @@ export const footer = {
       title: "Get in touch",
       links: [
         {
-          label: "SSSNLP@SSSSOINDIA.ORG",
-          href: "mailto:SSSNLP@SSSSOINDIA.ORG",
+          label: "ssslst.english@ssssoindia.org",
+          href: "mailto:ssslst.english@ssssoindia.org",
           type: "mailto",
         },
       ],
@@ -28,7 +28,7 @@ export const footer = {
     {
       title: "Affiliates",
       links: [
-        { label: "SSSO", href: "https://ssssoindia.org/", type: "external" },
+        { label: "SSSSO", href: "https://ssssoindia.org/", type: "external" },
         {
           label: "SSSIHL",
           href: "https://www.sssihl.edu.in/",
