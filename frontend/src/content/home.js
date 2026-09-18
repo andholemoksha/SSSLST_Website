@@ -121,7 +121,7 @@ export const home = {
         {
             title: "Photo Gallery",
             image: "/src/assets/explore/photogallery.jpg",
-            link: "/projects",
+            link: "/gallery",
         },
     ],
 

@@ -48,7 +48,7 @@ export const samithiContent = {
   hero: {
     title: "Samithi Connect",
     subtitle:
-      "A 3 month initiative designed to deepen the connection between youth participants and the organisation through active service and local engagement at the grassroots level.",
+      "Samithi Connect is an integral part of the SSSLST journey, encouraging participants to engage regularly with the nearest Sri Sathya Sai Seva Samithi. \nIt provides an opportunity to experience the spirit of seva, participate in Samithi activities and connect the learnings from the programme with practical service.",
     quote:
       "Young hearts. Meaningful service. Lasting change.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
