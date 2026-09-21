@@ -8,15 +8,6 @@ export const satsang = {
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
   },
 
-  about: {
-    eyebrow: "Devotional Reflections",
-    quotes: [
-      "Swami's Love is Love of a Thousand Mothers.",
-      "Dearest Sai is our Mother, Father, Preceptor, Friend, Guide and our Everything.",
-      "Bhagawan Sri Sathya Sai Baba's Life is our Message.",
-    ],
-  },
-
   yearsSection: {
     eyebrow: "Satsang Archives",
     title: "Year-wise Satsang Archives",
