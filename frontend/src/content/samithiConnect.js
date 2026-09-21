@@ -1,4 +1,23 @@
 // User-facing text for the Samithi Connect feature
+import bhajanImage from "@/assets/samithi-connect/spiritual/bhajan.jpg";
+import nagarSankeertanImage from "@/assets/samithi-connect/spiritual/nagar-sankeertan.jpg";
+import vedamImage from "@/assets/samithi-connect/spiritual/vedam.jpeg";
+import parayanamImage from "@/assets/samithi-connect/spiritual/parayanam.jpeg";
+import meditationImage from "@/assets/samithi-connect/spiritual/meditation.jpg";
+import otherSpiritualActivityImage from "@/assets/samithi-connect/spiritual/other-spiritual-activity.jpg";
+import sriSathyaSaiBalvikasImage from "@/assets/samithi-connect/education/sri-sathya-sai-balvikas.jpg";
+import parentingImage from "@/assets/samithi-connect/education/parenting.jpg";
+import vidyaJyotiImage from "@/assets/samithi-connect/education/vidya-jyoti.jpg";
+import otherEducationalInitiativesImage from "@/assets/samithi-connect/education/other-educational-initiatives.jpeg";
+import narayanSevaImage from "@/assets/samithi-connect/service/narayan-seva.jpg";
+import medicalCampsLiquidLoveImage from "@/assets/samithi-connect/service/medical-camps-liquid-love.jpg";
+import disasterManagementImage from "@/assets/samithi-connect/service/disaster-management.jpg";
+import villageSevaImage from "@/assets/samithi-connect/service/village-seva.jpg";
+import skillDevelopmentImage from "@/assets/samithi-connect/service/skill-development.jpg";
+import otherServiceActivityImage from "@/assets/samithi-connect/service/other-service-activity.jpg";
+import textImage from "@/assets/samithi-connect/reflections/text.jpg";
+import videoImage from "@/assets/samithi-connect/reflections/video.jpg";
+
 export const samithiSections = [
   {
     slug: "spiritual",
@@ -7,33 +26,32 @@ export const samithiSections = [
       {
         slug: "bhajan",
         name: "Bhajan",
-        image: "/assets/samithi-connect/spiritual/bhajan.jpg",
+        image: bhajanImage,
       },
       {
         slug: "nagar-sankeertan",
         name: "Nagar Sankeertan",
-        image: "/assets/samithi-connect/spiritual/nagar-sankeertan.jpg",
+        image: nagarSankeertanImage,
       },
       {
         slug: "vedam",
         name: "Vedam",
-        image: "/assets/samithi-connect/spiritual/vedam.jpeg",
+        image: vedamImage,
       },
       {
         slug: "parayanam",
         name: "Any Parayanam",
-        image: "/assets/samithi-connect/spiritual/parayanam.jpeg",
+        image: parayanamImage,
       },
       {
         slug: "meditation",
         name: "Meditation",
-        image: "/assets/samithi-connect/spiritual/meditation.jpg",
+        image: meditationImage,
       },
       {
         slug: "other-spiritual-activity",
         name: "Other Spiritual Activity",
-        image:
-          "/assets/samithi-connect/spiritual/other-spiritual-activity.jpg",
+        image: otherSpiritualActivityImage,
       },
     ],
   },
@@ -45,25 +63,23 @@ export const samithiSections = [
       {
         slug: "sri-sathya-sai-balvikas",
         name: "Sri Sathya Sai Balvikas",
-        image:
-          "/assets/samithi-connect/education/sri-sathya-sai-balvikas.jpg",
+        image: sriSathyaSaiBalvikasImage,
         imagePosition: "center top",
       },
       {
         slug: "parenting",
         name: "Parenting",
-        image: "/assets/samithi-connect/education/parenting.jpg",
+        image: parentingImage,
       },
       {
         slug: "vidya-jyoti",
         name: "Vidya Jyoti",
-        image: "/assets/samithi-connect/education/vidya-jyoti.jpg",
+        image: vidyaJyotiImage,
       },
       {
         slug: "other-educational-initiatives",
         name: "Other Educational Initiatives",
-        image:
-          "/assets/samithi-connect/education/other-educational-initiatives.jpeg",
+        image: otherEducationalInitiativesImage,
         imagePosition: "50% 35%",
       },
     ],
@@ -76,35 +92,33 @@ export const samithiSections = [
       {
         slug: "narayan-seva",
         name: "Narayan Seva",
-        image: "/assets/samithi-connect/service/narayan-seva.jpg",
+        image: narayanSevaImage,
       },
       {
         slug: "medical-camps-liquid-love",
         name: "Medical Camps / Liquid Love",
-        image:
-          "/assets/samithi-connect/service/medical-camps-liquid-love.jpg",
+        image: medicalCampsLiquidLoveImage,
       },
       {
         slug: "disaster-management",
         name: "Disaster Management",
-        image: "/assets/samithi-connect/service/disaster-management.jpg",
+        image: disasterManagementImage,
       },
       {
         slug: "village-seva",
         name: "Village Seva",
-        image: "/assets/samithi-connect/service/village-seva.jpg",
+        image: villageSevaImage,
         imagePosition: "60% 15%",
       },
       {
         slug: "skill-development",
         name: "Skill Development",
-        image: "/assets/samithi-connect/service/skill-development.jpg",
+        image: skillDevelopmentImage,
       },
       {
         slug: "other-service-activity",
         name: "Other Service Activity",
-        image:
-          "/assets/samithi-connect/service/other-service-activity.jpg",
+        image: otherServiceActivityImage,
       },
     ],
   },
@@ -116,14 +130,14 @@ export const samithiSections = [
       {
         slug: "text",
         name: "Text",
-        image: "/assets/samithi-connect/reflections/text.jpg",
+        image: textImage,
         imagePosition: "60% 5%",
 
       },
       {
         slug: "video",
         name: "Video",
-        image: "/assets/samithi-connect/reflections/video.jpg",
+        image: videoImage,
         imagePosition: "60% 15%",
       },
     ],
