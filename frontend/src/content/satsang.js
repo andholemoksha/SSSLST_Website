@@ -8,20 +8,11 @@ export const satsang = {
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
   },
 
-  about: {
-    eyebrow: "Devotional Reflections",
-    quotes: [
-      "Swami's Love is Love of a Thousand Mothers.",
-      "Dearest Sai is our Mother, Father, Preceptor, Friend, Guide and our Everything.",
-      "Bhagawan Sri Sathya Sai Baba's Life is our Message.",
-    ],
-  },
-
   yearsSection: {
     eyebrow: "Satsang Archives",
     title: "Year-wise Satsang Archives",
     description:
-      "Placeholder content for year-wise Satsang archives. Each year will later include event details, photos, reflections, and related resources.",
+      "The Satsang Archives bring together cherished moments from the SSSLST journey across the years. Explore year-wise collections of Satsang sessions that capture the spirit of learning, connection, and self-transformation.",
     years: [
       {
         year: "2020",

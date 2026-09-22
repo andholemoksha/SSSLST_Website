@@ -1,3 +1,9 @@
+import curriculumImage from "@/assets/explore/curriculum1.jpg";
+import samithiConnectImage from "@/assets/explore/samithiconnect.jpeg";
+import dhyanaVahiniImage from "@/assets/explore/jyothimeditation.jpg";
+import projectsImage from "@/assets/explore/projects.jpg";
+import photoGalleryImage from "@/assets/explore/photogallery.jpg";
+
 export const home = {
       hero: {
         eyebrow: "The Flagship Programme of the Sri Sathya Sai Seva Organisations, India",
@@ -51,7 +57,7 @@ export const home = {
         backgroundMedia: {
             src: "https://hackend.in/bgvideo.mp4",
             poster: null,
-            fallbackSrc: "/hero/hero-background.mp4",
+            fallbackSrc: "http://hackend.in/bgvideo.mp4",
         },
     },
     highlights: [
@@ -100,27 +106,27 @@ export const home = {
     exploreSections: [
         {
             title: "Curriculum",
-            image: "/src/assets/explore/curriculum1.jpg",
+            image: curriculumImage,
             link: "/curriculum",
         },
         {
             title: "Samithi Connect",
-            image: "/src/assets/explore/samithiconnect.jpeg",
+            image: samithiConnectImage,
             link: "/programme/samithi-connect",
         },
         {
             title: "Dhyana Vahini",
-            image: "/src/assets/explore/jyothimeditation.jpg",
+            image: dhyanaVahiniImage,
             link: "/programme/dhyana-vahini",
         },
         {
             title: "Projects",
-            image: "/src/assets/explore/projects.jpg",
+            image: projectsImage,
             link: "/projects",
         },
         {
             title: "Photo Gallery",
-            image: "/src/assets/explore/photogallery.jpg",
+            image: photoGalleryImage,
             link: "/projects",
         },
     ],
