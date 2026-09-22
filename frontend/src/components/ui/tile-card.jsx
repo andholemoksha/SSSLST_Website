@@ -30,9 +30,10 @@ export function TileCard({
   className,
   cardClassName,
   imageClassName,
+  imagePosition = "center",
   onImageError,
 }) {
-  const isExternal = to && (to.startsWith('http://') || to.startsWith('https://'));
+  const isExternal = to && (to.startsWith("http://") || to.startsWith("https://"));
   const Wrapper = to ? (isExternal ? "a" : Link) : "div";
   const wrapperProps = to
     ? isExternal
@@ -70,6 +71,7 @@ export function TileCard({
                 "h-full w-full object-cover transition-transform duration-200 group-hover:scale-105",
                 imageClassName
               )}
+              style={{ objectPosition: imagePosition }}
             />
           ) : initials ? (
             <span className="text-4xl font-bold tracking-wide text-white">
@@ -83,19 +85,43 @@ export function TileCard({
           <Text as="h3" variant="heading" size="base">{title}</Text>
           {description ? (
             <div className="mt-1">
-              {typeof description === "string" ? <Text variant="muted" size="sm" className="line-clamp-2">{description}</Text> : description}
+              {typeof description === "string" ? (
+                <Text
+                  variant="muted"
+                  size="sm"
+                  className="line-clamp-2"
+                >
+                  {description}
+                </Text>
+              ) : (
+                description
+              )}
             </div>
           ) : null}
 
           {showFooter ? (
             <div className="mt-auto flex items-center justify-between pt-3">
               {meta ? (
-                <Text variant="body" size="sm" weight="medium" color="text-primary">{meta}</Text>
+                <Text
+                  variant="body"
+                  size="sm"
+                  weight="medium"
+                  color="text-primary"
+                >
+                  {meta}
+                </Text>
               ) : (
                 <span />
               )}
               {cta ? (
-                <Text as="span" variant="body" size="sm" weight="semibold" color="text-accent" className="inline-flex items-center gap-1">
+                <Text
+                  as="span"
+                  variant="body"
+                  size="sm"
+                  weight="semibold"
+                  color="text-accent"
+                  className="inline-flex items-center gap-1"
+                >
                   {cta}
                   <span className="transition-transform duration-200 group-hover:translate-x-1">
                     &rarr;
