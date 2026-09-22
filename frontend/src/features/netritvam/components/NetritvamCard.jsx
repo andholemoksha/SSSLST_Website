@@ -2,6 +2,16 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { Text } from "@/components/ui/Text/text";
 
 /**
+ * Local cover images for specific Netritvam volumes. Volumes 4 and 6 use these
+ * bundled assets; every other issue falls back to the cover the backend
+ * provides (the Heyzine thumbnail). Keyed by serial number.
+ */
+const LOCAL_COVERS = {
+  4: "/assets/netritvam/netritvam-4-cover.jpg",
+  6: "/assets/netritvam/netritvam-6-cover.jpg",
+};
+
+/**
  * A single Netritvam issue card.
  *
  * Default card matches the Sathvam / Dhyana Vahini video card sizing exactly:
@@ -13,7 +23,7 @@ import { Text } from "@/components/ui/Text/text";
  * page heading. The whole card is an external link that opens the flip-book.
  */
 export function NetritvamCard({ issue, featured = false }) {
-  const cover = issue.cover_image;
+  const cover = LOCAL_COVERS[issue.serial_number] ?? issue.cover_image;
 
   if (featured) {
     return (
