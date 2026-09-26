@@ -24,7 +24,7 @@ export function NetritvamCard({ issue, featured = false }) {
         className="group flex flex-col overflow-hidden rounded-2xl border border-primary/40 bg-white shadow-sm ring-1 ring-primary/10 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40 sm:flex-row"
         aria-label={`Read latest Netritvam issue: ${issue.title}`}
       >
-        <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-muted sm:aspect-auto sm:w-72 lg:w-80">
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-muted sm:aspect-[3/4] sm:w-60 lg:w-64">
           {cover ? (
             <img
               src={cover}
@@ -68,8 +68,8 @@ export function NetritvamCard({ issue, featured = false }) {
       className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40"
       aria-label={`Read Netritvam issue: ${issue.title}`}
     >
-      {/* Media — same 16:9 ratio as the video cards */}
-      <div className="relative aspect-video w-full overflow-hidden bg-muted">
+      {/* Media — 3:4 portrait frame to match the magazine cover shape */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
         {cover ? (
           <img
             src={cover}
