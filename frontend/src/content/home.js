@@ -127,7 +127,7 @@ export const home = {
         {
             title: "Photo Gallery",
             image: photoGalleryImage,
-            link: "/projects",
+            link: "/gallery",
         },
     ],
 
