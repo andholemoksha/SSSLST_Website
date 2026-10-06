@@ -22,6 +22,8 @@ export function ActivityCard({ sectionSlug, activity }) {
     <TileCard
       to={`/programme/samithi-connect/${sectionSlug}/${slug}`}
       title={name}
+      image={activity.image}
+      imagePosition={activity.imagePosition}
       initials={initials(name)}
       className="w-40 shrink-0 snap-start sm:w-60"
     />

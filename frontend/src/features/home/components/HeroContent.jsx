@@ -60,22 +60,7 @@ export function HeroContent({ hero }) {
           </Text>
         </GlassCard>
 
-        <GlassCard className="min-w-[120px] shrink-0 rounded-xl px-3 py-3 text-center">
-          <Text
-            as="span"
-            variant="label"
-            size="xs"
-            color="text-white/60"
-            className="tracking-[0.2em]"
-          >
-            Credits
-          </Text>
-
-          <Text as="h3" variant="heading" size="base" color="text-white" className="mt-1">
-            X Credits
-          </Text>
-        </GlassCard>
-
+        
         <GlassCard className="min-w-[155px] shrink-0 rounded-xl px-3 py-3 text-center">
           <Text
             as="span"

@@ -20,12 +20,16 @@ export function DhyanaVahiniAbout() {
           </Text>
 
           <Text size="base" leading="relaxed" className="mt-5 max-w-xl sm:text-lg">
-            {about.description}
-          </Text>
+  {about.description}
+</Text>
 
-          <button className="mt-8 inline-flex items-center rounded-full border border-accent/60 bg-background/80 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-background hover:shadow-lg">
-            <Text as="span" variant="label" size="sm" color="text-accent">{about.buttonLabel || "Learn More"}</Text>
-          </button>
+<ul className="mt-4 max-w-xl list-disc space-y-3 pl-5 text-base leading-relaxed text-foreground sm:text-lg">
+  {about.bulletPoints?.map((point) => (
+    <li key={point}>{point}</li>
+  ))}
+</ul>
+
+          
         </div>
 
         <div className="flex justify-center lg:justify-end">

@@ -4,10 +4,10 @@ import { Text } from "@/components/ui/Text/text";
 /**
  * A single newsletter edition card.
  *
- * Default card matches the Sathvam / Dhyana Vahini video card sizing exactly:
- *   shell  -> rounded-xl border border-border bg-white shadow-sm
- *   media  -> aspect-video, bg-muted
- *   body   -> px-4 py-3, title variant=body size=sm font-medium text-heading
+ * The cover (issue.cover_image, provided by the backend) is a portrait
+ * magazine page, so the media frame uses a 3:4 aspect ratio with object-cover
+ * so the cover fills the tile cleanly without distortion. When no cover is
+ * available a BookOpen icon is shown instead.
  *
  * `featured` renders a wider highlighted "Latest issue" band shown below the
  * page heading. The whole card is an external link that opens the flip-book.
@@ -24,7 +24,7 @@ export function NewsletterCard({ issue, featured = false }) {
         className="group flex flex-col overflow-hidden rounded-2xl border border-primary/40 bg-white shadow-sm ring-1 ring-primary/10 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40 sm:flex-row"
         aria-label={`Read latest newsletter: ${issue.title}`}
       >
-        <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-muted sm:aspect-auto sm:w-72 lg:w-80">
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-muted sm:aspect-[3/4] sm:w-60 lg:w-64">
           {cover ? (
             <img
               src={cover}
@@ -68,8 +68,8 @@ export function NewsletterCard({ issue, featured = false }) {
       className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40"
       aria-label={`Read newsletter: ${issue.title}`}
     >
-      {/* Media — same 16:9 ratio as the video cards */}
-      <div className="relative aspect-video w-full overflow-hidden bg-muted">
+      {/* Media — 3:4 portrait frame to match the magazine cover shape */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
         {cover ? (
           <img
             src={cover}
