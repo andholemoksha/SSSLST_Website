@@ -89,8 +89,12 @@ function Pagination({ page, totalPages, onPageChange }) {
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
         aria-label="Previous page"
-        icon={<ChevronLeft />}
-      />
+      >
+        <ChevronLeft
+          className="h-5 w-5 shrink-0 text-[color:var(--accent)]"
+          aria-hidden="true"
+        />
+      </Button>
 
       {pages.map((p, i) =>
         p === "…" ? (
@@ -116,8 +120,12 @@ function Pagination({ page, totalPages, onPageChange }) {
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
         aria-label="Next page"
-        icon={<ChevronRight />}
-      />
+      >
+        <ChevronRight
+          className="h-5 w-5 shrink-0 text-[color:var(--accent)]"
+          aria-hidden="true"
+        />
+      </Button>
     </nav>
   );
 }

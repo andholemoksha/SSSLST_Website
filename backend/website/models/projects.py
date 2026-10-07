@@ -111,6 +111,11 @@ class Project(models.Model):
             models.Index(fields=['category']),
             models.Index(fields=['state']),
         ]
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'year'],
+                name='unique_project_title_per_year'),
+        ]
 
     def __str__(self):
         return f'{self.title} ({self.state} · {self.year})'

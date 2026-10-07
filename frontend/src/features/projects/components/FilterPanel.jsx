@@ -20,9 +20,8 @@ import {
 /**
  * The filter controls shared by the desktop sidebar and the mobile sheet.
  *
- * Year, Category/Wing and State are collapsible sections (shared Accordion —
- * single-open) with a selected-count badge in each trigger. Gender stays as
- * always-visible quick chips.
+ * Year, Category/Wing, State and Gender are collapsible sections (shared
+ * Accordion — single-open) with a selected-count badge in each trigger.
  *
  * Stateless w.r.t. the selected values — the parent owns `filters` and gets
  * change notifications via `onToggle` (multi-select arrays) and `onClear`.
@@ -79,20 +78,21 @@ export function FilterPanel({ filters, onToggle, onClear, showHeader = true }) {
           <AccordionContent>
             <StateList selected={filters.state} onToggle={(v) => onToggle("state", v)} />
           </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+              </AccordionItem>
 
-      {/* Gender stays as always-visible quick chips */}
-      <div className="flex flex-col gap-2.5">
-        <Text as="h3" variant="heading" size="sm" weight="semibold">
-          Gender
-        </Text>
-        <ChipRow
-          options={GENDERS.map((g) => ({ value: g, label: g }))}
-          selected={filters.gender}
-          onToggle={(v) => onToggle("gender", v)}
-        />
-      </div>
+              <AccordionItem value="gender">
+                  <AccordionTrigger>
+                      <TriggerLabel label="Gender" count={filters.gender.length} />
+                  </AccordionTrigger>
+                  <AccordionContent>
+                      <ChipRow
+                          options={GENDERS.map((g) => ({ value: g, label: g }))}
+                          selected={filters.gender}
+                          onToggle={(v) => onToggle("gender", v)}
+                      />
+                  </AccordionContent>
+              </AccordionItem>
+          </Accordion>
     </div>
   );
 }
