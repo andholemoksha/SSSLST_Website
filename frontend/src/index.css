@@ -41,6 +41,45 @@
 
 --highlight-pink: #B24B8C;
 
+/* ============================================================
+ * Project wing accents
+ * Per-wing accent colours for the Projects Archive cards.
+ * `bar` = card top accent; `badge-bg`/`badge-text` = category pill.
+ * Consumed via var(...) in ProjectCard (colour is chosen at runtime by
+ * wing slug, so it can't be a static Tailwind class).
+ * ============================================================ */
+--wing-spiritual-bar: #7C3AED;
+--wing-spiritual-badge-bg: #EDE9FE;
+--wing-spiritual-badge-text: #5B21B6;
+
+--wing-service-bar: #EA580C;
+--wing-service-badge-bg: #FFEDD5;
+--wing-service-badge-text: #9A3412;
+
+--wing-education-bar: #2563EB;
+--wing-education-badge-bg: #DBEAFE;
+--wing-education-badge-text: #1E40AF;
+
+--wing-youth-bar: #DB2777;
+--wing-youth-badge-bg: #FCE7F3;
+--wing-youth-badge-text: #9D174D;
+
+--wing-medical-bar: #059669;
+--wing-medical-badge-bg: #D1FAE5;
+--wing-medical-badge-text: #065F46;
+
+--wing-rural-bar: #CA8A04;
+--wing-rural-badge-bg: #FEF9C3;
+--wing-rural-badge-text: #854D0E;
+
+--wing-environment-bar: #16A34A;
+--wing-environment-badge-bg: #DCFCE7;
+--wing-environment-badge-text: #166534;
+
+--wing-other-bar: #6B7280;
+--wing-other-badge-bg: #F3F4F6;
+--wing-other-badge-text: #374151;
+
 
 
 /* ============================================================

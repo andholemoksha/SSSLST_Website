@@ -173,3 +173,57 @@ Response:
   "status": "ok"
 }
 
+
+
+8. PROJECTS ARCHIVE
+-------------------
+
+GET /projects
+
+Application route (with the `/api/` prefix and trailing slash):
+`GET /api/projects/`
+
+Query parameters (all optional):
+  search     text matched (case-insensitive) against title OR description.
+  year       integer; repeatable (?year=2024&year=2023) -> OR within the type.
+  state      state name; repeatable; must match the backend State choices.
+  gender     "Mahila" | "Gents"; repeatable.
+  category   wing slug; repeatable. One of:
+             spiritual, service, education, youth, medical, rural,
+             environment, other.
+  page       1-based page number (page_size is fixed at 12, max 60).
+  page_size  optional override of the page size (<= 60).
+
+Filtering: different parameter types are AND-ed together; repeated values of the
+same type are OR-ed. Only active projects are returned.
+
+Sort (decreasing priority, no client control):
+  1. search relevance (title match ranks above description-only) — only when a
+     search term is present.
+  2. year descending (the default).
+  3. state ascending (alphabetical).
+
+Response (DRF page-number pagination):
+{
+  "count": 418,
+  "next": "http://.../api/projects/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "title": "Healthy Women, Strong Society",
+      "year": 2024,
+      "state": "Haryana",
+      "gender": "Mahila",
+      "category": "medical",
+      "category_label": "Medical / Healthcare",
+      "description": "Health awareness and screening camps for women.",
+      "document_url": "https://example.com/projects/demo-2.pdf"
+    }
+  ]
+}
+
+Projects are managed through Django Admin (dropdowns for state/gender/category)
+or bulk-loaded with the `import_projects` management command
+(CSV columns: title,year,state,gender,category,description,document_url).
+There is no public write endpoint.

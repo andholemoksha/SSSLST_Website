@@ -14,8 +14,7 @@ import { DhyanaVahiniVideoReflectionsPage } from "@/pages/DhyanaVahiniVideoRefle
 import { DhyanaVahiniTextReflectionsPage } from "@/pages/DhyanaVahiniTextReflectionsPage";
 import { SamithiConnectPage } from "@/pages/SamithiConnectPage";
 import { SamithiActivityPage } from "@/pages/SamithiActivityPage";
-import { ProjectsPage } from "@/pages/ProjectsPage";
-import { ProjectCategoryPage } from "@/pages/ProjectCategoryPage";
+import { ProjectsArchivePage } from "@/pages/ProjectsArchivePage";
 import { TestimonialsPage } from "@/pages/TestimonialsPage";
 import { SatsangPage } from "@/pages/SatsangPage";
 import { SatsangYearPage } from "@/pages/SatsangYearPage";
@@ -84,11 +83,7 @@ function App() {
             element={<SamithiActivityPage />}
           />
 
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route
-            path="/projects/:categorySlug"
-            element={<ProjectCategoryPage />}
-          />
+          <Route path="/projects" element={<ProjectsArchivePage />} />
 
           <Route path="/testimonials" element={<TestimonialsPage />} />
           
