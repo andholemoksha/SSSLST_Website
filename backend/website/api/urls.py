@@ -11,6 +11,7 @@ from .views.samithi_connect import get_samithi_connect_text, get_samithi_connect
 from .views.samithi_photos import samithi_wings, samithi_activities, samithi_photos
 from .views.newsletter import get_newsletters
 from .views.netritvam import get_netritvam
+from .views.testimonials import get_testimonials
 from .views.prerna import prerna_editions
 from .views.apply import get_apply
 from .views.photo_gallery import gallery_years, gallery_albums, gallery_photos
@@ -31,6 +32,7 @@ urlpatterns = [
     path('samithi-connect/photos/', samithi_photos, name='samithi-photos'),
     path('newsletters/', get_newsletters, name='newsletters'),
     path('netritvam/', get_netritvam, name='netritvam'),
+    path('testimonials/', get_testimonials, name='testimonials'),
     path('prerna/editions/', prerna_editions, name='prerna-editions'),
     path('apply/', get_apply, name='apply'),
     path('gallery/years/', gallery_years, name='gallery-years'),

@@ -1,4 +1,5 @@
 import { Text } from "@/components/ui/Text/text";
+import { getStateFromId } from "@/content/reflectionStates";
 
 /**
  * Shared presentational panel for text reflections (year picker, states, card list).
@@ -15,6 +16,7 @@ import { Text } from "@/components/ui/Text/text";
  * - isYearsLoading whether the years list is still loading
  * - isYearsError   whether fetching years failed
  * - reflections    array of { id, name, reflection } objects
+ *                  (the id's first two letters are resolved to a state name for display)
  * - isLoading      whether reflections are loading
  * - isError        whether fetching reflections failed
  * - selectId       id for the <select> element (accessibility)
@@ -73,7 +75,7 @@ export function TextReflectionsPanel({
           {reflections.map((reflection) => (
             <article key={reflection.id} className="rounded-xl border border-border bg-surface p-6">
               <Text as={cardHeadingAs} variant="heading" size="xl">{reflection.name}</Text>
-              <Text variant="muted" size="sm" className="mt-1">{reflection.id}</Text>
+              <Text variant="muted" size="sm" className="mt-1">{getStateFromId(reflection.id)}</Text>
               <Text leading="relaxed" className="mt-4 whitespace-pre-line">{reflection.reflection}</Text>
             </article>
           ))}
