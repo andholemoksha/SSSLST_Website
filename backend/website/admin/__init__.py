@@ -16,4 +16,5 @@ from .samithi_photos import SamithiActivityAdmin
 from .sathvam import *
 from .common import WebsiteStatAdmin
 from .prerna import PrernaEditionAdmin
+from .projects import ProjectAdmin
 from .testimonials import TestimonialAdmin

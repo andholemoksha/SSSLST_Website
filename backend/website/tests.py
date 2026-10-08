@@ -1,3 +1,4 @@
+from django.db import IntegrityError, transaction
 from django.test import SimpleTestCase, TestCase
 
 from website.models import (
@@ -7,8 +8,10 @@ from website.models import (
     GalleryPhoto,
     Newsletter,
     Netritvam,
+    Project,
 )
 from website.models.photo_gallery import extract_drive_folder_id
+from website.services.project_service import import_projects_from_csv
 
 
 class HealthEndpointTests(SimpleTestCase):
@@ -320,3 +323,83 @@ class NetritvamEndpointTests(TestCase):
     def test_display_title_defaults_to_serial(self):
         issue = Netritvam.objects.get(serial_number=92)
         self.assertEqual(issue.display_title, 'Netritvam-92')
+
+
+class ProjectsEndpointTests(TestCase):
+    YEAR = 2099
+
+    def create_project(self, title, **overrides):
+        values = {
+            'title': title,
+            'year': self.YEAR,
+            'state': 'Karnataka',
+            'gender': 'Gents',
+            'category': 'service',
+            'document_url': f'https://example.com/{title.lower().replace(" ", "-")}.pdf',
+        }
+        values.update(overrides)
+        return Project.objects.create(**values)
+
+    def test_projects_endpoint_is_paginated_and_filters_inactive_records(self):
+        for index in range(13):
+            self.create_project(f'Archive Project {index}')
+        self.create_project('Hidden Project', is_active=False)
+
+        response = self.client.get(f'/api/projects/?year={self.YEAR}&page=2')
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['count'], 13)
+        self.assertEqual(len(payload['results']), 1)
+        self.assertNotIn('Hidden Project', str(payload))
+
+    def test_projects_endpoint_applies_search_and_filters(self):
+        self.create_project(
+            'Medical Outreach',
+            state='Kerala',
+            gender='Mahila',
+            category='medical',
+            description='Community health project',
+        )
+        self.create_project('Education Outreach', category='education')
+
+        response = self.client.get(
+            f'/api/projects/?year={self.YEAR}&search=health&state=Kerala'
+            '&gender=Mahila&category=medical'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        results = response.json()['results']
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]['title'], 'Medical Outreach')
+        self.assertEqual(results[0]['category_label'], 'Medical / Healthcare')
+
+    def test_csv_import_creates_then_updates_by_title_and_year(self):
+        csv_text = (
+            'title,year,state,gender,category,description,document_url\n'
+            'Imported Project,2099,Karnataka,Gents,service,Initial description,'
+            'https://example.com/initial.pdf\n'
+        )
+
+        created, updated, skipped = import_projects_from_csv(csv_text)
+
+        self.assertEqual((created, updated, skipped), (1, 0, []))
+        self.assertEqual(Project.objects.get(title='Imported Project', year=self.YEAR).description,
+                         'Initial description')
+
+        updated_csv = csv_text.replace('Karnataka', 'Kerala').replace(
+            'Initial description', 'Updated description'
+        )
+        created, updated, skipped = import_projects_from_csv(updated_csv)
+
+        self.assertEqual((created, updated, skipped), (0, 1, []))
+        project = Project.objects.get(title='Imported Project', year=self.YEAR)
+        self.assertEqual(project.state, 'Kerala')
+        self.assertEqual(project.description, 'Updated description')
+
+    def test_title_and_year_are_unique(self):
+        self.create_project('Unique Project')
+
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                self.create_project('Unique Project', state='Kerala')

@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <h1>Import projects from CSV</h1>
+  {% if error %}
+    <p class="errornote">{{ error }}</p>
+  {% endif %}
+  <p>CSV columns required:
+    <code>title,year,state,gender,category,description,document_url</code>
+  </p>
+  <ul>
+    <li><strong>category</strong> accepts the value (e.g. <code>medical</code>) or the full label (e.g. <code>Medical / Healthcare</code>).</li>
+    <li><strong>gender</strong> is <code>Mahila</code> or <code>Gents</code>.</li>
+    <li><strong>state</strong> must be a valid Indian state/UT name.</li>
+    <li>Existing projects (same <strong>title + year</strong>) are updated in place.</li>
+  </ul>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="module aligned">
+      <div class="form-row">
+        <label for="id_file">CSV file:</label>
+        <input id="id_file" type="file" name="file" accept=".csv,text/csv" required>
+      </div>
+      <div class="form-row">
+        <label for="id_dry_run">Validate only:</label>
+        <input id="id_dry_run" type="checkbox" name="dry_run">
+        <span class="help">Check the file without saving anything (dry run).</span>
+      </div>
+    </fieldset>
+    <div class="submit-row">
+      <input type="submit" value="Import projects" class="default">
+      <a href="../" class="closelink">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

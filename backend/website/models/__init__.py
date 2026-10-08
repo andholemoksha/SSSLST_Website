@@ -14,5 +14,6 @@ from .samithi_connect import *
 from .samithi_photos import SamithiActivity, SamithiPhoto
 from .sathvam import SathvamVideo, SathvamPlaylist
 from .prerna import PrernaEdition
+from .projects import Project, State, Gender, Wing
 from .testimonials import Testimonial
 from .common import WebsiteStat
