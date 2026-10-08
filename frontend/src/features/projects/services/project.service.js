@@ -1,5 +1,10 @@
 import { apiClient } from "@/api/client";
 
+// Single source of truth for the archive page size. Sent to the API as
+// `page_size` and reused by the grid for page-count math, so the two can't
+// drift apart. (The backend caps this at max_page_size=60.)
+export const PROJECTS_PAGE_SIZE = 12;
+
 /**
  * Fetch a page of projects from the archive API.
  *
@@ -24,6 +29,7 @@ export async function getProjects(params = {}) {
   appendAll(query, "state", state);
   appendAll(query, "gender", gender);
   appendAll(query, "category", category);
+  query.set("page_size", String(PROJECTS_PAGE_SIZE));
   if (page && page > 1) query.set("page", String(page));
 
   const { data } = await apiClient.get("/projects/", { params: query });

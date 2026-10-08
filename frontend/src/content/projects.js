@@ -20,7 +20,7 @@ export const WINGS = [
 export const GENDERS = ["Mahila", "Gents"];
 
 // Descending year range shown as filter chips. Extend as new batches arrive.
-export const PROJECT_YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020];
+export const PROJECT_YEARS = [2025, 2024, 2023, 2022, 2021, 2020];
 
 // Indian states + union territories. Must stay in sync with backend State choices.
 export const INDIAN_STATES = [

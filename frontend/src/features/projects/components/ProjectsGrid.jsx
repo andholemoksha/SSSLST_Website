@@ -5,8 +5,7 @@ import { CardGrid } from "@/components/ui/card-grid";
 import { Text } from "@/components/ui/Text/text";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
 import { projectsContent } from "@/content/projects";
-
-const PAGE_SIZE = 12;
+import { PROJECTS_PAGE_SIZE } from "@/features/projects/services/project.service";
 
 /**
  * Results area: count header, responsive card grid, and numbered pagination.
@@ -37,7 +36,7 @@ export function ProjectsGrid({ query, page, onPageChange }) {
 
   const count = data?.count ?? 0;
   const results = data?.results ?? [];
-  const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(count / PROJECTS_PAGE_SIZE));
 
   return (
     <div>
