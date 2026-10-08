@@ -13,4 +13,5 @@ from .publications import *
 from .samithi_connect import *
 from .samithi_photos import SamithiActivitySerializer, SamithiPhotoSerializer
 from .sathvam import *
+from .testimonials import TestimonialSerializer
 from .common import WebsiteStatSerializer
