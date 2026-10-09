@@ -8,6 +8,7 @@ const statMeta = {
     states_covered: { label: "States Covered", icon: "location", showPlus: false },
     batches_completed: { label: "Batches Completed", icon: "book", showPlus: false },
     current_participants: { label: "Current Participants", icon: "users", showPlus: true },
+    projects: { label: "Projects", icon: "projects", showPlus: false },
 };
 
 const statOrder = [
@@ -15,6 +16,7 @@ const statOrder = [
     "states_covered",
     "batches_completed",
     "current_participants",
+    "projects",
 ];
 
 function parseStatValue(value, fallback = 0) {

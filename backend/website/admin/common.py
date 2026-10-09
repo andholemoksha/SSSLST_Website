@@ -7,12 +7,8 @@ from website.models import WebsiteStat
 class WebsiteStatAdmin(admin.ModelAdmin):
     list_display = ('key', 'value', 'sort_order', 'is_active')
     list_editable = ('value', 'sort_order', 'is_active')
-    readonly_fields = ('key',)
     search_fields = ('key',)
     list_filter = ('is_active',)
-
-    def has_add_permission(self, request):
-        return False
 
     def has_delete_permission(self, request, obj=None):
         return False
