@@ -1,6 +1,8 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError, transaction
 from django.test import SimpleTestCase, TestCase
 
+from website.admin.netritvam import NetritvamAdminForm
 from website.models import (
     DhyanaVahiniText,
     DhyanaVahiniVideo,
@@ -357,6 +359,65 @@ class NetritvamEndpointTests(TestCase):
     def test_display_title_defaults_to_serial(self):
         issue = Netritvam.objects.get(serial_number=92)
         self.assertEqual(issue.display_title, 'Netritvam-92')
+
+
+class NetritvamAdminFormTests(TestCase):
+    def form_for_cover_url(self, cover_image_url):
+        return NetritvamAdminForm(data={
+            'serial_number': '120',
+            'title': '',
+            'flipbook_url': 'https://heyzine.com/flip-book/netritvam-120.html',
+            'cover_image_url': cover_image_url,
+            'is_active': 'on',
+        })
+
+    def test_accepts_http_and_https_cover_urls(self):
+        for url in (
+            'http://example.com/netritvam-cover.jpg',
+            'https://example.com/netritvam-cover.jpg',
+        ):
+            with self.subTest(url=url):
+                form = self.form_for_cover_url(url)
+                self.assertTrue(form.is_valid(), form.errors)
+
+    def test_accepts_netritvam_frontend_asset_path(self):
+        form = self.form_for_cover_url('/assets/netritvam/netritvam-6-cover.jpg')
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_accepts_empty_optional_cover_url(self):
+        form = self.form_for_cover_url('')
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_rejects_invalid_cover_url_values(self):
+        for url in (
+            r'C:\images\netritvam-cover.jpg',
+            'C:/images/netritvam-cover.jpg',
+            'assets/netritvam/netritvam-6-cover.jpg',
+            '/assets/other/netritvam-cover.jpg',
+            '/assets/netritvam/../private/cover.jpg',
+            '/assets/netritvam/%2e%2e/private/cover.jpg',
+            '/assets/netritvam/%5c..%5cprivate/cover.jpg',
+            'ftp://example.com/netritvam-cover.jpg',
+            'https:/example.com/netritvam-cover.jpg',
+            'https://exa mple.com/netritvam-cover.jpg',
+            'https://example.com/%ZZ',
+            'https://',
+        ):
+            with self.subTest(url=url):
+                form = self.form_for_cover_url(url)
+                self.assertFalse(form.is_valid())
+                self.assertIn('cover_image_url', form.errors)
+
+    def test_uploaded_cover_image_takes_precedence_over_url(self):
+        issue = Netritvam(
+            serial_number=120,
+            flipbook_url='https://heyzine.com/flip-book/netritvam-120.html',
+            cover_image_url='/assets/netritvam/netritvam-6-cover.jpg',
+            cover_image=SimpleUploadedFile('uploaded-cover.jpg', b'image data'),
+        )
+
+        self.assertEqual(issue.cover_image_source, issue.cover_image.url)
+        self.assertNotEqual(issue.cover_image_source, issue.cover_image_url)
 
 
 class ProjectsEndpointTests(TestCase):
