@@ -9,6 +9,7 @@ import {
   MapPin,
   BookOpen,
   Users,
+  FolderKanban,
 } from "lucide-react";
 
 import { colors } from "@/components/ui/palette";
@@ -18,6 +19,7 @@ const iconMap = {
   location: MapPin,
   book: BookOpen,
   users: Users,
+  projects: FolderKanban,
 };
 
 export function ProgrammeNumbersSection() {
@@ -67,6 +69,7 @@ export function ProgrammeNumbersSection() {
     colors.secondary[0],
     colors.primary[2],
     colors.secondary[1],
+    colors.primary[1],
   ];
 
   return (
@@ -99,36 +102,27 @@ export function ProgrammeNumbersSection() {
             border: `1px solid ${colors.neutral[4]}`,
           }}
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             {programmeNumbers.map((item, index) => {
               const Icon = iconMap[item.icon];
               const currentColor = statColors[index];
-              const isTabletLastRow = index >= programmeNumbers.length - 2;
-              const isTabletRightColumn = index % 2 === 1;
-              const isDesktopLastColumn = index === programmeNumbers.length - 1;
 
               return (
                 <div
                   key={item.label}
-                  className={`flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1 ${
-                    !isTabletLastRow ? "border-b" : ""
-                  } ${
-                    !isTabletRightColumn ? "border-r" : ""
-                  } lg:border-b-0 ${
-                    isDesktopLastColumn ? "lg:border-r-0" : "lg:border-r"
-                  }`}
+                  className="flex flex-col items-center border-b border-r px-4 py-10 transition-all duration-300 hover:-translate-y-1 [&:nth-child(2n)]:border-r-0 [&:last-child]:border-b-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(3n)]:border-r-0 sm:[&:nth-child(5)]:border-r-0 sm:[&:last-child]:border-b sm:[&:nth-child(n+4)]:border-b-0 lg:border-b-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r lg:[&:nth-child(5)]:border-r-0"
                   style={{
                     borderColor: colors.neutral[4],
                   }}
                 >
                   <div
-                    className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-secondary shadow-sm"
+                    className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-secondary shadow-sm"
                     style={{
                       border: `1px solid ${colors.neutral[4]}`,
                     }}
                   >
                     <Icon
-                      className="h-9 w-9"
+                      className="h-8 w-8"
                       style={{ color: currentColor }}
                     />
                   </div>
@@ -136,7 +130,7 @@ export function ProgrammeNumbersSection() {
                   <Text
                     as="h3"
                     variant="heading"
-                    size="5xl"
+                    size="4xl"
                     weight="bold"
                     style={{ color: currentColor }}
                   >
@@ -146,7 +140,7 @@ export function ProgrammeNumbersSection() {
 
                   <Text
                     variant="muted"
-                    className="mt-4 text-center text-base"
+                    className="mt-3 text-center text-base"
                   >
                     {item.label}
                   </Text>
