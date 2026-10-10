@@ -5,6 +5,7 @@ import { TextReflectionsPanel } from "@/components/ui/text-reflections-panel";
 import { samithiContent } from "@/content/samithiConnect";
 import { useSamithiConnectText, useSamithiConnectTextYears } from "@/features/samithi/hooks/useSamithiConnectText";
 import { SamithiActivityGallery } from "@/features/samithi/components/SamithiActivityGallery";
+import { SamithiConnectVideos } from "@/features/samithi/components/SamithiConnectVideos";
 
 const PHOTO_WINGS = new Set(["spiritual", "service", "education"]);
 
@@ -60,6 +61,19 @@ export function SamithiActivityPage() {
         backLabel={activityPage.backLabel}
       >
         <SamithiTextReflections />
+      </PagePlaceholder>
+    );
+  }
+
+  if (sectionSlug === "reflections" && activitySlug === "video") {
+    return (
+      <PagePlaceholder
+        title="Video Reflections"
+        description={activityPage.description(slugToTitle(sectionSlug))}
+        backTo="/programme/samithi-connect"
+        backLabel={activityPage.backLabel}
+      >
+        <SamithiConnectVideos />
       </PagePlaceholder>
     );
   }
