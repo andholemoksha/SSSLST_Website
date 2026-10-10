@@ -140,7 +140,7 @@ export function ProgrammeNumbersSection() {
                     weight="bold"
                     style={{ color: currentColor }}
                   >
-                    {counts[index].toLocaleString()}
+                    {(counts[index] ?? 0).toLocaleString()}
                     {item.showPlus && "+"}
                   </Text>
 
