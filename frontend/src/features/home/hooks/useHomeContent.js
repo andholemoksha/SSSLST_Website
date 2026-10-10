@@ -53,7 +53,9 @@ function normalizeHomeStats(stats) {
     }
 
     const orderedKeys = [...statOrder.filter((key) => key in stats)];
-    const extraKeys = Object.keys(stats).filter((key) => !statOrder.includes(key));
+    const extraKeys = Object.keys(stats).filter(
+        (key) => !statOrder.includes(key) && key !== "projects",
+    );
 
     if (orderedKeys.length === 0 && extraKeys.length === 0) return home.programmeNumbers;
 
