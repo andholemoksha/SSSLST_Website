@@ -9,7 +9,6 @@ from website.models import (
     Newsletter,
     Netritvam,
     Project,
-    SamithiConnectVideo,
 )
 from website.models.photo_gallery import extract_drive_folder_id
 from website.services.project_service import import_projects_from_csv
@@ -76,39 +75,6 @@ class DhyanaVahiniVideoEndpointTests(TestCase):
     def test_videos_requires_an_integer_year(self):
         self.assertEqual(self.client.get('/api/dhyana-vahini/videos/').status_code, 400)
         self.assertEqual(self.client.get('/api/dhyana-vahini/videos/?year=invalid').status_code, 400)
-
-
-class SamithiConnectVideoEndpointTests(TestCase):
-    def test_returns_the_two_seeded_videos_in_display_order(self):
-        response = self.client.get('/api/samithi-connect/videos/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            [video['video_id'] for video in response.json()],
-            ['6V7zg9Scggc', 'uTHZ16ibW0k'],
-        )
-        self.assertEqual(
-            [video['title'] for video in response.json()],
-            [
-                'Samithi Connect Video Reflection 1',
-                'Samithi Connect Video Reflection 2',
-            ],
-        )
-        self.assertTrue(all(video['published_at'] is None for video in response.json()))
-
-    def test_returns_only_active_videos(self):
-        SamithiConnectVideo.objects.create(
-            video_id='inactive-video',
-            title='Inactive Samithi Connect video',
-            order=3,
-            is_active=False,
-        )
-
-        response = self.client.get('/api/samithi-connect/videos/')
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn(
-            'inactive-video',
-            [video['video_id'] for video in response.json()],
-        )
 
 
 class DhyanaVahiniTextEndpointTests(TestCase):
