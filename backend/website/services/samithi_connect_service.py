@@ -1,6 +1,6 @@
 """Querying services for Samithi Connect written reflections."""
 
-from website.models import SamithiConnectText
+from website.models import SamithiConnectText, SamithiConnectVideo
 
 
 def get_text_by_year(year):
@@ -14,3 +14,7 @@ def get_available_text_years():
 		.distinct()
 		.order_by('-year')
 	)
+
+
+def get_video_reflections():
+	return SamithiConnectVideo.objects.filter(is_active=True)
