@@ -5,52 +5,21 @@ import { Text } from "@/components/ui/Text/text";
 
 const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
 
-function PublicationArtwork({ featured }) {
+function PublicationArtwork({ featured, imageSrc }) {
   return (
     <div
       aria-hidden="true"
       className={`relative aspect-3/4 w-20 shrink-0 overflow-hidden rounded-xl border shadow-sm sm:w-24 lg:w-28 ${featured ? "border-primary bg-primary" : "border-border bg-background"}`}
     >
-      {featured ? (
-        <>
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-accent" />
-          <div className="absolute bottom-8 left-1/2 h-16 w-6 -translate-x-1/2 rounded-t-full bg-foreground" />
-          <Text as="span" variant="eyebrow" size="xs" weight="bold" className="absolute inset-x-2 top-4 text-center tracking-widest text-secondary">
-            SSSLST
-          </Text>
-          <Text as="span" variant="heading" size="base" className="absolute inset-x-2 top-10 text-center tracking-wider text-secondary">
-            NETRITVAM
-          </Text>
-          <Text as="span" size="xs" className="absolute inset-x-2 bottom-3 text-center leading-4 text-primary-foreground">
-            Leadership through self transformation
-          </Text>
-        </>
-      ) : (
-        <>
-          <div className="absolute inset-x-0 top-0 h-8 border-b border-border bg-surface" />
-          <span className="absolute left-3 top-3 h-3 w-3 rounded-full border border-primary" />
-          <Text as="span" size="xs" weight="bold" className="absolute left-8 top-2 leading-3 text-heading">
-            SSSLST<br />NEWSLETTER
-          </Text>
-          <Text as="span" size="xs" weight="bold" className="absolute inset-x-3 top-12 leading-4 text-heading">
-            Building Leaders of Character and Compassion
-          </Text>
-          <div className="absolute inset-x-3 bottom-3 grid grid-cols-2 gap-2">
-            <span className="h-8 bg-accent" />
-            <span className="h-8 bg-secondary" />
-            <span className="h-8 bg-surface" />
-            <span className="h-8 bg-primary/50" />
-          </div>
-        </>
-      )}
+      <img src={imageSrc} alt="" className="h-full w-full object-cover" />
     </div>
   );
 }
 
-function PublicationItem({ publication, featured = false, to, href, onNavigate }) {
+function PublicationItem({ publication, featured = false, imageSrc, to, href, onNavigate }) {
   return (
     <article className="flex gap-4 py-4 first:pt-0 sm:gap-6 sm:py-6">
-      <PublicationArtwork featured={featured} />
+      <PublicationArtwork featured={featured} imageSrc={imageSrc} />
       <div className="flex min-w-0 flex-1 flex-col justify-center">
         <Text as="h3" variant="heading" size="xl">
           {publication.label}
@@ -146,12 +115,14 @@ export function PublicationsPanel({ publications }) {
           <PublicationItem
             publication={publications.featured}
             featured
+            imageSrc="/assets/publications/netritvam-cover.png"
             to="/netritvam"
             onNavigate={() => setOpen(false)}
           />
           <div className="border-t border-border" />
           <PublicationItem
             publication={publications.secondary}
+            imageSrc="/assets/publications/newsletter-cover.png"
             to="/newsletter"
             onNavigate={() => setOpen(false)}
           />
