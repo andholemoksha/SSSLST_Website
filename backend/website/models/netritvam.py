@@ -3,18 +3,41 @@
 from django.db import models
 
 
-class Netritvam(models.Model):
-    """A single Netritvam issue backed by a HeyZine flip-book link."""
+MONTH_CHOICES = [
+    (1, 'January'),
+    (2, 'February'),
+    (3, 'March'),
+    (4, 'April'),
+    (5, 'May'),
+    (6, 'June'),
+    (7, 'July'),
+    (8, 'August'),
+    (9, 'September'),
+    (10, 'October'),
+    (11, 'November'),
+    (12, 'December'),
+]
 
-    serial_number = models.PositiveIntegerField(
-        unique=True,
-        db_index=True,
-        help_text='Issue number, e.g. 1 for Netritvam-1. Higher numbers are newer.',
-    )
+
+class Netritvam(models.Model):
+    """A single Netritvam issue backed by a HeyZine flip-book link.
+
+    Issues are grouped by ``year`` on the site (e.g. "Netritvam 2025"); the
+    ``title`` is the issue name (e.g. "Guru Purnima Issue") and ``month`` marks
+    when it was published within the year.
+    """
+
     title = models.CharField(
         max_length=255,
-        blank=True,
-        help_text='Optional custom title. Defaults to "Netritvam-<serial number>" if left blank.',
+        help_text='Issue name shown on the card, e.g. "Guru Purnima Issue".',
+    )
+    month = models.PositiveSmallIntegerField(
+        choices=MONTH_CHOICES,
+        help_text='Month this issue was published.',
+    )
+    year = models.PositiveIntegerField(
+        db_index=True,
+        help_text='Year this issue belongs to, e.g. 2025.',
     )
     flipbook_url = models.URLField(
         max_length=500,
@@ -37,8 +60,14 @@ class Netritvam(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        # Highest issue number first (newest issue leads).
-        ordering = ['-serial_number', 'id']
+        # Newest year first, then latest month within a year.
+        ordering = ['-year', '-month', 'id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['year', 'month'],
+                name='unique_netritvam_year_month',
+            ),
+        ]
         verbose_name = 'Netritvam'
         verbose_name_plural = 'Netritvam'
 
@@ -47,9 +76,7 @@ class Netritvam(models.Model):
 
     @property
     def display_title(self):
-        if self.title:
-            return self.title
-        return f'Netritvam-{self.serial_number}'
+        return self.title or f'Netritvam {self.get_month_display()} {self.year}'
 
     @property
     def cover_image_source(self):
