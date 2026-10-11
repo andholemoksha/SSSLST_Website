@@ -83,12 +83,13 @@ class Project(models.Model):
     """A single leadership/service project entry in the archive."""
 
     title = models.CharField(max_length=300)
-    year = models.PositiveIntegerField(db_index=True)
-    state = models.CharField(max_length=60, choices=State.choices, db_index=True)
-    gender = models.CharField(max_length=10, choices=Gender.choices)
+    year = models.PositiveIntegerField(null=True, blank=True, db_index=True)
+    state = models.CharField(max_length=60, choices=State.choices, blank=True, db_index=True)
+    gender = models.CharField(max_length=10, choices=Gender.choices, blank=True)
     category = models.CharField(
         max_length=20,
         choices=Wing.choices,
+        blank=True,
         db_index=True,
         help_text='Which wing / category this project belongs to.',
     )
@@ -113,8 +114,8 @@ class Project(models.Model):
         ]
         constraints = [
             models.UniqueConstraint(
-                fields=['title', 'year'],
-                name='unique_project_title_per_year'),
+                fields=['title', 'year', 'state', 'gender'],
+                name='unique_project_title_year_state_gender'),
         ]
 
     def __str__(self):

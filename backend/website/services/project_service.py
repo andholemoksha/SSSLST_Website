@@ -98,7 +98,7 @@ _CATEGORY_LOOKUP = _choice_lookup(Wing)
 def _resolve_choice(line_number, field, raw, lookup):
     value = (raw or '').strip()
     if not value:
-        raise ProjectImportError(f'Row {line_number}: {field} is required')
+        return ''
     resolved = lookup.get(value.lower())
     if resolved is None:
         allowed = ', '.join(sorted(set(lookup.values())))
@@ -114,12 +114,15 @@ def _parse_row(line_number, row):
         raise ProjectImportError(f'Row {line_number}: title is required')
 
     year_raw = (row.get('year') or '').strip()
-    try:
-        year = int(year_raw)
-    except ValueError as exc:
-        raise ProjectImportError(
-            f'Row {line_number}: year "{year_raw}" is not a number'
-        ) from exc
+    if not year_raw:
+        year = None
+    else:
+        try:
+            year = int(year_raw)
+        except ValueError as exc:
+            raise ProjectImportError(
+                f'Row {line_number}: year "{year_raw}" is not a number'
+            ) from exc
 
     document_url = (row.get('document_url') or '').strip()
     if not document_url:
@@ -156,7 +159,7 @@ def parse_projects_csv(text, *, skip_invalid=False):
         )
 
     rows, skipped = [], []
-    seen = set()  # (title, year) already taken earlier in the file
+    seen = set()  # (title, year, state, gender) already taken earlier in the file
     for line_number, row in enumerate(reader, start=2):
         try:
             parsed = _parse_row(line_number, row)
@@ -166,9 +169,12 @@ def parse_projects_csv(text, *, skip_invalid=False):
             skipped.append((line_number, str(exc)))
             continue
 
-        key = (parsed['title'], parsed['year'])
+        key = (parsed['title'], parsed['year'], parsed['state'], parsed['gender'])
         if key in seen:
-            reason = f'Row {line_number}: duplicate title + year ("{parsed["title"]}", {parsed["year"]})'
+            reason = (
+                f'Row {line_number}: duplicate title + year + state + gender '
+                f'("{parsed["title"]}", {parsed["year"]}, {parsed["state"]}, {parsed["gender"]})'
+            )
             if not skip_invalid:
                 raise ProjectImportError(reason)
             skipped.append((line_number, reason))
@@ -180,7 +186,7 @@ def parse_projects_csv(text, *, skip_invalid=False):
 
 
 def import_projects_from_csv(text, *, dry_run=False, skip_invalid=False):
-    """Upsert projects from CSV text (natural key: title + year).
+    """Upsert projects from CSV text (natural key: title + year + state + gender).
 
     Returns (created, updated, skipped) where `skipped` is a list of
     (line_number, reason). With dry_run=True, validates and counts but writes
@@ -191,7 +197,12 @@ def import_projects_from_csv(text, *, dry_run=False, skip_invalid=False):
 
     created = updated = 0
     for row in rows:
-        exists = Project.objects.filter(title=row['title'], year=row['year']).exists()
+        exists = Project.objects.filter(
+            title=row['title'],
+            year=row['year'],
+            state=row['state'],
+            gender=row['gender'],
+        ).exists()
         if exists:
             updated += 1
         else:
@@ -205,9 +216,9 @@ def import_projects_from_csv(text, *, dry_run=False, skip_invalid=False):
             Project.objects.update_or_create(
                 title=row['title'],
                 year=row['year'],
+                state=row['state'],
+                gender=row['gender'],
                 defaults={
-                    'state': row['state'],
-                    'gender': row['gender'],
                     'category': row['category'],
                     'description': row['description'],
                     'document_url': row['document_url'],
