@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError, transaction
 from django.test import SimpleTestCase, TestCase
-from django.urls import reverse
 
 from website.models import (
     DhyanaVahiniText,
@@ -11,7 +10,6 @@ from website.models import (
     Newsletter,
     Netritvam,
     Project,
-    WebsiteStat,
 )
 from website.models.photo_gallery import extract_drive_folder_id
 from website.services.project_service import import_projects_from_csv
@@ -37,83 +35,56 @@ class HomeStatsEndpointTests(TestCase):
         self.assertNotIn('label', str(payload))
         self.assertNotIn('icon', str(payload))
 
-    def test_home_stats_endpoint_returns_projects_from_website_stats(self):
-        projects_stat = WebsiteStat.objects.get(key='projects')
-        projects_stat.value = 37
-        projects_stat.save(update_fields=['value'])
-
-        response = self.client.get('/api/home/stats/')
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['projects'], 37)
-
-    def test_home_stats_omits_projects_without_an_active_stat(self):
-        WebsiteStat.objects.filter(key='projects').delete()
-
-        response = self.client.get('/api/home/stats/')
-
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn('projects', response.json())
-
-    def test_home_stats_omits_inactive_projects_stat(self):
-        WebsiteStat.objects.filter(key='projects').update(is_active=False)
-
-        response = self.client.get('/api/home/stats/')
-
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn('projects', response.json())
-
-
-class WebsiteStatAdminTests(TestCase):
-    def setUp(self):
-        self.admin_user = get_user_model().objects.create_superuser(
-            username='website-stat-admin',
-            email='website-stat-admin@example.com',
-            password='test-password',
+    def test_home_stats_always_includes_live_projects_count(self):
+        # projects is computed live from the active Project rows, so it is
+        # always present and equals the current active Project count (the test
+        # DB already contains the seeded projects, so compare against that).
+        baseline = Project.objects.filter(is_active=True).count()
+        Project.objects.create(
+            title='Stat Project A', year=2099, state='Karnataka',
+            gender='Gents', category='service',
+            document_url='https://example.com/stat-a.pdf',
         )
-        self.client.force_login(self.admin_user)
-
-    def test_admin_can_create_edit_and_deactivate_projects_stat(self):
-        WebsiteStat.objects.filter(key='projects').delete()
-        add_url = reverse('admin:website_websitestat_add')
-
-        changelist_url = reverse('admin:website_websitestat_changelist')
-        self.assertContains(self.client.get(changelist_url), add_url)
-
-        add_page = self.client.get(add_url)
-        self.assertEqual(add_page.status_code, 200)
-        self.assertContains(add_page, 'name="key"')
-
-        create_response = self.client.post(add_url, {
-            'key': 'projects',
-            'value': '37',
-            'sort_order': '5',
-            'is_active': 'on',
-            '_save': 'Save',
-        })
-        self.assertEqual(create_response.status_code, 302)
-
-        projects_stat = WebsiteStat.objects.get(key='projects')
-        self.assertEqual(projects_stat.value, 37)
-        self.assertTrue(projects_stat.is_active)
-        self.assertEqual(self.client.get('/api/home/stats/').json()['projects'], 37)
-
-        change_url = reverse(
-            'admin:website_websitestat_change',
-            args=[projects_stat.pk],
+        Project.objects.create(
+            title='Stat Project B', year=2099, state='Kerala',
+            gender='Mahila', category='medical',
+            document_url='https://example.com/stat-b.pdf',
         )
-        update_response = self.client.post(change_url, {
-            'key': 'projects',
-            'value': '41',
-            'sort_order': '5',
-            '_save': 'Save',
-        })
-        self.assertEqual(update_response.status_code, 302)
 
-        projects_stat.refresh_from_db()
-        self.assertEqual(projects_stat.value, 41)
-        self.assertFalse(projects_stat.is_active)
-        self.assertNotIn('projects', self.client.get('/api/home/stats/').json())
+        response = self.client.get('/api/home/stats/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('projects', response.json())
+        self.assertEqual(response.json()['projects'], baseline + 2)
+
+    def test_home_stats_projects_count_excludes_inactive_projects(self):
+        baseline = Project.objects.filter(is_active=True).count()
+        Project.objects.create(
+            title='Active Project', year=2099, state='Karnataka',
+            gender='Gents', category='service',
+            document_url='https://example.com/active.pdf',
+        )
+        Project.objects.create(
+            title='Hidden Project', year=2099, state='Karnataka',
+            gender='Gents', category='service',
+            document_url='https://example.com/hidden.pdf',
+            is_active=False,
+        )
+
+        response = self.client.get('/api/home/stats/')
+
+        # Only the active project is counted (+1), not the inactive one.
+        self.assertEqual(response.json()['projects'], baseline + 1)
+
+    def test_home_stats_projects_count_updates_live(self):
+        first = self.client.get('/api/home/stats/').json()['projects']
+        Project.objects.create(
+            title='Another Project', year=2099, state='Goa',
+            gender='Gents', category='service',
+            document_url='https://example.com/another.pdf',
+        )
+        second = self.client.get('/api/home/stats/').json()['projects']
+        self.assertEqual(second, first + 1)
 
 
 class DhyanaVahiniVideoEndpointTests(TestCase):
