@@ -459,6 +459,12 @@ changes required.
 > in `DEBUG`). In production, point `media/` at persistent storage so uploaded
 > covers survive restarts. The URL-based cover option avoids file storage.
 
+### Performance
+
+Each flip-book opens on HeyZine's servers (not ours). The website only serves a
+small JSON list of editions. Cover images are static files cached by the browser.
+Many concurrent users are handled without any server load.
+
 ---
 
 ## Netritvam Magazine
@@ -543,6 +549,12 @@ required.
 > covers use bundled frontend assets (`/assets/netritvam/...`), which need no
 > media storage.
 
+### Performance
+
+Each flip-book opens on HeyZine's servers (not ours). The website only serves a
+small JSON list of issues. Cover images are static files cached by the browser.
+Many concurrent users are handled without any server load.
+
 ---
 
 ## Prerana Yearbook
@@ -574,13 +586,14 @@ Response:
   via the data migration `0015_seed_prerna_editions.py` on `migrate`.
 - All ongoing content is managed through the Django admin portal:
   - **Prerna Editions** — add year + title + PDF URL + cover image (upload or URL)
-  - New cards appear on the website within 30 seconds (auto-refresh)
+  - New cards appear on the website on the next page load (shared production
+    database — visible to every visitor immediately).
 
 ### How to add a new year's edition
 
 1. Go to http://127.0.0.1:8000/admin/ → **Prerna Editions** → Add
 2. Enter year, title, PDF URL, and upload/paste cover image → Save
-3. Card appears automatically on the website. No code change needed.
+3. Card appears on the website on the next page load. No code change needed.
 
 ### Cover image options
 
