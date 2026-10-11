@@ -1,17 +1,23 @@
 import { Container } from "@/components/layout/Container";
 import { Text } from "@/components/ui/Text/text";
 import { NetritvamCard } from "@/features/netritvam/components/NetritvamCard";
+import { NetritvamYearArchive } from "@/features/netritvam/components/NetritvamYearArchive";
 import { useNetritvam } from "@/features/netritvam/hooks/useNetritvam";
 
 export function NetritvamPage() {
   const { data, isLoading, error } = useNetritvam();
 
   const latest = data?.latest ?? null;
-  const issues = data?.issues ?? [];
+  const groups = data?.groups ?? [];
   const latestId = latest?.id;
 
-  // The latest issue is shown as the featured card, so remove it from the grid.
-  const gridIssues = issues.filter((issue) => issue.id !== latestId);
+  // Newest year is shown expanded; older years collapse into archive cards.
+  const currentGroup = groups.find((group) => group.is_current) ?? null;
+  const archivedGroups = groups.filter((group) => !group.is_current); // ascending
+
+  const currentIssues = currentGroup
+    ? currentGroup.issues.filter((issue) => issue.id !== latestId)
+    : [];
 
   return (
     <>
@@ -40,7 +46,7 @@ export function NetritvamPage() {
             <Text variant="muted" className="py-12 text-center">
               Unable to load Netritvam issues. Please try again later.
             </Text>
-          ) : issues.length === 0 ? (
+          ) : groups.length === 0 ? (
             <Text variant="muted" className="py-12 text-center">
               Netritvam issues will be published soon.
             </Text>
@@ -49,15 +55,34 @@ export function NetritvamPage() {
               {/* Special "Latest issue" card, directly below the heading */}
               {latest ? <NetritvamCard issue={latest} featured /> : null}
 
-              {/* All issues, ordered Netritvam-1 -> N (latest excluded above) */}
-              {gridIssues.length > 0 ? (
+              {/* Current (newest) year, expanded like a normal issue grid */}
+              {currentGroup && currentIssues.length > 0 ? (
+                <div>
+                  <Text as="h2" variant="heading" size="xl" leading="tight" className="sm:text-2xl">
+                    Netritvam {currentGroup.year}
+                  </Text>
+                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {currentIssues.map((issue) => (
+                      <NetritvamCard key={issue.id} issue={issue} />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {/* Past years, each a full-width collapsible archive so the
+                  expanded issue grid matches the current-year layout. */}
+              {archivedGroups.length > 0 ? (
                 <div>
                   <Text as="h2" variant="heading" size="xl" leading="tight" className="mb-6 sm:text-2xl">
-                    All issues
+                    Past editions
                   </Text>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {gridIssues.map((issue) => (
-                      <NetritvamCard key={issue.id} issue={issue} />
+                  <div className="space-y-4">
+                    {archivedGroups.map((group) => (
+                      <NetritvamYearArchive
+                        key={group.year}
+                        year={group.year}
+                        issues={group.issues}
+                      />
                     ))}
                   </div>
                 </div>

@@ -399,11 +399,6 @@ each backed by a HeyZine flip-book link. It is reached from the **Publications**
 side panel ("Monthly / Newsletter" → **View This Month**) at the route
 `/newsletter`. Full details are in
 [`docs/newsletter-backend-integration.md`](../docs/newsletter-backend-integration.md).
-## Prerana Yearbook
-
-The Prerana page displays year-wise yearbook editions. Each card links to the
-PDF on Google Drive (opens in a new tab). Cover images, titles, and PDF links
-are managed via the admin panel.
 
 ### API endpoint
 
@@ -463,6 +458,112 @@ changes required.
 > Cover-image uploads use Django media files (`MEDIA_URL` / `MEDIA_ROOT`, served
 > in `DEBUG`). In production, point `media/` at persistent storage so uploaded
 > covers survive restarts. The URL-based cover option avoids file storage.
+
+### Performance
+
+Each flip-book opens on HeyZine's servers (not ours). The website only serves a
+small JSON list of editions. Cover images are static files cached by the browser.
+Many concurrent users are handled without any server load.
+
+---
+
+## Netritvam Magazine
+
+The Netritvam page shows the SSSLST Netritvam magazine — named issues grouped by
+year, each backed by a HeyZine flip-book link. It is reached from the
+**Publications** side panel (the "Netritvam" card → **Read Latest Issue**) at the
+route `/netritvam`. Full details are in
+[`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
+
+Each issue has a **name** (e.g. "Guru Purnima Issue") and is identified by a
+**month + year** (four issues a year: January, April, July, November). The page
+groups issues by year ("Netritvam 2025", "Netritvam 2026"): the newest issue is
+featured on top, the current year is shown expanded, and past years collapse into
+archive cards that expand on click.
+
+### API endpoint
+
+```
+GET /api/netritvam/
+```
+
+Public, read-only. Returns the latest issue plus all active issues grouped by
+year:
+
+```json
+{
+  "latest": { "id": 7, "title": "Guru Purnima Issue", "month": 7, "year": 2026, "flipbook_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "/assets/netritvam/netritvam-7-cover.jpg" },
+  "groups": [
+    {
+      "year": 2025,
+      "is_current": false,
+      "issues": [
+        { "id": 1, "title": "Inaugural / New Year Issue", "month": 1, "year": 2025, "flipbook_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "/assets/netritvam/netritvam-1-cover.jpg" }
+      ]
+    },
+    {
+      "year": 2026,
+      "is_current": true,
+      "issues": [
+        { "id": 5, "title": "New Year Issue", "month": 1, "year": 2026, "flipbook_url": "https://heyzine.com/flip-book/17a32569d5.html", "cover_image": "/assets/netritvam/netritvam-5-cover.jpg" }
+      ]
+    }
+  ]
+}
+```
+
+- `latest` — the most recent issue (highest year, then month); shown as the
+  highlighted "Latest issue" card. Computed automatically (no admin flag).
+- `groups` — issues grouped by year, ascending; `is_current` marks the newest
+  year (rendered expanded) versus older years (rendered as collapsible archive
+  cards). **Within each year, issues run January → November** (chronological).
+
+### How data is managed (admin / CMS)
+
+- Initial data (seven issues: 2025 Jan/Apr/Jul/Nov and 2026 Jan/Apr/Jul) is
+  seeded automatically via data migrations when you run
+  `python manage.py migrate` — there is no seed command. The seeders are
+  idempotent, so redeploys never duplicate rows and never overwrite admin edits.
+- All ongoing content is managed from **Website → Netritvam** in the Django
+  admin. On the deployed site, admin-added issues are visible to every visitor
+  immediately (shared production database).
+
+### How to add a new issue (e.g. July 2027)
+
+1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
+2. Enter the issue **Title** (e.g. "Guru Purnima Issue")
+3. Choose the **Month** and enter the **Year** (both required; one issue per
+   month/year)
+4. Paste the **Flipbook URL** (the HeyZine link)
+5. (Optional) Add a cover: upload a file **or** paste a cover image URL
+6. Leave **Is active** enabled and click **Save**
+
+The issue appears on `/netritvam` on the next page load, in chronological order
+within its year. The newest issue becomes the "Latest issue" card. When the first
+issue of a new year is added, that year becomes the expanded current year and the
+previous year collapses into a **Past editions** archive card. No code changes
+required.
+
+> Cover-image uploads use Django media files (`MEDIA_URL` / `MEDIA_ROOT`, served
+> in `DEBUG`). In production, point `media/` at persistent storage. The seeded
+> covers use bundled frontend assets (`/assets/netritvam/...`), which need no
+> media storage.
+
+### Performance
+
+Each flip-book opens on HeyZine's servers (not ours). The website only serves a
+small JSON list of issues. Cover images are static files cached by the browser.
+Many concurrent users are handled without any server load.
+
+---
+
+## Prerana Yearbook
+
+The Prerana page displays year-wise yearbook editions.
+
+### API endpoint
+
+```
 GET /api/prerna/editions/
 ```
 
@@ -485,13 +586,14 @@ Response:
   via the data migration `0015_seed_prerna_editions.py` on `migrate`.
 - All ongoing content is managed through the Django admin portal:
   - **Prerna Editions** — add year + title + PDF URL + cover image (upload or URL)
-  - New cards appear on the website within 30 seconds (auto-refresh)
+  - New cards appear on the website on the next page load (shared production
+    database — visible to every visitor immediately).
 
 ### How to add a new year's edition
 
 1. Go to http://127.0.0.1:8000/admin/ → **Prerna Editions** → Add
 2. Enter year, title, PDF URL, and upload/paste cover image → Save
-3. Card appears automatically on the website. No code change needed.
+3. Card appears on the website on the next page load. No code change needed.
 
 ### Cover image options
 
@@ -508,68 +610,6 @@ Uploaded file takes priority over pasted URL.
 The PDF opens on Google Drive's servers (not yours). The website only serves
 a small JSON list of editions (~1 KB). Cover images are static files cached
 by the browser. Multiple concurrent users are handled without any server load.
-
----
-
-## Netritvam
-
-The Netritvam page shows the SSSLST Netritvam magazine — a numbered series of
-issues (Netritvam-1, Netritvam-2, …), each backed by a HeyZine flip-book link.
-It is reached from the **Publications** side panel (the featured "Netritvam" card
-→ **Read Latest Issue**) at the route `/netritvam`. It mirrors the Newsletter
-feature but is keyed on a **serial number** instead of month/year, and shown as a
-flat list. Full details:
-[`docs/netritvam-backend-integration.md`](../docs/netritvam-backend-integration.md).
-
-### API endpoint
-
-```
-GET /api/netritvam/
-```
-
-Public, read-only. Returns the latest issue plus all active issues (ordered by
-serial number):
-
-```json
-{
-  "latest": { "id": 7, "title": "Netritvam-7", "serial_number": 7, "flipbook_url": "https://heyzine.com/flip-book/50ec5ecc53.html", "cover_image": "" },
-  "issues": [
-    { "id": 1, "title": "Netritvam-1", "serial_number": 1, "flipbook_url": "https://heyzine.com/flip-book/3b5fb68b15.html", "cover_image": "" }
-  ]
-}
-```
-
-- `latest` — the most recent issue (highest serial number); shown as the
-  highlighted "Latest issue" card. Computed automatically (no admin flag).
-- `issues` — all active issues ordered by serial number ascending
-  (Netritvam-1 → N). The frontend removes the latest from the grid so it appears
-  once.
-
-### How data is managed (admin / CMS)
-
-- Initial data (the seven issues) is seeded automatically via the data migration
-  `0018_seed_netritvam_data.py` when you run `python manage.py migrate`. There is
-  no seed command. The seeder is idempotent (`update_or_create`), so redeploys
-  never duplicate rows and never overwrite admin-added issues.
-- All ongoing content is managed from **Website → Netritvam** in the Django
-  admin. On the deployed site, admin-added issues are visible to every visitor
-  immediately because all users share the production database.
-
-### How to add a new issue (e.g. Netritvam-8)
-
-1. Go to `http://127.0.0.1:8000/admin/` → **Netritvam** → **Add Netritvam**
-2. Enter the **Serial number** (`8`)
-3. Paste the **Flipbook URL** (the HeyZine link — the only required field)
-4. (Optional) Add a cover: upload a file **or** paste a cover image URL
-5. Leave **Is active** enabled and click **Save**
-
-The issue appears on `/netritvam` on the next page load. Because it has the
-highest serial number, it becomes the new "Latest issue" card and the previous
-latest drops into the grid. No code changes required.
-
-> Cover uploads use Django media (`MEDIA_URL` / `MEDIA_ROOT`, served in `DEBUG`).
-> In production, point `media/` at persistent storage so uploaded covers survive
-> restarts. The URL-based cover option avoids file storage.
 
 ---
 

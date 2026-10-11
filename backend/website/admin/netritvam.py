@@ -7,14 +7,14 @@ from website.models import Netritvam
 
 @admin.register(Netritvam)
 class NetritvamAdmin(admin.ModelAdmin):
-    list_display = ('display_title', 'serial_number', 'is_active', 'updated_at')
-    list_filter = ('is_active',)
+    list_display = ('display_title', 'month', 'year', 'is_active', 'updated_at')
+    list_filter = ('year', 'is_active')
     list_editable = ('is_active',)
     search_fields = ('title', 'flipbook_url')
-    ordering = ('-serial_number',)
+    ordering = ('-year', '-month')
     fieldsets = (
         (None, {
-            'fields': ('serial_number', 'title', 'flipbook_url'),
+            'fields': ('title', 'month', 'year', 'flipbook_url'),
         }),
         ('Cover image (optional)', {
             'description': 'Provide a cover image by uploading a file or pasting an image URL. '
