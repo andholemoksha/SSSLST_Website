@@ -32,7 +32,7 @@ export const curriculum = {
       { number: "1", icon: "clipboard", title: "Selection", description: "Selection will be done by 15th December." },
       { number: "2", icon: "landmark", title: "Orientation", description: "3 day contact programme at Prasanthi Nilayam." },
       { number: "3", icon: "flower", title: "Dhyana Vahini", description: "1 month Dhyana Vahini Parayanam about meditation and self reflection." },
-      { number: "4", icon: "heart", title: "Sathvam", description: "12 sessions of inspiring leadership by eminent personalities across different walks of life." },
+      { number: "4", icon: "heart", title: "Satvam", description: "12 sessions of inspiring leadership by eminent personalities across different walks of life." },
       { number: "5", icon: "handshake", title: "Samithi Connect", description: "3 month immersive programme to attend various Seva, spiritual & educational activities at your nearest Samithi." },
       { number: "6", icon: "lightbulb", title: "Project", description: "6-month experiential learning by executing a project at grass-root levels." },
       { number: "7", icon: "notebook", title: "Exam", description: "Evaluate, reflect and excel." },
