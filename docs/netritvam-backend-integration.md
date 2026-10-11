@@ -261,7 +261,7 @@ frontend/src/
 │   │   └── useNetritvam.js              # { data, isLoading, error }
 │   └── components/
 │       ├── NetritvamCard.jsx            # issue card (default) + "Latest issue" (featured)
-│       └── NetritvamYearArchive.jsx     # collapsible per-year "Netritvam <year>" folder
+│       └── NetritvamYearArchive.jsx     # per-year "Netritvam <year>" folder (uses shared Accordion)
 └── pages/
     └── NetritvamPage.jsx                # hero + latest card + current year + past-year archives
 ```
@@ -280,7 +280,11 @@ Wiring:
   collapsible `NetritvamYearArchive` cards** under a "Past editions" heading.
 - `NetritvamYearArchive` shows a "Netritvam \<year\>" folder with the issue count;
   clicking it expands that year's issues in the same 3-column grid and card size
-  as the current year, so an expanded past year reads just as clearly.
+  as the current year, so an expanded past year reads just as clearly. It is
+  built on the **shared `Accordion` component** (`components/ui/accordion.jsx` —
+  the same expand/collapse primitive the FAQ page uses), not a bespoke toggle,
+  so there is one expand/collapse implementation across the site. Each year is
+  its own Accordion instance, so years expand/collapse independently.
 - `NetritvamCard` renders a portrait (3:4) cover with the issue title below; its
   `featured` variant renders the wider highlighted "Latest issue" band. Titles
   display in full (no mid-word truncation).
