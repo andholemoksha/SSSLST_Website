@@ -33,7 +33,7 @@ export function SatsangYearGrid() {
               key={year}
               item={{
                 year: String(year),
-                title: `Satsang Highlights ${year}`,
+                title: `Satvam Highlights ${year}`,
                 image: `/assets/years/${year}/${year}logo.jpeg`,
               }}
             />
