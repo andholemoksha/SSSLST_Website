@@ -664,3 +664,55 @@ endpoints are a separate feature and unchanged.
 Syncing NEW photos requires `GOOGLE_API_KEY` in the backend `.env` (Google Drive
 API enabled) and the folder shared "Anyone with the link → Viewer". Viewing the
 already-seeded photos needs no key.
+
+---
+
+## Samithi Connect Video Reflections
+
+The Samithi Connect page also has a **Video Reflections** section (the "Video"
+card under Reflections, at `/programme/samithi-connect/reflections/video`). It
+shows admin-managed YouTube videos grouped by year, mirroring the Dhyana Vahini
+video-reflection pattern (store a YouTube video id per row; the frontend turns it
+into an embedded player). This is a separate feature from the activity photos and
+the text reflections.
+
+### API endpoints (public, read-only)
+
+```
+GET /api/samithi-connect/videos/years/       -> [2026, 2025, ...]   (years with active videos, newest first)
+GET /api/samithi-connect/videos/?year=YYYY   -> [{ video_id, title, published_at, order }]
+```
+
+Both are read-only; all writes happen through the Django admin. The existing
+`samithi-connect/text/*` (text reflections) and `samithi-connect/wings|activities|photos/`
+(activity photos) endpoints are separate features and unchanged.
+
+### How data is managed (admin / CMS)
+
+- Two initial videos are seeded automatically via migration
+  `0031_samithiconnectvideo.py` on `python manage.py migrate`, so a fresh
+  clone/production shows content immediately — **no API key needed** (videos are
+  public YouTube embeds, not a synced Drive feature).
+- Ongoing content is managed from **Website → Samithi Connect Videos** in the
+  admin. On the live site, admin-added videos are visible to every visitor
+  immediately (shared production database), with no code change or rebuild.
+
+### How to add a new video
+
+1. Admin → **Website → Samithi Connect Videos → Add**
+2. Enter the **Year**, a **Title**, and the **Video id** — the id is the part
+   after `/shorts/` or `youtu.be/` in the URL (e.g. `6V7zg9Scggc` from
+   `https://youtu.be/6V7zg9Scggc`, or `uTHZ16ibW0k` from
+   `https://youtube.com/shorts/uTHZ16ibW0k`)
+3. (Optional) set **Order** (lower shows first within a year); leave
+   **Is active** enabled → **Save**
+
+The video appears on the Samithi Connect video reflections page on the next page
+load, in its year group. Untick **Is active** to hide a video. No API key is
+required — the videos play as standard YouTube embeds.
+
+### Performance
+
+Videos play directly from YouTube's player (not our servers). The website only
+serves a small JSON list of video ids/titles. Many concurrent users are handled
+without any server load.
