@@ -18,7 +18,7 @@ export function SatsangYearPage() {
           className="inline-flex items-center gap-1.5 text-sm font-medium text-link transition-colors hover:text-primary"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Satsang
+          Back to Satvam
         </Link>
       </Section>
 

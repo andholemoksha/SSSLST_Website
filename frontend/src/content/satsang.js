@@ -9,58 +9,58 @@ export const satsang = {
   },
 
   yearsSection: {
-    eyebrow: "Satsang Archives",
-    title: "Year-wise Satsang Archives",
+    eyebrow: "Satvam Archives",
+    title: "Year-wise Satvam Archives",
     description:
-      "The Satsang Archives bring together cherished moments from the SSSLST journey across the years. Explore year-wise collections of Satsang sessions that capture the spirit of learning, connection, and self-transformation.",
+      "The Satvam Archives bring together cherished moments from the SSSLST journey across the years. Explore year-wise collections of Satvam sessions that capture the spirit of learning, connection, and self-transformation.",
     years: [
       {
         year: "2020",
-        title: "Satsang Highlights 2020",
+        title: "Satvam Highlights 2020",
         description:
-          "Placeholder description for the 2020 Satsang collection and activities.",
+          "Placeholder description for the 2020 Satvam collection and activities.",
         image: "/assets/years/2020/2020logo.jpeg",
       },
       {
         year: "2021",
-        title: "Satsang Highlights 2021",
+        title: "Satvam Highlights 2021",
         description:
-          "Placeholder description for the 2021 Satsang collection and activities.",
+          "Placeholder description for the 2021 Satvam collection and activities.",
         image: "/assets/years/2021/2021logo.jpeg",
       },
       {
         year: "2022",
-        title: "Satsang Highlights 2022",
+        title: "Satvam Highlights 2022",
         description:
-          "Placeholder description for the 2022 Satsang collection and activities.",
+          "Placeholder description for the 2022 Satvam collection and activities.",
         image: "/assets/years/2022/2022logo.jpeg",
       },
       {
         year: "2023",
-        title: "Satsang Highlights 2023",
+        title: "Satvam Highlights 2023",
         description:
-          "Placeholder description for the 2023 Satsang collection and activities.",
+          "Placeholder description for the 2023 Satvam collection and activities.",
         image: "/assets/years/2023/2023logo.jpeg",
       },
       {
         year: "2024",
-        title: "Satsang Highlights 2024",
+        title: "Satvam Highlights 2024",
         description:
-          "Placeholder description for the 2024 Satsang collection and activities.",
+          "Placeholder description for the 2024 Satvam collection and activities.",
         image: "/assets/years/2024/2024logo.jpeg",
       },
       {
         year: "2025",
-        title: "Satsang Highlights 2025",
+        title: "Satvam Highlights 2025",
         description:
-          "Placeholder description for the 2025 Satsang collection and activities.",
+          "Placeholder description for the 2025 Satvam collection and activities.",
         image: "/assets/years/2025/2025logo.jpeg",
       },
       {
         year: "2026",
-        title: "Satsang Highlights 2026",
+        title: "Satvam Highlights 2026",
         description:
-          "Placeholder description for the 2026 Satsang collection and activities.",
+          "Placeholder description for the 2026 Satvam collection and activities.",
         image: "/assets/years/2026/2026logo.jpeg",
       },
     ],
