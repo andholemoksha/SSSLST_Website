@@ -69,7 +69,7 @@ export function ProgrammeNumbersSection() {
     colors.secondary[0],
     colors.primary[2],
     colors.secondary[1],
-    colors.primary[1],
+    colors.primary[0], // Projects — same color as the first stat (2400+)
   ];
 
   return (
