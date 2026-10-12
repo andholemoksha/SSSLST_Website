@@ -711,6 +711,15 @@ The video appears on the Samithi Connect video reflections page on the next page
 load, in its year group. Untick **Is active** to hide a video. No API key is
 required — the videos play as standard YouTube embeds.
 
+### Frontend note
+
+The video grid is a shared frontend component
+(`frontend/src/components/ui/video-reflections.jsx`) reused by both Samithi
+Connect and Dhyana Vahini. Each feature's component (e.g. `SamithiConnectVideos`)
+is a thin wrapper that fetches the data and passes its own eyebrow/description/
+year-heading text — so the card markup, play facade, and loading/empty states
+live in one place.
+
 ### Performance
 
 Videos play directly from YouTube's player (not our servers). The website only
