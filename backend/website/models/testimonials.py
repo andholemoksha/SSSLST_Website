@@ -46,7 +46,9 @@ class Testimonial(models.Model):
         verbose_name_plural = 'Testimonials'
 
     def __str__(self):
-        return f'Testimonial #{self.pk}'
+        # Label by display position (order + 1), not the raw primary key, so the
+        # admin reads "Testimonial 1..N" with no gaps when rows are deleted.
+        return f'Testimonial {self.order + 1}'
 
     @property
     def cover_image_source(self):
