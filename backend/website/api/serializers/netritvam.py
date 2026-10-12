@@ -14,7 +14,8 @@ class NetritvamSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'title',
-            'serial_number',
+            'month',
+            'year',
             'flipbook_url',
             'cover_image',
         ]

@@ -281,48 +281,68 @@ class NewsletterEndpointTests(TestCase):
 
 
 class NetritvamEndpointTests(TestCase):
-    # Use high serial numbers that the seed migration (1-7) never uses, so these
+    # Use a far-future year the seed migration (2025/2026) never uses, so these
     # tests are independent of the seeded data.
+    YEAR_OLD = 2098
+    YEAR_NEW = 2099
+
     def setUp(self):
-        # Insert out of order to prove ordering is by serial number.
-        Netritvam.objects.create(serial_number=91, flipbook_url='https://heyzine.com/flip-book/n91.html')
-        Netritvam.objects.create(serial_number=93, flipbook_url='https://heyzine.com/flip-book/n93.html')
-        Netritvam.objects.create(serial_number=92, flipbook_url='https://heyzine.com/flip-book/n92.html')
+        # Insert out of order to prove grouping/ordering is by year then month.
         Netritvam.objects.create(
-            serial_number=99,
+            title='Guru Purnima Issue', month=7, year=self.YEAR_NEW,
+            flipbook_url='https://heyzine.com/flip-book/n-new-jul.html',
+        )
+        Netritvam.objects.create(
+            title='New Year Issue', month=1, year=self.YEAR_NEW,
+            flipbook_url='https://heyzine.com/flip-book/n-new-jan.html',
+        )
+        Netritvam.objects.create(
+            title='Inaugural Issue', month=1, year=self.YEAR_OLD,
+            flipbook_url='https://heyzine.com/flip-book/n-old-jan.html',
+        )
+        Netritvam.objects.create(
+            title='Hidden Issue', month=12, year=self.YEAR_NEW,
             flipbook_url='https://heyzine.com/flip-book/hidden.html',
             is_active=False,
         )
 
-    def test_returns_latest_and_issues(self):
+    def _groups_by_year(self, payload):
+        return {group['year']: group for group in payload['groups']}
+
+    def test_returns_latest_and_groups(self):
         response = self.client.get('/api/netritvam/')
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertIn('latest', payload)
-        self.assertIn('issues', payload)
+        self.assertIn('groups', payload)
 
-    def test_latest_is_highest_active_serial(self):
+    def test_latest_is_highest_year_then_month(self):
         payload = self.client.get('/api/netritvam/').json()
-        # 93 is the highest active serial across seed (7) + these test rows.
-        self.assertEqual(payload['latest']['serial_number'], 93)
-        self.assertEqual(payload['latest']['title'], 'Netritvam-93')
+        self.assertEqual(payload['latest']['year'], self.YEAR_NEW)
+        self.assertEqual(payload['latest']['month'], 7)
+        self.assertEqual(payload['latest']['title'], 'Guru Purnima Issue')
 
-    def test_issues_ordered_by_serial_ascending(self):
+    def test_issues_grouped_by_year(self):
         payload = self.client.get('/api/netritvam/').json()
-        serials = [issue['serial_number'] for issue in payload['issues']]
-        self.assertEqual(serials, sorted(serials))
-        # Our active test rows appear in order; the inactive one does not.
-        test_serials = [s for s in serials if s in (91, 92, 93, 99)]
-        self.assertEqual(test_serials, [91, 92, 93])
+        groups = self._groups_by_year(payload)
+        self.assertIn(self.YEAR_OLD, groups)
+        self.assertIn(self.YEAR_NEW, groups)
+        # Newest year is flagged current; older is not.
+        self.assertTrue(groups[max(groups)]['is_current'])
+        self.assertFalse(groups[self.YEAR_OLD]['is_current'])
 
     def test_inactive_issue_excluded(self):
         payload = self.client.get('/api/netritvam/').json()
-        serials = [issue['serial_number'] for issue in payload['issues']]
-        self.assertNotIn(99, serials)
+        titles = [
+            issue['title']
+            for group in payload['groups']
+            for issue in group['issues']
+        ]
+        self.assertNotIn('Hidden Issue', titles)
 
-    def test_display_title_defaults_to_serial(self):
-        issue = Netritvam.objects.get(serial_number=92)
-        self.assertEqual(issue.display_title, 'Netritvam-92')
+    def test_display_title_uses_custom_title(self):
+        issue = Netritvam.objects.get(flipbook_url='https://heyzine.com/flip-book/n-old-jan.html')
+        self.assertEqual(issue.display_title, 'Inaugural Issue')
 
 
 class ProjectsEndpointTests(TestCase):

@@ -86,13 +86,13 @@ export function NetritvamCard({ issue, featured = false }) {
         )}
       </div>
 
-      {/* Body — same padding + title styling as the video cards */}
-      <div className="flex items-center justify-between gap-2 px-4 py-3">
-        <Text as="p" variant="body" size="sm" className="line-clamp-2 font-medium text-heading">
+      {/* Body — title + open arrow */}
+      <div className="flex items-start justify-between gap-2 px-4 py-3">
+        <Text as="p" variant="body" size="base" className="font-medium leading-snug text-heading">
           {issue.title}
         </Text>
         <ArrowUpRight
-          className="h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           aria-hidden="true"
         />
       </div>

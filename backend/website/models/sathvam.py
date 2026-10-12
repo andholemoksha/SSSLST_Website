@@ -26,8 +26,8 @@ class SathvamPlaylist(models.Model):
 
     class Meta:
         ordering = ['-year']
-        verbose_name = 'Sathvam Playlist'
-        verbose_name_plural = 'Sathvam Playlists'
+        verbose_name = 'Satvam Playlist'
+        verbose_name_plural = 'Satvam Playlists'
 
     def __str__(self):
         return f'{self.year} — {self.playlist_id}'
@@ -65,8 +65,8 @@ class SathvamVideo(models.Model):
 
     class Meta:
         ordering = ['year', 'order', 'id']
-        verbose_name = 'Sathvam Video'
-        verbose_name_plural = 'Sathvam Videos'
+        verbose_name = 'Satvam Video'
+        verbose_name_plural = 'Satvam Videos'
 
     def __str__(self):
         return f'[{self.year}] {self.title}'
