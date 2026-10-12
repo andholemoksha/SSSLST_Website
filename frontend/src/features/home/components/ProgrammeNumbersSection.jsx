@@ -9,6 +9,7 @@ import {
   MapPin,
   BookOpen,
   Users,
+  FolderKanban,
 } from "lucide-react";
 
 import { colors } from "@/components/ui/palette";
@@ -18,6 +19,7 @@ const iconMap = {
   location: MapPin,
   book: BookOpen,
   users: Users,
+  projects: FolderKanban,
 };
 
 export function ProgrammeNumbersSection() {
@@ -67,6 +69,7 @@ export function ProgrammeNumbersSection() {
     colors.secondary[0],
     colors.primary[2],
     colors.secondary[1],
+    colors.primary[0], // Projects — same color as the first stat (2400+)
   ];
 
   return (
@@ -99,24 +102,30 @@ export function ProgrammeNumbersSection() {
             border: `1px solid ${colors.neutral[4]}`,
           }}
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             {programmeNumbers.map((item, index) => {
               const Icon = iconMap[item.icon];
               const currentColor = statColors[index];
-              const isTabletLastRow = index >= programmeNumbers.length - 2;
-              const isTabletRightColumn = index % 2 === 1;
-              const isDesktopLastColumn = index === programmeNumbers.length - 1;
+              // Borders are derived from the item's position in each
+              // breakpoint's grid (2 / 3 / 5 columns), so adding or removing a
+              // stat needs no change here.
+              const total = programmeNumbers.length;
+              const isColEnd = (cols) => index % cols === cols - 1;
+              const isRowEnd = (cols) =>
+                index >= total - ((total % cols) || cols);
 
               return (
                 <div
                   key={item.label}
-                  className={`flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1 ${
-                    !isTabletLastRow ? "border-b" : ""
-                  } ${
-                    !isTabletRightColumn ? "border-r" : ""
-                  } lg:border-b-0 ${
-                    isDesktopLastColumn ? "lg:border-r-0" : "lg:border-r"
-                  }`}
+                  className={[
+                    "flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1",
+                    isColEnd(2) ? "" : "border-r",
+                    isRowEnd(2) ? "" : "border-b",
+                    isColEnd(3) ? "sm:border-r-0" : "sm:border-r",
+                    isRowEnd(3) ? "sm:border-b-0" : "sm:border-b",
+                    isColEnd(5) ? "lg:border-r-0" : "lg:border-r",
+                    "lg:border-b-0",
+                  ].join(" ")}
                   style={{
                     borderColor: colors.neutral[4],
                   }}

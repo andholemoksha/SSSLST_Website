@@ -102,6 +102,12 @@ export const home = {
             icon: "users",
             showPlus: true,
         },
+        {
+            value: null,
+            label: "Projects",
+            icon: "projects",
+            showPlus: false,
+        },
     ],
     exploreSections: [
         {
