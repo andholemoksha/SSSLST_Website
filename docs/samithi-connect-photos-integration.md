@@ -231,3 +231,168 @@ the photos appear (seeded, no key needed). Admins sync new photos at
 | Will developers see photos on pull? | Yes — seeded on `migrate`, no API key needed to view |
 | Key needed? | Only to sync NEW photos (backend `.env`), never to view |
 | Colours hardcoded? | No — design tokens; reuses gallery image/lightbox components |
+
+
+---
+
+# Samithi Connect Video Reflections — Backend Integration
+
+## Overview
+
+Alongside the activity photos and the text reflections, the Samithi Connect page
+has a **Video Reflections** section. It shows admin-managed YouTube videos
+grouped by year, and is reached from the "Video" card under Reflections at the
+route `/programme/samithi-connect/reflections/video`.
+
+This feature mirrors the **Dhyana Vahini video reflections** pattern: each row
+stores a single **YouTube video id** (not a full URL, not a playlist), and the
+frontend turns the id into an embedded player (thumbnail → click → iframe). There
+is no playlist sync and **no API key is required** — the videos are public
+YouTube embeds.
+
+Everything an admin adds in the panel appears on the site automatically, read
+from the database.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        ADMIN WORKFLOW (CMS)                           │
+│                                                                      │
+│  Admin Panel (/admin/) → Samithi Connect Videos                      │
+│       │                                                              │
+│       ├── Add Samithi Connect Video                                  │
+│       │      • Year  (e.g. 2026)                                     │
+│       │      • Title (e.g. "Participant Reflection")                 │
+│       │      • Video id (e.g. 6V7zg9Scggc — from the YouTube URL)    │
+│       │      • Order (lower shows first within a year)               │
+│       │      • Is active (show on site)                              │
+│       │                                                              │
+│       └── Save → appears on the video reflections page automatically │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                        USER EXPERIENCE                                │
+│                                                                      │
+│  Samithi Connect → Reflections → Video                               │
+│       │  GET /api/samithi-connect/videos/years/   -> [2026, ...]     │
+│       │  GET /api/samithi-connect/videos/?year=   -> [ {video...} ]  │
+│       │                                                              │
+│       └── Videos grouped by year; each card is a thumbnail that      │
+│           swaps to an embedded YouTube player on click.              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## API Endpoints
+
+| Endpoint | Method | Auth | Description |
+|---|---|---|---|
+| `/api/samithi-connect/videos/years/` | GET | Public | Years that have active videos (newest first) |
+| `/api/samithi-connect/videos/?year=YYYY` | GET | Public | Active videos for a year, ordered by `order` |
+
+Both are read-only; all writes happen through the Django admin.
+
+### GET /api/samithi-connect/videos/years/
+
+```json
+[2026]
+```
+
+### GET /api/samithi-connect/videos/?year=2026
+
+```json
+[
+  { "video_id": "6V7zg9Scggc", "title": "Samithi Connect Video Reflection 1", "published_at": null, "order": 1 },
+  { "video_id": "uTHZ16ibW0k", "title": "Samithi Connect Video Reflection 2", "published_at": null, "order": 2 }
+]
+```
+
+`year` is required on the videos endpoint (returns 400 if missing/invalid). The
+frontend first calls `/years/`, then fetches videos per year and renders a
+section per year.
+
+## Database Model
+
+### SamithiConnectVideo
+
+| Field | Type | Description |
+|---|---|---|
+| year | PositiveInteger (indexed) | Year the video belongs to (its group heading) |
+| video_id | CharField (unique) | YouTube video id, e.g. `6V7zg9Scggc` |
+| title | CharField | Title shown with the card |
+| published_at | DateField (optional) | Optional publish date |
+| order | PositiveSmallInteger | Lower shows first within a year |
+| is_active | Boolean | Whether to show on the site / return from the API |
+| created_at | DateTime | Record timestamp |
+
+Ordering: `['year', 'order', 'id']`.
+
+## Initial Data — Data Migration
+
+`website/migrations/0031_samithiconnectvideo.py` creates the table and seeds two
+initial videos (idempotent `update_or_create` on `video_id`), so a fresh clone or
+production deploy shows content on `migrate`. No API key is needed — these are
+public YouTube embeds.
+
+## Admin Guide
+
+Admin → **Website → Samithi Connect Videos**.
+
+- **Change list:** Title · Year · Video id · Order · Is active (order/active
+  editable inline). Filter by year/active; search by title/video id.
+- **Add a video:** enter Year, Title, and the **Video id** — the id is the part
+  after `/shorts/` or `youtu.be/` in the URL (e.g. `6V7zg9Scggc` from
+  `https://youtu.be/6V7zg9Scggc`; `uTHZ16ibW0k` from
+  `https://youtube.com/shorts/uTHZ16ibW0k`). Optionally set Order → Save.
+- Result: appears on the video reflections page on the next page load, in its
+  year group. Untick **Is active** to hide a video.
+
+## Frontend Structure
+
+```
+frontend/src/
+├── components/ui/youtube-card.jsx                # shared facade card (thumbnail -> iframe); also used by Sathvam/Dhyana Vahini
+├── components/ui/video-reflections.jsx           # shared VideoReflections grid (year sections of YouTubeCards)
+├── features/samithi/
+│   ├── services/samithiConnectVideo.service.js   # getSamithiConnectVideoYears / getSamithiConnectVideos
+│   ├── hooks/useSamithiConnectVideos.js          # useSamithiConnectVideosByYear() -> { groups, isLoading, isError }
+│   └── components/SamithiConnectVideos.jsx        # thin wrapper: calls the hook, renders <VideoReflections> with Samithi copy
+└── pages/SamithiActivityPage.jsx                  # renders <SamithiConnectVideos/> for reflections/video
+```
+
+The grid itself is the shared `components/ui/video-reflections.jsx` component,
+reused by both Samithi Connect and Dhyana Vahini. `SamithiConnectVideos.jsx` just
+feeds it the data (`groups`, `isLoading`, `isError`) plus its own `eyebrow`,
+`description`, and year-heading text. Each card is the shared
+`components/ui/youtube-card.jsx` `YouTubeCard` (also used by the Sathvam video
+grid): it shows the YouTube thumbnail (`img.youtube.com/vi/<id>/mqdefault.jpg`)
+with a play overlay, and on click swaps to
+`https://www.youtube.com/embed/<id>?autoplay=1&rel=0`.
+
+## Backend Structure
+
+```
+backend/website/
+├── models/samithi_connect_videos.py              # SamithiConnectVideo model
+├── admin/samithi_connect_videos.py               # Admin (year + title + video id + order + is_active)
+├── api/
+│   ├── urls.py                                   # /samithi-connect/videos/ + /videos/years/
+│   ├── views/samithi_connect_videos.py           # samithi_connect_videos, samithi_connect_video_years
+│   └── serializers/samithi_connect_videos.py     # SamithiConnectVideoSerializer
+├── services/samithi_connect_videos_service.py    # get_videos_by_year, get_available_years
+└── migrations/0031_samithiconnectvideo.py        # create table + seed 2 videos
+```
+
+## Summary
+
+| Question | Answer |
+|---|---|
+| Does the admin need to write code? | No |
+| How does the admin add a video? | Admin → Samithi Connect Videos → Add → year + title + video id → Save |
+| Does it appear in the UI automatically? | Yes — on the next page load, no rebuild |
+| How are videos identified? | By a unique YouTube `video_id`; grouped by `year` |
+| API endpoints | `GET /api/samithi-connect/videos/years/` and `/videos/?year=` (public, read-only) |
+| Initial data | 2 videos seeded via migration `0031_samithiconnectvideo.py` |
+| Will developers see videos on pull? | Yes — seeded on `migrate` |
+| Key needed? | No — videos are public YouTube embeds (no API key, no Drive sync) |
+| Pattern | Mirrors Dhyana Vahini video reflections (video id → embedded player) |

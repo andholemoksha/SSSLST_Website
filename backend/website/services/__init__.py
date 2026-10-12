@@ -9,5 +9,6 @@ from .dhyana_vahini_videos_service import *
 from .photo_gallery_service import *
 from .publications_service import *
 from .samithi_connect_service import *
+from .samithi_connect_videos_service import *
 from .sathvam_service import *
 from .testimonials_service import *

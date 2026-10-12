@@ -11,6 +11,7 @@ from .netritvam import NetritvamSerializer
 from .photo_gallery import *
 from .publications import *
 from .samithi_connect import *
+from .samithi_connect_videos import SamithiConnectVideoSerializer
 from .samithi_photos import SamithiActivitySerializer, SamithiPhotoSerializer
 from .sathvam import *
 from .testimonials import TestimonialSerializer
