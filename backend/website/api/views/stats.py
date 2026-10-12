@@ -2,7 +2,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from website.models import Project, WebsiteStat
+from website.models import WebsiteStat
+from website.services.project_service import active_project_count
 
 
 @api_view(['GET'])
@@ -22,6 +23,6 @@ def home_stats(request):
 
     # The projects count is always computed live from the archive so it stays
     # accurate as projects are added/removed — never a stale stored snapshot.
-    payload['projects'] = Project.objects.filter(is_active=True).count()
+    payload['projects'] = active_project_count()
 
     return Response(payload)

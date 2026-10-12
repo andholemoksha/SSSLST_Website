@@ -106,23 +106,38 @@ export function ProgrammeNumbersSection() {
             {programmeNumbers.map((item, index) => {
               const Icon = iconMap[item.icon];
               const currentColor = statColors[index];
+              // Borders are derived from the item's position in each
+              // breakpoint's grid (2 / 3 / 5 columns), so adding or removing a
+              // stat needs no change here.
+              const total = programmeNumbers.length;
+              const isColEnd = (cols) => index % cols === cols - 1;
+              const isRowEnd = (cols) =>
+                index >= total - ((total % cols) || cols);
 
               return (
                 <div
                   key={item.label}
-                  className="flex flex-col items-center border-b border-r px-4 py-10 transition-all duration-300 hover:-translate-y-1 [&:nth-child(2n)]:border-r-0 [&:last-child]:border-b-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(3n)]:border-r-0 sm:[&:nth-child(5)]:border-r-0 sm:[&:last-child]:border-b sm:[&:nth-child(n+4)]:border-b-0 lg:border-b-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r lg:[&:nth-child(5)]:border-r-0"
+                  className={[
+                    "flex flex-col items-center px-6 py-12 transition-all duration-300 hover:-translate-y-1",
+                    isColEnd(2) ? "" : "border-r",
+                    isRowEnd(2) ? "" : "border-b",
+                    isColEnd(3) ? "sm:border-r-0" : "sm:border-r",
+                    isRowEnd(3) ? "sm:border-b-0" : "sm:border-b",
+                    isColEnd(5) ? "lg:border-r-0" : "lg:border-r",
+                    "lg:border-b-0",
+                  ].join(" ")}
                   style={{
                     borderColor: colors.neutral[4],
                   }}
                 >
                   <div
-                    className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-secondary shadow-sm"
+                    className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-secondary shadow-sm"
                     style={{
                       border: `1px solid ${colors.neutral[4]}`,
                     }}
                   >
                     <Icon
-                      className="h-8 w-8"
+                      className="h-9 w-9"
                       style={{ color: currentColor }}
                     />
                   </div>
@@ -130,7 +145,7 @@ export function ProgrammeNumbersSection() {
                   <Text
                     as="h3"
                     variant="heading"
-                    size="4xl"
+                    size="5xl"
                     weight="bold"
                     style={{ color: currentColor }}
                   >
@@ -140,7 +155,7 @@ export function ProgrammeNumbersSection() {
 
                   <Text
                     variant="muted"
-                    className="mt-3 text-center text-base"
+                    className="mt-4 text-center text-base"
                   >
                     {item.label}
                   </Text>
