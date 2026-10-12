@@ -394,7 +394,7 @@ class ProjectsEndpointTests(TestCase):
         self.assertEqual(results[0]['title'], 'Medical Outreach')
         self.assertEqual(results[0]['category_label'], 'Medical / Healthcare')
 
-    def test_csv_import_creates_then_updates_by_title_and_year(self):
+    def test_csv_import_creates_then_updates_by_natural_key(self):
         csv_text = (
             'title,year,state,gender,category,description,document_url\n'
             'Imported Project,2099,Karnataka,Gents,service,Initial description,'
@@ -407,19 +407,40 @@ class ProjectsEndpointTests(TestCase):
         self.assertEqual(Project.objects.get(title='Imported Project', year=self.YEAR).description,
                          'Initial description')
 
-        updated_csv = csv_text.replace('Karnataka', 'Kerala').replace(
-            'Initial description', 'Updated description'
-        )
+        # Same natural key (title + year + state + gender), only a non-key field
+        # changes -> this must update the existing row, not create a new one.
+        updated_csv = csv_text.replace('Initial description', 'Updated description')
         created, updated, skipped = import_projects_from_csv(updated_csv)
 
         self.assertEqual((created, updated, skipped), (0, 1, []))
         project = Project.objects.get(title='Imported Project', year=self.YEAR)
-        self.assertEqual(project.state, 'Kerala')
         self.assertEqual(project.description, 'Updated description')
+        self.assertEqual(Project.objects.filter(title='Imported Project').count(), 1)
 
-    def test_title_and_year_are_unique(self):
+    def test_csv_import_differing_state_or_gender_creates_new_row(self):
+        base_csv = (
+            'title,year,state,gender,category,description,document_url\n'
+            'Shared Title,2099,Karnataka,Gents,service,First,'
+            'https://example.com/a.pdf\n'
+        )
+        import_projects_from_csv(base_csv)
+
+        # Same title + year but a different state -> a different natural key,
+        # so this is a create, not an update.
+        other_csv = base_csv.replace('Karnataka', 'Kerala').replace('First', 'Second')
+        created, updated, skipped = import_projects_from_csv(other_csv)
+
+        self.assertEqual((created, updated, skipped), (1, 0, []))
+        self.assertEqual(Project.objects.filter(title='Shared Title').count(), 2)
+
+    def test_title_year_state_gender_are_unique(self):
         self.create_project('Unique Project')
 
+        # Differing state (part of the key) is allowed -> no error.
+        self.create_project('Unique Project', state='Kerala')
+        self.assertEqual(Project.objects.filter(title='Unique Project').count(), 2)
+
+        # Exact duplicate of all four key fields -> IntegrityError.
         with self.assertRaises(IntegrityError):
             with transaction.atomic():
-                self.create_project('Unique Project', state='Kerala')
+                self.create_project('Unique Project')
