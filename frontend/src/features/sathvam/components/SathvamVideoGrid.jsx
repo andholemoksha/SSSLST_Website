@@ -1,4 +1,4 @@
-import { YouTubeCard } from "@/features/sathvam/components/YouTubeCard";
+import { YouTubeCard } from "@/components/ui/youtube-card";
 import { Text } from "@/components/ui/Text/text";
 
 /**

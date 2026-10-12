@@ -351,7 +351,8 @@ Admin → **Website → Samithi Connect Videos**.
 
 ```
 frontend/src/
-├── components/ui/video-reflections.jsx           # shared VideoReflections grid (VideoCard facade + year sections)
+├── components/ui/youtube-card.jsx                # shared facade card (thumbnail -> iframe); also used by Sathvam/Dhyana Vahini
+├── components/ui/video-reflections.jsx           # shared VideoReflections grid (year sections of YouTubeCards)
 ├── features/samithi/
 │   ├── services/samithiConnectVideo.service.js   # getSamithiConnectVideoYears / getSamithiConnectVideos
 │   ├── hooks/useSamithiConnectVideos.js          # useSamithiConnectVideosByYear() -> { groups, isLoading, isError }
@@ -362,9 +363,11 @@ frontend/src/
 The grid itself is the shared `components/ui/video-reflections.jsx` component,
 reused by both Samithi Connect and Dhyana Vahini. `SamithiConnectVideos.jsx` just
 feeds it the data (`groups`, `isLoading`, `isError`) plus its own `eyebrow`,
-`description`, and year-heading text. Each `VideoCard` uses the facade pattern: it
-shows the YouTube thumbnail (`img.youtube.com/vi/<id>/mqdefault.jpg`) with a play
-overlay, and on click swaps to `https://www.youtube.com/embed/<id>?autoplay=1&rel=0`.
+`description`, and year-heading text. Each card is the shared
+`components/ui/youtube-card.jsx` `YouTubeCard` (also used by the Sathvam video
+grid): it shows the YouTube thumbnail (`img.youtube.com/vi/<id>/mqdefault.jpg`)
+with a play overlay, and on click swaps to
+`https://www.youtube.com/embed/<id>?autoplay=1&rel=0`.
 
 ## Backend Structure
 

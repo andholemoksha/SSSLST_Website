@@ -717,8 +717,10 @@ The video grid is a shared frontend component
 (`frontend/src/components/ui/video-reflections.jsx`) reused by both Samithi
 Connect and Dhyana Vahini. Each feature's component (e.g. `SamithiConnectVideos`)
 is a thin wrapper that fetches the data and passes its own eyebrow/description/
-year-heading text — so the card markup, play facade, and loading/empty states
-live in one place.
+year-heading text. Each card is the shared `components/ui/youtube-card.jsx`
+`YouTubeCard` facade (also used by the Sathvam video grid) — so the card markup,
+play facade, and loading/empty states live in one place rather than being
+re-implemented per feature.
 
 ### Performance
 
