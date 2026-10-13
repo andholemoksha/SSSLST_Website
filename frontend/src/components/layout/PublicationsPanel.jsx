@@ -3,8 +3,6 @@ import { ArrowRight, BookOpen, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/Button/button";
 import { Text } from "@/components/ui/Text/text";
 
-const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
-
 function PublicationArtwork({ featured, imageSrc }) {
   return (
     <div
@@ -50,9 +48,9 @@ function PublicationItem({ publication, featured = false, imageSrc, to, href, on
 }
 
 export function PublicationsPanel({ publications }) {
-  const [open, setOpen] = useState(() => (
-    typeof window !== "undefined" && window.matchMedia(DESKTOP_BREAKPOINT).matches
-  ));
+  // Closed by default on every viewport — the panel only opens when the user
+  // clicks the "Publications" tab (same behaviour on desktop and mobile).
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const closeOnEscape = (event) => event.key === "Escape" && setOpen(false);
