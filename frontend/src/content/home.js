@@ -103,10 +103,12 @@ export const home = {
             showPlus: true,
         },
         {
-            value: null,
+            // Fallback shown before the live count loads (or if the stats API
+            // is unreachable). The real value comes from /api/home/stats/.
+            value: 400,
             label: "Projects",
             icon: "projects",
-            showPlus: false,
+            showPlus: true,
         },
     ],
     exploreSections: [
