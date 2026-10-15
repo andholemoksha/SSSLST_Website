@@ -10,7 +10,7 @@ export function DhyanaVahiniVideos() {
   return (
     <VideoReflections
       eyebrow="Dhyana Vahini"
-      description="Watch guided reflections from the Dhyana Vahini journey."
+      description="Watch reflections from the Dhyana Vahini journey."
       yearHeading={(year) =>
         `${year} Participants Reflections On Their Dhyana Vahini Journey.`
       }

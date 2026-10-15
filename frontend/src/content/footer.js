@@ -28,9 +28,9 @@ export const footer = {
     {
       title: "Affiliates",
       links: [
-        { label: "SSSSO", href: "https://ssssoindia.org/", type: "external" },
+        { label: "SSSSO - Sri Sathya Sai Seva Organisations India", href: "https://ssssoindia.org/", type: "external" },
         {
-          label: "SSSIHL",
+          label: "SSSIHL - Sri Sathya Sai Institute of Higher Learning",
           href: "https://www.sssihl.edu.in/",
           type: "external",
         },

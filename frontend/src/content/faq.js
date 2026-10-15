@@ -56,7 +56,7 @@ export const faq = {
               "1 month Dhyana Vahini Parayanam: daily practice of reading and reflection.",
               "39 Weekly Sessions & Satsangs: skill-building sessions and talks by eminent speakers. This constitutes the major part of the programme.",
               "3 month Samithi Connect Programme: weekly participation at the nearest Samithi.",
-              "6 month Project: a hands-on service project.",
+              "6 month Project: a hands-on project.",
             ],
           },
         },
@@ -86,11 +86,11 @@ export const faq = {
         {
           question: "Is attendance mandatory?",
           answer:
-            "The programme requires a minimum of 80% attendance for certification across sessions and Satsangs.",
+            "The programme requires a minimum of 80% attendance for certification across sessions and satsangs.",
         },
         {
           question: "Is the Contact Programme compulsory?",
-          answer: "Yes. Attendance at the Contact Programme in person is compulsory.",
+          answer: "Yes. Attendance at the in-person Contact Programme at Prasanthi Nilayam is compulsory.",
         },
         {
           question: "What happens if I miss sessions?",
@@ -126,7 +126,7 @@ export const faq = {
         {
           question: "Is there a programme fee?",
           answer:
-            "The programme is free. Participants may need to pay for food and accommodation during the in-person Contact and Graduation Programmes.",
+            "There is no programme fee. Participants may need to pay for food and accommodation during the in-person Contact and Graduation Programmes.",
         },
         {
           question: "Do I need to purchase books or study material?",
