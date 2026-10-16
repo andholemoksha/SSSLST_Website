@@ -40,24 +40,22 @@ function FooterLink({ link }) {
     );
   }
 
-  
-if (link.type === "external") {
-  return (
-    <Text
-      as="a"
-      href={link.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      variant="link"
-      size="sm"
-      className="inline-flex items-center gap-2 text-white-light hover:text-white"
-    >
-      <span className="min-w-0 flex-1">{link.label}</span>
-      <ExternalLink className="h-4 w-4 shrink-0" />
-    </Text>
-  );
-}
-
+  if (link.type === "external") {
+    return (
+      <Text
+        as="a"
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="link"
+        size="sm"
+        className="inline-flex items-center gap-1 whitespace-nowrap text-white-light hover:text-white"
+      >
+        {link.label}
+        <ExternalLink className="h-3 w-3 shrink-0" />
+      </Text>
+    );
+  }
 
   return (
     <Text
@@ -120,7 +118,7 @@ export function Footer() {
               size="sm"
               className="text-white-light"
             >
-              www.youtube.com/@SSSLEADERSHIP
+              Our virtual presence
             </Text>
           </a>
         </div>
