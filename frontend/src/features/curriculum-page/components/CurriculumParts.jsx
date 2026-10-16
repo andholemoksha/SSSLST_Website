@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Section } from "@/components/layout/Section";
@@ -38,27 +38,40 @@ export function CurriculumParts() {
 
   return (
     <Section className="pb-0 pt-8 sm:pt-10 xl:pt-12">
-      <div className="max-w-3xl">
-        <Text variant="eyebrow" size="xs">
-          {parts.eyebrow}
-        </Text>
-        <Text as="h2" variant="heading" size="section" className="mt-2">
-          {parts.title}
-        </Text>
-        <Text variant="muted" className="mt-3">
-          {parts.description}
-        </Text>
-      </div>
+      <section className="relative overflow-hidden rounded-[2rem] border border-border bg-surface p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
+        <div className="absolute inset-0 bg-gradient-to-br from-background/75 to-transparent" />
+        <div className="relative">
+          <div className="max-w-3xl">
+            <Text variant="eyebrow" size="xs">
+              {parts.eyebrow}
+            </Text>
+            <Text as="h2" variant="heading" size="section" className="mt-2">
+              {parts.title}
+            </Text>
+            <Text variant="muted" className="mt-3">
+              {parts.description}
+            </Text>
+          </div>
 
-      <div className="mt-8 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {parts.items.map((item) => (
-          <PartCard key={item.title} item={item} />
-        ))}
-      </div>
+          <div className="mt-8 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {parts.items.map((item) => (
+              <PartCard key={item.title} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <Text variant="muted" size="sm" leading="relaxed" className="mt-6 max-w-3xl">
-        {parts.note}
-      </Text>
+      <div className="mt-6 flex items-start gap-3 rounded-xl border border-primary/15 bg-secondary px-4 py-4 sm:items-center sm:px-6">
+        <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary sm:mt-0" aria-hidden="true" />
+        <div>
+          <Text as="h3" variant="heading" size="sm">
+            {parts.noteTitle}
+          </Text>
+          <Text size="sm" leading="relaxed" className="mt-1">
+            {parts.note}
+          </Text>
+        </div>
+      </div>
     </Section>
   );
 }
