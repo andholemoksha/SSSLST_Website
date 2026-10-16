@@ -118,7 +118,7 @@ export function Footer() {
               size="sm"
               className="text-white-light"
             >
-              Our virtual presence
+              @SSSLEADERSHIP
             </Text>
           </a>
         </div>
