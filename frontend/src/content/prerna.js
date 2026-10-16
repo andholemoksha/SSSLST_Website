@@ -5,7 +5,7 @@ export const prerna = {
     label: "SRI SATHYA SAI PRERANA",
     title: "A Chronicle of Transformation",
     subtitle:
-      "Prerana is the official yearbook of the Sri Sathya Sai Leadership Through Self-Transformation. It captures experiences, learnings, and reflections of every batch of participants.",
+      "Sri Sathya Sai Prerana is the official yearbook of the Sri Sathya Sai Leadership Through Self-Transformation. It captures experiences, learnings, and reflections of every batch of participants.",
     quote:
       "Through Prerana, the journey of self-transformation is recorded, celebrated, and sanctified.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",

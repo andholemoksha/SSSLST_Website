@@ -18,18 +18,33 @@ export const home = {
         ctaSecondary: null,
         publications: {
             title: "Our Publications",
-            featured: {
-                label: "Netritvam",
-                type: "Magazine",
-                summary: "Inspiring leadership stories, insights and reflections from our SSSLST community.",
-                cta: "Read Latest Issue",
-            },
-            secondary: {
-                label: "Monthly",
-                type: "Newsletter",
-                summary: "Updates, events and highlights from the SSSLST community.",
-                cta: "View This Month",
-            },
+            items: [
+                {
+                    label: "Sri Sathya Sai Netritvam",
+                    type: "Magazine",
+                    summary: "Inspiring leadership stories, insights and reflections from our SSSLST community.",
+                    cta: "Read Latest Issue",
+                    image: "/assets/publications/netritvam-cover.png",
+                    to: "/netritvam",
+                    featured: true,
+                },
+                {
+                    label: "Sri Sathya Sai Prerana",
+                    type: "Yearbook",
+                    summary: "A chronicle of transformation capturing the experiences and reflections of every batch of participants.",
+                    cta: "Explore Editions",
+                    image: "/assets/publications/prerana-cover.jpg",
+                    to: "/prerna",
+                },
+                {
+                    label: "Sri Sathya Sai Monthly",
+                    type: "Newsletter",
+                    summary: "Updates, events and highlights from the SSSLST community.",
+                    cta: "View This Month",
+                    image: "/assets/publications/newsletter-cover.png",
+                    to: "/newsletter",
+                },
+            ],
         },
         features: [
             { icon: "calendar", label: "Weekly Sessions" },

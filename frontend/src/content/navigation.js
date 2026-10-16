@@ -13,10 +13,17 @@ export const navigation = {
     },
     { title: "Curriculum", href: "/curriculum" },
     {
+      title: "Publications",
+      children: [
+        { title: "Sri Sathya Sai Netritvam", href: "/netritvam" },
+        { title: "Sri Sathya Sai Prerana", href: "/prerna" },
+        { title: "Sri Sathya Sai Monthly Newsletters", href: "/newsletter" },
+      ],
+    },
+    {
       title: "Digital Archives",
       children: [
         { title: "Testimonials", href: "/testimonials" },
-        { title: "Prerana", href: "/prerna" },
         { title: "Photo Gallery", href: "/gallery" },
       ],
     },

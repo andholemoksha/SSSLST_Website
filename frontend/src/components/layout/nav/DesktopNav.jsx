@@ -9,7 +9,7 @@ export function DesktopNav() {
   return (
     <nav
       aria-label="Primary"
-      className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 xl:flex"
+      className="ml-12 mr-auto hidden items-center gap-6 xl:flex 2xl:ml-16 2xl:gap-8"
     >
       {navigation.links.map((item) => (
         <DesktopNavItem key={item.title} item={item} />

@@ -105,25 +105,23 @@ export function PublicationsPanel({ publications }) {
           <X />
         </Button>
 
-        <div className="flex h-full flex-col px-4 pb-4 pt-16 sm:px-6 sm:pt-8 lg:px-8">
+        <div className="flex h-full flex-col overflow-y-auto px-4 pb-4 pt-16 sm:px-6 sm:pt-8 lg:px-8">
           <Text as="h2" variant="heading" size="3xl">
             {publications.title}
           </Text>
           <div className="my-4 border-t border-border sm:my-6" />
-          <PublicationItem
-            publication={publications.featured}
-            featured
-            imageSrc="/assets/publications/netritvam-cover.png"
-            to="/netritvam"
-            onNavigate={() => setOpen(false)}
-          />
-          <div className="border-t border-border" />
-          <PublicationItem
-            publication={publications.secondary}
-            imageSrc="/assets/publications/newsletter-cover.png"
-            to="/newsletter"
-            onNavigate={() => setOpen(false)}
-          />
+          {publications.items.map((publication, index) => (
+            <div key={publication.label}>
+              {index > 0 ? <div className="border-t border-border" /> : null}
+              <PublicationItem
+                publication={publication}
+                featured={publication.featured}
+                imageSrc={publication.image}
+                to={publication.to}
+                onNavigate={() => setOpen(false)}
+              />
+            </div>
+          ))}
         </div>
       </aside>
     </>
