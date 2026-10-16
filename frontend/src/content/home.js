@@ -14,7 +14,7 @@ export const home = {
           text: "I want you to be leaders to protect the world. Leaders like lions, self-reliant, courageous, majestic, and just. The lion is the king of animals and I want you to be king among men.",
           attribution: "Bhagawan Sri Sathya Sai Baba - Summer Course, 1992",
         },
-        ctaPrimary: { label: "Explore Programme", to: "/curriculum" },
+        ctaPrimary: { label: "Explore", to: "/programme/overview" },
         ctaSecondary: null,
         publications: {
             title: "Our Publications",
@@ -128,9 +128,9 @@ export const home = {
     ],
     exploreSections: [
         {
-            title: "Curriculum",
+            title: "Overview",
             image: curriculumImage,
-            link: "/curriculum",
+            link: "/programme/overview",
         },
         {
             title: "Samithi Connect",

@@ -767,3 +767,42 @@ re-implemented per feature.
 Videos play directly from YouTube's player (not our servers). The website only
 serves a small JSON list of video ids/titles. Many concurrent users are handled
 without any server load.
+
+---
+
+## Overview (Programme Overview page)
+
+The **Overview** page (formerly "Curriculum") introduces the programme — course
+details, selection information, the SSSLST journey, and learning outcomes. It is
+reached from the **Programme** dropdown (first item, **Overview**) at the route
+`/programme/overview`.
+
+This is a **frontend-static** page — there is **no backend API, model, or admin
+CMS** behind it. Its content lives in `frontend/src/content/curriculum.js` and is
+rendered by `frontend/src/pages/OverviewPage.jsx` (components under
+`frontend/src/features/curriculum/`). To change the copy, edit the content file;
+no migration or admin step is involved.
+
+> Note: this page was previously titled "Curriculum" and served at `/curriculum`.
+> It was renamed to **Overview** and moved to `/programme/overview` so the
+> `/curriculum` route could be reused by the new Curriculum page below.
+
+---
+
+## Curriculum page
+
+The **Curriculum** page describes what participants actually do over the 12-month
+course: a programme-structure grid of five parts (Dhyana Vahini, Satvam, Samithi
+Connect, Projects, Lecture Sessions) and a tabbed **Lecture sessions** section
+with four themes (Foundation, Be, Do, See & Tell). It is a top-level nav item
+(beside Programme) at the route `/curriculum`.
+
+Like the Overview page, this is a **frontend-static** page — **no backend API,
+model, or admin CMS**. Content lives in `frontend/src/content/curriculum-page.js`
+and is rendered by `frontend/src/pages/CurriculumPage.jsx` (components under
+`frontend/src/features/curriculum-page/`). It reuses the shared `HeroSection`,
+`GlassCard`/gradient styling, `Section`, `Card`, and `Text` components, plus the
+same two panel styles used on the Dhyana Vahini page, so it stays visually
+consistent with the rest of the site. To change the copy, edit the content file.
+
+Full details: [`docs/curriculum-page-frontend.md`](../docs/curriculum-page-frontend.md).
