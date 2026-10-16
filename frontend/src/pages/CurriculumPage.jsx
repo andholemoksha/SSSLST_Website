@@ -1,20 +1,13 @@
-import { HeroSection } from "@/components/ui/hero-section";
-import { CourseDetails } from "@/features/curriculum/components/CourseDetails";
-import { SelectionInformationBanner } from "@/features/curriculum/components/SelectionInformationBanner";
-import { CurriculumJourney } from "@/features/curriculum/components/CurriculumJourney";
-import { CurriculumGains } from "@/features/curriculum/components/CurriculumGains";
-import { useCurriculumContent } from "@/features/curriculum/hooks/useCurriculumContent";
+import { CurriculumIntro } from "@/features/curriculum-page/components/CurriculumIntro";
+import { CurriculumParts } from "@/features/curriculum-page/components/CurriculumParts";
+import { CurriculumLectures } from "@/features/curriculum-page/components/CurriculumLectures";
 
 export function CurriculumPage() {
-  const { hero } = useCurriculumContent();
-
   return (
     <>
-      <HeroSection {...hero}/>
-      <CourseDetails />
-      <SelectionInformationBanner />
-      <CurriculumJourney />
-      <CurriculumGains />
+      <CurriculumIntro />
+      <CurriculumParts />
+      <CurriculumLectures />
     </>
   );
 }

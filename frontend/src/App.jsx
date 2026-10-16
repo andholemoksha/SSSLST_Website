@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 
 import { HomePage } from "@/pages/HomePage";
 import { CoursePage } from "@/pages/CoursePage";
+import { OverviewPage } from "@/pages/OverviewPage";
 import { CurriculumPage } from "@/pages/CurriculumPage";
 import { WeeklySessionsPage } from "@/pages/WeeklySessionsPage";
 import { SathvamPage } from "@/pages/SathvamPage";
@@ -52,6 +53,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/programme/overview" element={<OverviewPage />} />
           <Route path="/curriculum" element={<CurriculumPage />} />
 
           <Route

@@ -10,7 +10,7 @@ export const footer = {
     {
       title: "Important Links",
       links: [
-        { label: "Curriculum", href: "/curriculum", type: "internal" },
+        { label: "Overview", href: "/programme/overview", type: "internal" },
         { label: "Projects", href: "/projects", type: "internal" },
         { label: "FAQ", href: "/faq", type: "internal" },
       ],

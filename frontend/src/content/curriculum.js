@@ -1,6 +1,6 @@
 export const curriculum = {
   hero: {
-    label: "CURRICULUM",
+    label: "OVERVIEW",
     title: "A Transformative Learning Journey",
     subtitle: "An integrated curriculum that combines spirituality, values, leadership, service and practical learning to nurture compassionate and responsible leaders.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",

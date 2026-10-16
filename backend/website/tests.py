@@ -341,7 +341,7 @@ class NetritvamEndpointTests(TestCase):
     def setUp(self):
         # Insert out of order to prove grouping/ordering is by year then month.
         Netritvam.objects.create(
-            title='Guru Purnima Issue', month=7, year=self.YEAR_NEW,
+            title='Guru Poornima Issue', month=7, year=self.YEAR_NEW,
             flipbook_url='https://heyzine.com/flip-book/n-new-jul.html',
         )
         Netritvam.objects.create(
@@ -372,7 +372,7 @@ class NetritvamEndpointTests(TestCase):
         payload = self.client.get('/api/netritvam/').json()
         self.assertEqual(payload['latest']['year'], self.YEAR_NEW)
         self.assertEqual(payload['latest']['month'], 7)
-        self.assertEqual(payload['latest']['title'], 'Guru Purnima Issue')
+        self.assertEqual(payload['latest']['title'], 'Guru Poornima Issue')
 
     def test_issues_grouped_by_year(self):
         payload = self.client.get('/api/netritvam/').json()

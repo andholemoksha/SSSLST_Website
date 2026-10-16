@@ -36,9 +36,11 @@ export function HeroSection({
       <Container className="relative z-20 grid min-h-[720px] max-w-[1700px] items-center gap-12 py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[0.95fr_0.9fr] lg:gap-20 lg:py-20">
         {/* Left Content */}
         <div className="max-w-3xl">
-          <Text variant="eyebrow" size="sm" className="sm:text-base">
-            {label}
-          </Text>
+          {label ? (
+            <Text variant="eyebrow" size="sm" className="sm:text-base">
+              {label}
+            </Text>
+          ) : null}
 
           <Text
             as="h1"
