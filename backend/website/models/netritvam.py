@@ -23,13 +23,13 @@ class Netritvam(models.Model):
     """A single Netritvam issue backed by a HeyZine flip-book link.
 
     Issues are grouped by ``year`` on the site (e.g. "Netritvam 2025"); the
-    ``title`` is the issue name (e.g. "Guru Purnima Issue") and ``month`` marks
+    ``title`` is the issue name (e.g. "Guru Poornima Issue") and ``month`` marks
     when it was published within the year.
     """
 
     title = models.CharField(
         max_length=255,
-        help_text='Issue name shown on the card, e.g. "Guru Purnima Issue".',
+        help_text='Issue name shown on the card, e.g. "Guru Poornima Issue".',
     )
     month = models.PositiveSmallIntegerField(
         choices=MONTH_CHOICES,

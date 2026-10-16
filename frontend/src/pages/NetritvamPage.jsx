@@ -28,7 +28,7 @@ export function NetritvamPage() {
             Netritvam
           </Text>
           <Text variant="muted" size="base" leading="relaxed" className="mt-3 max-w-2xl md:text-lg">
-            Leadership stories, insights and reflections from the SSSLST community —
+            Leadership stories, insights and reflections from the SSSLST community -
             read every issue of our magazine.
           </Text>
         </Container>

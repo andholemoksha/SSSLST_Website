@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             name='title',
             field=models.CharField(
                 max_length=255,
-                help_text='Issue name shown on the card, e.g. "Guru Purnima Issue".',
+                help_text='Issue name shown on the card, e.g. "Guru Poornima Issue".',
             ),
         ),
         migrations.RemoveField(
