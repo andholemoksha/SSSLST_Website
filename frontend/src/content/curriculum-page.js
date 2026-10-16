@@ -1,6 +1,5 @@
 export const curriculumPage = {
   hero: {
-    label: "",
     title: "Curriculum",
     subtitle:
       "Sri Sathya Sai Leadership through Self-Transformation is a 12-month hybrid certificate course. It combines online study and lectures, service with the Seva Samithi, and a real-life project, with two residential sessions at Prasanthi Nilayam.",
