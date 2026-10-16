@@ -2,8 +2,8 @@ export const satsang = {
   hero: {
     title: "Satsangatve Nissangatvam",
     subtitle:
-      "Listen to renowned leaders, artists and devotees of Swami share stories of hard work, devotion and surrender, with uplifting guidance for today's youth.",
-    quote: "Inspiring Journeys. Spiritual Insights",
+      "In this series of Satsangs, listen to renowned leaders, artists and devotees of Swami share stories of hard work, devotion and surrender, with uplifting guidance for today's youth.",
+    quote: "Inspiring Journeys. Spiritual Insights.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/satsang/hero/satsang-hero.jpg",
   },
@@ -12,7 +12,7 @@ export const satsang = {
     eyebrow: "Satvam Archives",
     title: "Year-wise Satvam Archives",
     description:
-      "The Satvam Archives bring together cherished moments from the SSSLST journey across the years. Explore year-wise collections of Satvam sessions that capture the spirit of learning, connection, and self-transformation.",
+      "The Satvam Archives bring together cherished moments from satsangs across the years. Explore year-wise collections of Satvam sessions that capture the spirit of learning, connection, and self-transformation.",
     years: [
       {
         year: "2020",

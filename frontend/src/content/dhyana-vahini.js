@@ -4,7 +4,7 @@ export const dhyanaVahini = {
     title: "Dhyana Vahini",
     subtitle:
     "Dhyana Vahini, meaning “Stream of Meditation,” is one of the 15 Vahinis written by Bhagawan Sri Sathya Sai Baba. It is a comprehensive guide to the practice and purpose of meditation, covering subjects such as concentration, one-pointedness, purity, humility, control of the mind, overcoming distracting tendencies and developing an inward vision.",
-    quote: "The divine guidebook on Jyothi meditation by our beloved Bhagavan Sri Sathya Sai Baba.",
+    quote: "The Divine guidebook on Jyothi Meditation by our beloved Bhagawan Sri Sathya Sai Baba.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg",
   },

@@ -18,13 +18,13 @@ export function HighlightsSection() {
         <Text size="lg" leading="relaxed" className="mt-6">
           Through{" "}
           <span className="font-bold">
-            impactful sessions, Satsangs and live projects
+            impactful sessions, satsangs, and live projects
           </span>{" "}
-          that enable Experiential Leadership,{" "}
+          that enable experiential leadership,{" "}
           <em className="font-bold">
             the physical and mental prowess of the youth is strengthened
           </em>{" "}
-          – which is the foundation on which a Nation is built.
+          – which is the foundation on which our Nation is built.
         </Text>
       </div>
     </Section>

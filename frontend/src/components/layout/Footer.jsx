@@ -49,10 +49,10 @@ function FooterLink({ link }) {
         rel="noopener noreferrer"
         variant="link"
         size="sm"
-        className="inline-flex items-center gap-1 text-white-light hover:text-white"
+        className="inline-flex items-center gap-1 whitespace-nowrap text-white-light hover:text-white"
       >
         {link.label}
-        <ExternalLink className="h-3 w-3" />
+        <ExternalLink className="h-3 w-3 shrink-0" />
       </Text>
     );
   }
@@ -118,7 +118,7 @@ export function Footer() {
               size="sm"
               className="text-white-light"
             >
-              Our virtual presence
+              @SSSLEADERSHIP
             </Text>
           </a>
         </div>
