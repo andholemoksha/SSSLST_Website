@@ -27,12 +27,14 @@ export function TileCard({
   meta,
   cta = "View",
   showFooter = true,
+  variant = "default",
   className,
   cardClassName,
   imageClassName,
   imagePosition = "center",
   onImageError,
 }) {
+  const isCompact = variant === "compact";
   const isExternal = to && (to.startsWith("http://") || to.startsWith("https://"));
   const Wrapper = to ? (isExternal ? "a" : Link) : "div";
   const wrapperProps = to
@@ -80,7 +82,19 @@ export function TileCard({
           ) : null}
         </div>
 
-        {/* Body */}
+        {/* Compact body: just a tight title, no description or footer */}
+        {isCompact ? (
+          <div className="px-2 py-2">
+            <Text
+              as="h3"
+              variant="heading"
+              size="sm"
+              className="line-clamp-2 text-center leading-snug"
+            >
+              {title}
+            </Text>
+          </div>
+        ) : (
         <div className="flex flex-1 flex-col p-4">
           <Text as="h3" variant="heading" size="base">{title}</Text>
           {description ? (
@@ -131,6 +145,7 @@ export function TileCard({
             </div>
           ) : null}
         </div>
+        )}
       </Card>
     </Wrapper>
   );

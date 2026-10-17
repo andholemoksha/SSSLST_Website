@@ -665,7 +665,7 @@ off. No React/code changes are needed.
 
 ---
 
-## Samithi Connect Activity Photos
+## Samithi Connect Activity Photos (Carousel)
 
 The Samithi Connect page has three wings — **Spiritual, Service, Education** —
 each with activity cards (e.g. "Vedam", "Narayan Seva", "Vidya Jyoti"), and each
@@ -673,17 +673,22 @@ activity has photos synced from a Google Drive folder. It reuses the Photo
 Gallery pattern (admin-managed, Drive-synced, read from the DB). Full details:
 [`docs/samithi-connect-photos-integration.md`](../docs/samithi-connect-photos-integration.md).
 
+On the public page the wings are now shown as compact, non-clickable title +
+image cards, and a single **wallpaper carousel** below the Reflections section
+shows one representative image per activity, filterable by wing. The carousel is
+backed by one simplified read-only endpoint.
+
 ### API endpoints (public, read-only)
 
 ```
-GET /api/samithi-connect/wings/                 -> [{ wing, label, activity_count, photo_count, cover_image }]
-GET /api/samithi-connect/activities/?wing=X     -> [{ id, wing, title, slug, description, photo_count, cover_image }]
-GET /api/samithi-connect/photos/?activity=ID    -> { count, next, previous, results:[{ id, title, thumbnail_link, full_link, width, height }] }
+GET /api/samithi-connect/photos/   -> [{ wing, title, image }]
 ```
 
-Only wings/activities that actually have active photos are returned. Photos are
-paginated (24 per page). The existing `samithi-connect/text/*` reflection
-endpoints are a separate feature and unchanged.
+Returns one image (the first active photo, by order) per active activity that
+has photos, in canonical wing order (Spiritual → Service → Education). The
+frontend filters client-side by the selected wing chips. The existing
+`samithi-connect/text/*` reflection endpoints are a separate feature and
+unchanged.
 
 ### How data is managed (admin / CMS)
 
@@ -724,8 +729,8 @@ GET /api/samithi-connect/videos/?year=YYYY   -> [{ video_id, title, published_at
 ```
 
 Both are read-only; all writes happen through the Django admin. The existing
-`samithi-connect/text/*` (text reflections) and `samithi-connect/wings|activities|photos/`
-(activity photos) endpoints are separate features and unchanged.
+`samithi-connect/text/*` (text reflections) and `samithi-connect/photos/`
+(activity photo carousel) endpoints are separate features and unchanged.
 
 ### How data is managed (admin / CMS)
 

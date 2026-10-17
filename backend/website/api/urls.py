@@ -9,7 +9,7 @@ from .views.sathvam import sathvam_videos, sathvam_years
 from .views.dhyana_vahini_text import get_dhyana_vahini_text
 from .views.samithi_connect import get_samithi_connect_text, get_samithi_connect_text_years
 from .views.samithi_connect_videos import samithi_connect_videos, samithi_connect_video_years
-from .views.samithi_photos import samithi_wings, samithi_activities, samithi_photos
+from .views.samithi_photos import samithi_photos
 from .views.newsletter import get_newsletters
 from .views.netritvam import get_netritvam
 from .views.testimonials import get_testimonials
@@ -30,8 +30,6 @@ urlpatterns = [
     path('samithi-connect/text/years/', get_samithi_connect_text_years, name='samithi-connect-text-years'),
     path('samithi-connect/videos/', samithi_connect_videos, name='samithi-connect-videos'),
     path('samithi-connect/videos/years/', samithi_connect_video_years, name='samithi-connect-video-years'),
-    path('samithi-connect/wings/', samithi_wings, name='samithi-wings'),
-    path('samithi-connect/activities/', samithi_activities, name='samithi-activities'),
     path('samithi-connect/photos/', samithi_photos, name='samithi-photos'),
     path('newsletters/', get_newsletters, name='newsletters'),
     path('netritvam/', get_netritvam, name='netritvam'),

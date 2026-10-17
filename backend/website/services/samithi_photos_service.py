@@ -18,46 +18,44 @@ from website.services.photo_gallery_service import (
 
 # ─────────────────────────── Query services (read path) ───────────────────────────
 
-def get_active_wings():
-    """Distinct wings that have at least one active activity with photos.
+def get_carousel_images():
+    """One representative image per active activity, tagged by wing.
 
-    Returns them in the canonical order Spiritual -> Service -> Education.
+    Returns a list of dicts ``{'wing', 'title', 'image'}`` — the first active
+    photo (by order, id) of every active activity that has photos, grouped in
+    the canonical wing order Spiritual -> Service -> Education. This backs the
+    public Samithi Connect carousel.
     """
-    used = set(
-        SamithiActivity.objects.filter(is_active=True, photos__is_active=True)
-        .values_list('wing', flat=True)
-        .distinct()
-    )
-    order = [SamithiActivity.Wing.SPIRITUAL, SamithiActivity.Wing.SERVICE, SamithiActivity.Wing.EDUCATION]
-    return [w for w in order if w in used]
-
-
-def get_activities_for_wing(wing):
-    """Active activities in a wing that contain at least one active photo."""
-    return (
-        SamithiActivity.objects.filter(
-            wing=wing,
-            is_active=True,
-            photos__is_active=True,
+    wing_order = [
+        SamithiActivity.Wing.SPIRITUAL,
+        SamithiActivity.Wing.SERVICE,
+        SamithiActivity.Wing.EDUCATION,
+    ]
+    items = []
+    for wing in wing_order:
+        activities = (
+            SamithiActivity.objects.filter(
+                wing=wing,
+                is_active=True,
+                photos__is_active=True,
+            )
+            .distinct()
+            .order_by('order', 'id')
         )
-        .distinct()
-        .order_by('order', 'id')
-    )
-
-
-def get_activity_counts_for_wing(wing):
-    """(activity_count, photo_count) for a wing, counting only active items with photos."""
-    activities = get_activities_for_wing(wing)
-    activity_count = activities.count()
-    photo_count = SamithiPhoto.objects.filter(
-        activity__wing=wing, activity__is_active=True, is_active=True,
-    ).count()
-    return activity_count, photo_count
-
-
-def get_photos_for_activity(activity_id):
-    """Active photos for an activity id, in order."""
-    return SamithiPhoto.objects.filter(activity_id=activity_id, is_active=True).order_by('order', 'id')
+        for activity in activities:
+            first = (
+                activity.photos.filter(is_active=True)
+                .order_by('order', 'id')
+                .first()
+            )
+            if first is None:
+                continue
+            items.append({
+                'wing': wing,
+                'title': activity.title,
+                'image': first.thumbnail_link,
+            })
+    return items
 
 
 # ─────────────────────────── Drive sync ───────────────────────────
