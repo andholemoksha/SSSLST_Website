@@ -3,7 +3,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from website.models import WebsiteStat
-from website.services.project_service import active_project_count
 
 
 @api_view(['GET'])
@@ -15,14 +14,11 @@ def home_stats(request):
         payload = {stat.key: stat.value for stat in stats if stat.key}
     else:
         payload = {
-            'graduates': 2400,
-            'states_covered': 28,
-            'batches_completed': 12,
-            'current_participants': 340,
+            'graduates': 2600,
+            'states_covered': 31,
+            'batches_completed': 7,
+            'projects': 500,
+            'current_participants': 258,
         }
-
-    # The projects count is always computed live from the archive so it stays
-    # accurate as projects are added/removed — never a stale stored snapshot.
-    payload['projects'] = active_project_count()
 
     return Response(payload)

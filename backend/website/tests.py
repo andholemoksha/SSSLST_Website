@@ -28,63 +28,27 @@ class HomeStatsEndpointTests(TestCase):
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertIsInstance(payload, dict)
-        self.assertEqual(payload['graduates'], 2400)
-        self.assertEqual(payload['states_covered'], 28)
-        self.assertEqual(payload['batches_completed'], 12)
-        self.assertEqual(payload['current_participants'], 340)
+        self.assertEqual(payload['graduates'], 2600)
+        self.assertEqual(payload['states_covered'], 31)
+        self.assertEqual(payload['batches_completed'], 7)
+        self.assertEqual(payload['current_participants'], 258)
         self.assertNotIn('label', str(payload))
         self.assertNotIn('icon', str(payload))
 
     def test_home_stats_always_includes_live_projects_count(self):
-        # projects is computed live from the active Project rows, so it is
-        # always present and equals the current active Project count (the test
-        # DB already contains the seeded projects, so compare against that).
-        baseline = Project.objects.filter(is_active=True).count()
+        # projects is a stored WebsiteStat (seeded = 500), not a live count,
+        # so it is independent of how many Project rows exist.
         Project.objects.create(
             title='Stat Project A', year=2099, state='Karnataka',
             gender='Gents', category='service',
             document_url='https://example.com/stat-a.pdf',
-        )
-        Project.objects.create(
-            title='Stat Project B', year=2099, state='Kerala',
-            gender='Mahila', category='medical',
-            document_url='https://example.com/stat-b.pdf',
         )
 
         response = self.client.get('/api/home/stats/')
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('projects', response.json())
-        self.assertEqual(response.json()['projects'], baseline + 2)
-
-    def test_home_stats_projects_count_excludes_inactive_projects(self):
-        baseline = Project.objects.filter(is_active=True).count()
-        Project.objects.create(
-            title='Active Project', year=2099, state='Karnataka',
-            gender='Gents', category='service',
-            document_url='https://example.com/active.pdf',
-        )
-        Project.objects.create(
-            title='Hidden Project', year=2099, state='Karnataka',
-            gender='Gents', category='service',
-            document_url='https://example.com/hidden.pdf',
-            is_active=False,
-        )
-
-        response = self.client.get('/api/home/stats/')
-
-        # Only the active project is counted (+1), not the inactive one.
-        self.assertEqual(response.json()['projects'], baseline + 1)
-
-    def test_home_stats_projects_count_updates_live(self):
-        first = self.client.get('/api/home/stats/').json()['projects']
-        Project.objects.create(
-            title='Another Project', year=2099, state='Goa',
-            gender='Gents', category='service',
-            document_url='https://example.com/another.pdf',
-        )
-        second = self.client.get('/api/home/stats/').json()['projects']
-        self.assertEqual(second, first + 1)
+        self.assertEqual(response.json()['projects'], 500)
 
 
 class DhyanaVahiniVideoEndpointTests(TestCase):
