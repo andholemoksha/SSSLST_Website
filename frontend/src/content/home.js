@@ -16,6 +16,9 @@ export const home = {
         },
         ctaPrimary: { label: "Explore", to: "/programme/overview" },
         ctaSecondary: null,
+        // "Watch Video" button beside "Explore".
+        // TODO: replace with the specific YouTube video/channel URL later.
+        youtube: { url: "https://youtube.com", label: "Watch Video" },
         publications: {
             title: "Our Publications",
             items: [
@@ -94,36 +97,36 @@ export const home = {
     ],
     programmeNumbers: [
         {
-            value: 2400,
+            value: 2600,
             label: "Graduates",
             icon: "graduation",
             showPlus: true,
         },
         {
-            value: 28,
-            label: "States Covered",
+            value: 31,
+            label: "States",
             icon: "location",
             showPlus: false,
         },
         {
-            value: 12,
-            label: "Batches Completed",
+            value: 7,
+            label: "Batches",
             icon: "book",
             showPlus: false,
         },
         {
-            value: 340,
-            label: "Current Participants",
-            icon: "users",
-            showPlus: true,
-        },
-        {
             // Fallback shown before the live count loads (or if the stats API
             // is unreachable). The real value comes from /api/home/stats/.
-            value: 400,
+            value: 500,
             label: "Projects",
             icon: "projects",
             showPlus: true,
+        },
+        {
+            value: 258,
+            label: "Current Participants",
+            icon: "users",
+            showPlus: false,
         },
     ],
     exploreSections: [

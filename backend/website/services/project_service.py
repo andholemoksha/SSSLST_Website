@@ -32,15 +32,6 @@ def _as_list(value):
     return [v for v in values if v not in (None, '')]
 
 
-def active_project_count():
-    """Return the number of active projects in the archive.
-
-    Computed live so homepage stats stay accurate as projects are added or
-    removed — never a stored snapshot.
-    """
-    return Project.objects.filter(is_active=True).count()
-
-
 def search_projects(*, search=None, year=None, state=None, gender=None, category=None):
     """Return a filtered, sorted queryset of active projects.
 

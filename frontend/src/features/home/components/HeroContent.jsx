@@ -39,6 +39,7 @@ export function HeroContent({ hero }) {
         <HeroButtons
           ctaPrimary={hero.ctaPrimary}
           ctaSecondary={hero.ctaSecondary}
+          youtube={hero.youtube}
         />
       </div>
 

@@ -70,12 +70,31 @@ GET /api/home/stats/
 Response:
 ```json
 {
-  "graduates": 2400,
-  "states_covered": 28,
-  "batches_completed": 12,
-  "current_participants": 340
+  "graduates": 2600,
+  "states_covered": 31,
+  "batches_completed": 7,
+  "projects": 500,
+  "current_participants": 258
 }
 ```
+
+The homepage "Programme by the Numbers" strip is backed by the `WebsiteStat`
+table. Each stat is a stored row (`key`, integer `value`, `sort_order`,
+`is_active`) and the endpoint returns them ordered by `sort_order`. Display
+order: Graduates → States → Batches → **Projects** → Current Participants (last).
+
+- **All five stats — including `projects` — are stored values.** `projects` is
+  no longer a live count of the Project archive; it is a normal editable stat
+  (previously it was computed on the fly, which has been removed).
+- Admins edit the numbers at **Website → Website Stats** (value / sort order /
+  active). Changes appear on the site on the next page load — no code change or
+  rebuild. Adding or deleting stat rows is disabled in the admin; new keys are
+  introduced via a migration.
+- The displayed labels (e.g. "Graduates", "States") and the trailing `+` live on
+  the frontend (`statMeta` in `features/home/hooks/useHomeContent.js`), not in the
+  database.
+
+Seeded values come from migration `0039_update_home_stats.py`.
 
 ### Sathvam - Available Years
 

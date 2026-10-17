@@ -199,7 +199,7 @@ Sort (decreasing priority, no client control):
 
 Response (DRF page-number pagination):
 {
-  "count": 418,
+  "count": 397,
   "next": "http://.../api/projects/?page=2",
   "previous": null,
   "results": [
@@ -220,4 +220,12 @@ Response (DRF page-number pagination):
 Projects are managed through Django Admin (dropdowns for state/gender/category)
 or bulk-loaded with the `import_projects` management command
 (CSV columns: title,year,state,gender,category,description,document_url).
+
+The archive is seeded from a cleaned source spreadsheet. The current dataset
+(397 active projects, 2020–2025) is seeded by migration
+`0040_reseed_projects_v3.py` from `migrations/seed_data/projects_v3.csv`, which
+replaces the earlier 0028/0033 seeds. Seeding normalises the category to its
+lowercase wing value and maps the non-standard state "Karnataka South" to
+"Karnataka"; rows are de-duplicated on the natural key
+(title + year + state + gender).
 There is no public write endpoint.

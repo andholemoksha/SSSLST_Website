@@ -5,18 +5,18 @@ import { getHomeStats } from "@/features/home/services/home.service";
 
 const statMeta = {
     graduates: { label: "Graduates", icon: "graduation", showPlus: true },
-    states_covered: { label: "States Covered", icon: "location", showPlus: false },
-    batches_completed: { label: "Batches Completed", icon: "book", showPlus: false },
-    current_participants: { label: "Current Participants", icon: "users", showPlus: true },
-    projects: { label: "Projects", icon: "projects", showPlus: false },
+    states_covered: { label: "States", icon: "location", showPlus: false },
+    batches_completed: { label: "Batches", icon: "book", showPlus: false },
+    current_participants: { label: "Current Participants", icon: "users", showPlus: false },
+    projects: { label: "Projects", icon: "projects", showPlus: true },
 };
 
 const statOrder = [
     "graduates",
     "states_covered",
     "batches_completed",
-    "current_participants",
     "projects",
+    "current_participants",
 ];
 
 function parseStatValue(value, fallback = 0) {
