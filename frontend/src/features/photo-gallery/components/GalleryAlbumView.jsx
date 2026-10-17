@@ -51,9 +51,9 @@ export function GalleryAlbumView({ album, onBack }) {
       ) : null}
 
       {isLoading ? (
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="aspect-square animate-pulse rounded-lg bg-muted" />
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="aspect-[4/3] animate-pulse rounded-lg bg-muted" />
           ))}
         </div>
       ) : isError ? (
@@ -66,14 +66,14 @@ export function GalleryAlbumView({ album, onBack }) {
         </Text>
       ) : (
         <>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((photo, i) => (
               <button
                 key={photo.id}
                 type="button"
                 onClick={() => openAt(i)}
                 aria-label={`Open photo ${i + 1}`}
-                className="group relative aspect-square overflow-hidden rounded-lg border border-border bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
                 <GalleryImage
                   src={photo.thumbnail_link}
