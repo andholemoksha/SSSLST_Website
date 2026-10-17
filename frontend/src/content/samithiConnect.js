@@ -129,14 +129,14 @@ export const samithiSections = [
     activities: [
       {
         slug: "text",
-        name: "Text",
+        name: "Text Reflections",
         image: textImage,
         imagePosition: "60% 5%",
 
       },
       {
         slug: "video",
-        name: "Video",
+        name: "Video Reflections",
         image: videoImage,
         imagePosition: "60% 15%",
       },

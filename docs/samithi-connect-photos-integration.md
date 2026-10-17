@@ -3,23 +3,33 @@
 ## Overview
 
 The Samithi Connect page is organised into **three wings** — Spiritual, Service,
-and Education. Each wing has a set of **activities** (section cards, e.g. "Vedam",
-"Narayan Seva", "Vidya Jyoti"), and each activity has **photos** sourced from a
-Google Drive folder.
+and Education. Each wing is backed by **one Google Drive folder**, and the public
+page shows a single **photo carousel** (below the Reflections section) that is
+filterable by wing. Selecting a wing shows **all** of that wing's photos.
 
-This feature makes those activity photos **admin-managed**, reusing the exact
-Photo Gallery pattern:
+How it works:
 
-- An admin manages one record per activity: pick the **Wing**, name the
-  **Activity**, paste a **Google Drive folder link**, and click **Sync from
-  Drive**.
-- Sync lists the folder's images via the Drive API v3 and stores each photo's id
-  + CDN image links in the database.
+- There is exactly **one activity per wing** (Spiritual / Service / Education),
+  each storing a **Drive folder link**.
+- Photos are sourced from that folder: each photo row stores the Drive file id
+  plus two public CDN image links (a small thumbnail and a larger lightbox
+  image). Binary files are never stored in the database.
 - The public site reads only from the database — it never calls Google Drive on
-  a user request (fast, cache-friendly, safe for many users and Drive limits).
+  a user request (fast, cache-friendly, safe for Drive rate limits).
 
-The three wings and their activity cards already exist on the frontend; this
-feature backs each activity card with real photos and a lightbox.
+> ### What this PR (`feat/samithi-connect`) changed
+> This feature previously had **16 named activity cards** (Vedam, Narayan Seva,
+> Vidya Jyoti, …) spread across the wings, three separate endpoints
+> (`/wings/`, `/activities/`, `/photos/?activity=`), and per-activity gallery
+> pages. This PR **simplified it**:
+> - Replaced the 16 activities with **exactly three — one per wing** — each
+>   pointing at a single Drive folder.
+> - Reduced the public API to **one** read-only endpoint
+>   (`/api/samithi-connect/photos/`) that returns a flat, wing-tagged list.
+> - The carousel returns **every** photo of a wing (not one representative image
+>   per activity), so a selected wing shows all its photos.
+> - Removed the dedicated serializer; the view returns a plain list built by the
+>   service.
 
 ---
 
@@ -31,47 +41,54 @@ feature backs each activity card with real photos and a lightbox.
 │                                                                      │
 │  Admin Panel (/admin/) → Website → Samithi Connect Activities        │
 │       │                                                              │
-│       ├── Add / edit an activity                                     │
-│       │      • Wing (dropdown: Spiritual / Service / Education)       │
-│       │      • Activity title (e.g. "Vedam", "Narayan Seva")          │
+│       ├── Three activities exist: Spiritual / Service / Education     │
+│       │      • Wing (dropdown)                                        │
 │       │      • Drive folder URL                                       │
-│       │      • Cover image (optional: upload or paste URL)            │
 │       │      • Is active                                              │
 │       │                                                              │
 │       └── Save (auto-syncs) or click "Sync from Drive"               │
-│               → photos appear on the website automatically           │
+│               → folder's photos pulled into the DB (needs API key)    │
 └─────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        USER EXPERIENCE                                │
 │                                                                      │
-│  /programme/samithi-connect → 3 wings → activity cards               │
+│  /programme/samithi-connect                                          │
+│       │  GET /api/samithi-connect/photos/  -> [{ wing, title, image}]│
 │       │                                                              │
-│       v  open an activity (e.g. Service → Narayan Seva)              │
-│  /programme/samithi-connect/<wing>/<activity>                        │
-│       │  GET /api/samithi-connect/photos/?activity=ID (paginated)    │
-│       │                                                              │
-│       └── photo grid → click a photo → lightbox (prev/next/close)    │
+│       └── Carousel with wing chips (Spiritual / Service / Education); │
+│           choosing a wing shows all of that wing's photos.           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## API Endpoints
+## API Endpoint
 
-All are public (AllowAny), read-only, and read from the database only.
+Public (AllowAny), read-only, reads from the database only.
 
 | Endpoint | Query params | Returns |
 |---|---|---|
-| `GET /api/samithi-connect/wings/` | — | `[{ wing, label, activity_count, photo_count, cover_image }]` (only wings with photos) |
-| `GET /api/samithi-connect/activities/` | `wing` (required) | `[{ id, wing, title, slug, description, photo_count, cover_image }]` (only activities with photos) |
-| `GET /api/samithi-connect/photos/` | `activity` (required), `page`, `page_size` | `{ count, next, previous, results: [{ id, title, thumbnail_link, full_link, width, height }] }` |
+| `GET /api/samithi-connect/photos/` | — | `[{ wing, title, image }]` |
 
-Photos are paginated (24 per page, max 60). Wings/activities with no active
-photos are excluded automatically — no empty cards.
+- Returns **all** active photos, each tagged by `wing`, in canonical wing order
+  (Spiritual → Service → Education) and by photo order within each wing.
+- `image` is the photo's thumbnail CDN link; `title` is the photo title (falling
+  back to the activity title).
+- The frontend filters client-side by the selected wing chips.
 
-> Note: the existing text reflections endpoints (`/api/samithi-connect/text/` and
-> `/api/samithi-connect/text/years/`) are a separate feature and are unchanged.
+```json
+[
+  { "wing": "spiritual", "title": "...", "image": "https://drive.google.com/thumbnail?id=...&sz=w400" },
+  { "wing": "service",   "title": "...", "image": "https://drive.google.com/thumbnail?id=...&sz=w400" }
+]
+```
+
+> The old `/api/samithi-connect/wings/` and `/activities/` endpoints and the
+> paginated `/photos/?activity=` form were removed by this PR. The text
+> reflections (`/api/samithi-connect/text/*`) and video reflections
+> (`/api/samithi-connect/videos/*`) endpoints are separate features and are
+> unchanged.
 
 ---
 
@@ -79,19 +96,19 @@ photos are excluded automatically — no empty cards.
 
 Binary image files are **not** stored in the database — only metadata/links.
 
-### SamithiActivity
+### SamithiActivity (now one row per wing)
 | Field | Type | Notes |
 |---|---|---|
 | wing | Char (choices: spiritual / service / education, indexed) | Which wing |
-| title | Char | Activity name, e.g. "Vedam", "Narayan Seva" |
-| slug | Slug | URL slug (matches the frontend route; auto-filled from title) |
+| title | Char | "Spiritual" / "Service" / "Education" |
+| slug | Slug | Auto-filled from title |
 | description | Text (blank) | Optional |
-| drive_folder_url | URL (blank) | The Drive folder link |
+| drive_folder_url | URL | The wing's Drive folder link |
 | drive_folder_id | Char (auto) | Extracted from the URL on save |
 | cover_image_url / cover_image | URL / ImageField | Optional; else first photo is the cover |
-| photo_count | PositiveInteger (auto) | Maintained on sync |
+| photo_count | PositiveInteger (auto) | Maintained on sync/seed |
 | is_active | Boolean (indexed) | |
-| order | PositiveInteger | Lower shows first within a wing |
+| order | PositiveInteger | Spiritual=1, Service=2, Education=3 |
 | last_synced_at | DateTime | |
 
 Constraints/indexes: unique `(wing, title)`; index on `(wing, is_active, order)`.
@@ -119,49 +136,59 @@ shared files.
 ## Initial Data — Migrations
 
 ```
-0021_samithiactivity_samithiphoto   → creates the two tables
-0022_seed_samithi_activities        → seeds the 16 activity cards (wing + title + Drive link)
-0023_seed_samithi_photos            → seeds the synced photos (from seed_data/samithi_photos_seed_data.json)
+0021_samithiactivity_samithiphoto     → creates the two tables
+0022_seed_samithi_activities          → (superseded) seeded the old 16 activity cards
+0023_seed_samithi_photos              → (superseded) seeded the old photos
+0037_seed_samithi_carousel_images     → (superseded) carousel safeguard for the old data
+0038_reset_samithi_to_three_folders   → THIS PR: resets to 3 wing activities + seeds all their photos
 ```
 
-- `0022` creates the 16 activity cards with their Drive folder links (matching
-  the frontend slugs).
-- `0023` seeds the photos that were synced from Drive, using only public Drive
-  file ids + CDN links (no API key in the data). So a fresh clone / production
-  deploy shows the photos on `migrate` — **no Google API key needed to view**.
-- Both seeders are idempotent (`update_or_create`) and never overwrite
-  admin-added content.
+**`0038_reset_samithi_to_three_folders.py`** is the authoritative seed now. On
+`migrate` it:
+
+1. Deletes all previously-seeded activities/photos (the output of 0022/0023/0037).
+2. Creates exactly three activities — Spiritual, Service, Education — each with
+   its Drive folder link.
+3. Seeds **all** of their photos from
+   `migrations/seed_data/samithi_three_folders_seed.json` (static Drive file ids
+   + public CDN links, exported once from a live Drive sync).
+
+Because the photo links are static CDN URLs, a fresh clone / production deploy
+shows every photo on `migrate` with **no Google API key and no network call**.
+The migration is idempotent (`update_or_create`) and reversible.
 
 ---
 
-## Google Drive setup (only needed to sync NEW/updated photos)
+## Google Drive setup (only needed to RE-SYNC photos)
 
-Viewing the seeded photos needs no key. To sync new photos (or refresh after
-adding to a Drive folder):
+Viewing the seeded photos needs no key. A key is only required to pull fresh
+contents from a Drive folder (e.g. after adding photos to it):
 
 `.env` (backend only — never committed, never exposed to the frontend):
 ```
 GOOGLE_API_KEY=your-key-here
 ```
 1. Google Cloud Console → enable **Google Drive API** → create an **API key**.
-2. Share each activity's Drive folder as **"Anyone with the link → Viewer"**.
+2. Share each wing's Drive folder as **"Anyone with the link → Viewer"**.
+
+> After syncing, the key can be removed again — reads never need it. The seeded
+> JSON is what ships in git, so the key is not required to run or deploy.
 
 ---
 
 ## Admin Guide
 
-Admin → **Website → Samithi Connect Activities**.
+Admin → **Website → Samithi Connect Activities** (three rows: Spiritual /
+Service / Education).
 
-### Add / update an activity's photos
-1. Open (or Add) an activity.
-2. Choose the **Wing** and enter the **Activity title**.
-3. Paste the **Drive folder link**.
-4. Click **Save** (auto-syncs) or use the **Sync from Drive** button on the list.
+### Refresh a wing's photos
+1. Open the wing's activity.
+2. Confirm/replace the **Drive folder link**.
+3. Click **Save** (auto-syncs) or use the **Sync from Drive** button on the list.
 
-The activity's photos appear on `/programme/samithi-connect/<wing>/<activity>`.
-Deleting a photo from the Drive folder and re-syncing deactivates it. **Delete is
-disabled** — untick **Is active** to hide an activity or photo. Photos are
-managed by sync (not added by hand).
+Re-syncing requires `GOOGLE_API_KEY`. Deleting a photo from the Drive folder and
+re-syncing deactivates it. **Delete is disabled** — untick **Is active** to hide
+an activity or photo. Photos are managed by sync (not added by hand).
 
 ---
 
@@ -170,52 +197,25 @@ managed by sync (not added by hand).
 **Backend**
 ```
 website/models/samithi_photos.py               # SamithiActivity, SamithiPhoto
-website/services/samithi_photos_service.py     # query services + sync_activity (reuses gallery Drive helpers)
-website/api/serializers/samithi_photos.py      # serializers
-website/api/views/samithi_photos.py            # wings / activities / photos endpoints
+website/services/samithi_photos_service.py     # get_carousel_images (all photos per wing) + sync_activity
+website/api/views/samithi_photos.py            # single /photos/ endpoint (no serializer)
 website/admin/samithi_photos.py                # admin with "Sync from Drive"
 website/migrations/0021_samithiactivity_samithiphoto.py
-website/migrations/0022_seed_samithi_activities.py
-website/migrations/0023_seed_samithi_photos.py
-website/migrations/seed_data/samithi_photos_seed_data.json
+website/migrations/0038_reset_samithi_to_three_folders.py
+website/migrations/seed_data/samithi_three_folders_seed.json
 ```
 
 **Frontend**
 ```
-features/samithi/services/samithiPhotos.service.js
-features/samithi/hooks/useSamithiPhotos.js           # TanStack Query (wings/activities/infinite photos)
-features/samithi/components/SamithiActivityPhotos.jsx # photo grid + "Load more" + lightbox
-features/samithi/components/SamithiActivityGallery.jsx # resolves wing+slug -> activity id
-pages/SamithiActivityPage.jsx                         # renders the gallery for wing activities
+features/samithi/services/samithiPhotos.service.js   # fetchSamithiPhotos() -> GET /samithi-connect/photos/
+features/samithi/hooks/useSamithiPhotos.js           # TanStack Query -> { items, isLoading, isError }
+features/samithi/components/SamithiPhotos.jsx         # wing-filterable, auto-advancing carousel
+features/samithi/components/SamithiSections.jsx       # renders the three wing columns + <SamithiPhotos/>
 ```
 
-The frontend reuses the Photo Gallery `GalleryImage` and `GalleryLightbox`
-components. Activities resolve by `slug` (which matches the frontend route slug),
-falling back to a slugified title.
-
----
-
-## Pull and run (for developers)
-
-```powershell
-git fetch origin
-git checkout feature/samithi-connect-backend-integration
-
-cd backend
-.\venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python manage.py migrate     # creates tables + seeds 16 activities + 91 photos
-python manage.py runserver
-
-# frontend (second terminal)
-cd frontend
-npm install
-npm run dev
-```
-
-Open `http://localhost:5173/programme/samithi-connect`, pick a wing → activity —
-the photos appear (seeded, no key needed). Admins sync new photos at
-`/admin/` → **Samithi Connect Activities**.
+The carousel renders each item as `{ wing, title, image }`; cards use
+`aspect-[3/4]` with `object-cover`, and images set `referrerPolicy="no-referrer"`
+so Google's CDN serves them reliably in the browser.
 
 ---
 
@@ -223,14 +223,15 @@ the photos appear (seeded, no key needed). Admins sync new photos at
 
 | Question | Answer |
 |---|---|
-| What is it? | Admin-managed photos for each Samithi Connect wing/activity |
-| How does the admin add photos? | Admin → Samithi Connect Activities → set Drive link → Sync from Drive |
+| What is it? | A wing-filterable photo carousel for Samithi Connect |
+| How many activities? | Three — one per wing (Spiritual / Service / Education) |
+| How does the admin refresh photos? | Admin → Samithi Connect Activities → open a wing → Sync from Drive |
 | Does it appear in the UI automatically? | Yes — on the next page load |
-| API endpoints | `GET /api/samithi-connect/wings/ | /activities/?wing= | /photos/?activity=` |
-| Initial data | 16 activities + 91 photos seeded via migrations (public CDN links) |
+| API endpoint | `GET /api/samithi-connect/photos/` → `[{ wing, title, image }]` (all photos, wing-tagged) |
+| Initial data | 3 activities + all their photos seeded via `0038` (public CDN links) |
 | Will developers see photos on pull? | Yes — seeded on `migrate`, no API key needed to view |
-| Key needed? | Only to sync NEW photos (backend `.env`), never to view |
-| Colours hardcoded? | No — design tokens; reuses gallery image/lightbox components |
+| Key needed? | Only to re-sync from Drive (backend `.env`), never to view |
+| Colours hardcoded? | No — design tokens; shared carousel component |
 
 
 ---

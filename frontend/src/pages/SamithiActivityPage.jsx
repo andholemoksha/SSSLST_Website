@@ -4,10 +4,7 @@ import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
 import { TextReflectionsPanel } from "@/components/ui/text-reflections-panel";
 import { samithiContent } from "@/content/samithiConnect";
 import { useSamithiConnectText, useSamithiConnectTextYears } from "@/features/samithi/hooks/useSamithiConnectText";
-import { SamithiActivityGallery } from "@/features/samithi/components/SamithiActivityGallery";
 import { SamithiConnectVideos } from "@/features/samithi/components/SamithiConnectVideos";
-
-const PHOTO_WINGS = new Set(["spiritual", "service", "education"]);
 
 /** Turn a slug into a title, e.g. "nagar-sankeertan" -> "Nagar Sankeertan". */
 function slugToTitle(slug) {
@@ -44,8 +41,9 @@ function SamithiTextReflections() {
 }
 
 /**
- * A Samithi Connect activity — placeholder for now, reusing the shared
- * PagePlaceholder layout. Real content (Component -> Hook -> Service -> API) later.
+ * A Samithi Connect reflections page (text or video). The three wings
+ * (spiritual/service/education) are display-only on the hub page and no longer
+ * route here; only the Reflections cards link in.
  */
 export function SamithiActivityPage() {
   const { sectionSlug, activitySlug } = useParams();
@@ -74,23 +72,6 @@ export function SamithiActivityPage() {
         backLabel={activityPage.backLabel}
       >
         <SamithiConnectVideos />
-      </PagePlaceholder>
-    );
-  }
-
-  if (PHOTO_WINGS.has(sectionSlug)) {
-    return (
-      <PagePlaceholder
-        title={activityName}
-        description={activityPage.description(slugToTitle(sectionSlug))}
-        backTo="/programme/samithi-connect"
-        backLabel={activityPage.backLabel}
-      >
-        <SamithiActivityGallery
-          wing={sectionSlug}
-          activitySlug={activitySlug}
-          activityName={activityName}
-        />
       </PagePlaceholder>
     );
   }

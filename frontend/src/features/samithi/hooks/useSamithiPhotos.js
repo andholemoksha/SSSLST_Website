@@ -1,41 +1,23 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import {
-  fetchSamithiActivities,
-  fetchSamithiPhotos,
-  fetchSamithiWings,
-} from "@/features/samithi/services/samithiPhotos.service";
+import { fetchSamithiPhotos } from "@/features/samithi/services/samithiPhotos.service";
 
 const STALE_TIME = 5 * 60 * 1000;
 
-/** Wings that have activities with photos. */
-export function useSamithiWings() {
-  return useQuery({
-    queryKey: ["samithi", "wings"],
-    queryFn: fetchSamithiWings,
+/**
+ * Samithi Connect photos (one per activity, tagged by wing) for the page carousel.
+ * Returns { items, isLoading, isError } where each item is { wing, title, image }.
+ */
+export function useSamithiPhotos() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["samithi", "photos"],
+    queryFn: fetchSamithiPhotos,
     staleTime: STALE_TIME,
   });
-}
 
-/** Activities (with photos) for a wing. */
-export function useSamithiActivities(wing) {
-  return useQuery({
-    queryKey: ["samithi", "activities", wing],
-    queryFn: () => fetchSamithiActivities(wing),
-    enabled: Boolean(wing),
-    staleTime: STALE_TIME,
-  });
-}
-
-/** Photos for an activity, page by page ("Load more"). */
-export function useSamithiActivityPhotos(activityId) {
-  return useInfiniteQuery({
-    queryKey: ["samithi", "photos", activityId],
-    queryFn: ({ pageParam = 1 }) => fetchSamithiPhotos(activityId, pageParam),
-    enabled: Boolean(activityId),
-    staleTime: STALE_TIME,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.next ? allPages.length + 1 : undefined,
-  });
+  return {
+    items: data ?? [],
+    isLoading,
+    isError,
+  };
 }

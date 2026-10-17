@@ -149,29 +149,23 @@ Only active reflections for the requested year are returned. The `year`
 query parameter is required and must be an integer. There is no public POST
 endpoint; records are managed through Django Admin.
 
-GET /samithi-connect?wing=string&activity=string
+### Activity photo carousel
+
+GET /samithi-connect/photos
+
+Application route (with the `/api/` prefix and trailing slash):
+`GET /api/samithi-connect/photos/`
+
+Returns one representative image per active activity that has photos, tagged by
+wing, in canonical wing order (spiritual → service → education). The frontend
+filters client-side by the selected wing chips. Read-only; photos are managed
+through Django Admin (Drive sync).
 
 Response:
 [
-  "image-path-1",
-  "image-path-2",
-  "image-path-3"
+  { "wing": "spiritual", "title": "Vedam", "image": "https://.../image.jpg" },
+  { "wing": "service", "title": "Narayan Seva", "image": "https://.../image.jpg" }
 ]
-
-
-POST /samithi-connect
-
-Request:
-{
-  "wing": "string",
-  "activity": "string",
-  "path": "string"
-}
-
-Response:
-{
-  "status": "ok"
-}
 
 
 
