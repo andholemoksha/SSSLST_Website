@@ -1,6 +1,7 @@
 import { Section } from "@/components/layout/Section";
 import { QuoteBlock } from "@/components/ui/quote-block";
-import spiritualImg from "@/assets/categories/homepage-quote-bhagawan.jpeg";
+import heroQuoteImg from "@/assets/home/hero-quote.jpg";
+
 export function HeroQuote({ quote }) {
   return (
     <Section className="bg-soft-beige">
@@ -23,9 +24,9 @@ export function HeroQuote({ quote }) {
             <div className="flex justify-center md:justify-end">
               <div className="h-56 w-56 overflow-hidden rounded-full sm:h-64 sm:w-64 lg:h-72 lg:w-72">
                 <img
-                  src={spiritualImg}
-                  alt="Spiritual gathering"
-                  className="h-full w-full object-cover"
+                  src={heroQuoteImg}
+                  alt="Bhagawan Sri Sathya Sai Baba"
+                  className="h-full w-full object-cover object-top"
                 />
               </div>
             </div>
