@@ -132,7 +132,7 @@ export function SamithiPhotos() {
   return (
     <section className="pt-2">
       <Text as="h2" variant="heading" size="2xl" className="mb-4">
-        Wallpapers
+        Photos
       </Text>
 
       {/* Chips */}
@@ -165,11 +165,11 @@ export function SamithiPhotos() {
         </div>
       ) : isError ? (
         <Text variant="muted" className="py-12 text-center">
-          Wallpapers could not be loaded right now. Please try again later.
+          Photos could not be loaded right now. Please try again later.
         </Text>
       ) : filtered.length === 0 ? (
         <Text variant="muted" className="py-12 text-center">
-          No wallpapers for the selected categories yet.
+          No photos for the selected categories yet.
         </Text>
       ) : (
         <div
@@ -208,7 +208,7 @@ export function SamithiPhotos() {
               <button
                 type="button"
                 onClick={goPrev}
-                aria-label="Previous wallpapers"
+                aria-label="Previous photos"
                 className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -216,7 +216,7 @@ export function SamithiPhotos() {
               <button
                 type="button"
                 onClick={goNext}
-                aria-label="Next wallpapers"
+                aria-label="Next photos"
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
               >
                 <ChevronRight className="h-5 w-5" />
