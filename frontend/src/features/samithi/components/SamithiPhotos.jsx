@@ -190,11 +190,12 @@ export function SamithiPhotos() {
                 className="shrink-0 px-1.5 sm:px-2"
                 style={{ flexBasis: cardBasis, maxWidth: cardBasis }}
               >
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg border border-border bg-muted">
+                <div className="aspect-[3/4] w-full overflow-hidden rounded-lg border border-border bg-muted">
                   <img
                     src={item.image}
                     alt={item.title}
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                     className="h-full w-full object-cover"
                   />
                 </div>

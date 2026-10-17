@@ -21,10 +21,11 @@ from website.services.photo_gallery_service import (
 def get_carousel_images():
     """One representative image per active activity, tagged by wing.
 
-    Returns a list of dicts ``{'wing', 'title', 'image'}`` — the first active
-    photo (by order, id) of every active activity that has photos, grouped in
-    the canonical wing order Spiritual -> Service -> Education. This backs the
-    public Samithi Connect carousel.
+    Returns a list of dicts ``{'wing', 'title', 'image'}`` — **every** active
+    photo of every active activity that has photos, grouped in the canonical
+    wing order Spiritual -> Service -> Education (and by activity order, then
+    photo order within each). This backs the public Samithi Connect carousel,
+    so selecting a wing shows all of that wing's photos.
     """
     wing_order = [
         SamithiActivity.Wing.SPIRITUAL,
@@ -43,18 +44,13 @@ def get_carousel_images():
             .order_by('order', 'id')
         )
         for activity in activities:
-            first = (
-                activity.photos.filter(is_active=True)
-                .order_by('order', 'id')
-                .first()
-            )
-            if first is None:
-                continue
-            items.append({
-                'wing': wing,
-                'title': activity.title,
-                'image': first.thumbnail_link,
-            })
+            photos = activity.photos.filter(is_active=True).order_by('order', 'id')
+            for photo in photos:
+                items.append({
+                    'wing': wing,
+                    'title': photo.title or activity.title,
+                    'image': photo.thumbnail_link,
+                })
     return items
 
 
