@@ -5,13 +5,6 @@ import { Container } from "@/components/layout/Container";
 import { Text } from "@/components/ui/Text/text";
 import ssslstLogo from "@/assets/logos/SSSLS Logo PNG.png";
 
-/**
- * YouTube brand logo (red rounded-rect + white play triangle).
- *
- * Colors are baked into the SVG — brand marks are an intentional exception to
- * the "no hardcoded hex" rule. Only used here (the footer social link), so it
- * lives inline rather than in a shared component.
- */
 function YoutubeIcon({ className }) {
   return (
     <svg
