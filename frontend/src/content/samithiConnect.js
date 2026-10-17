@@ -152,7 +152,7 @@ export const samithiContent = {
     quote:
       "Young hearts. Meaningful service. Lasting change.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
-    accentImage: "/assets/satsang/hero/satsang-hero.jpg",
+    accentImage: "/assets/samithi-connect/hero/samithi-connect-hero.jpg",
   },
 
   emptyMessage:
