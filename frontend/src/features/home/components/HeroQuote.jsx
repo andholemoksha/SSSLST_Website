@@ -1,7 +1,6 @@
 import { Section } from "@/components/layout/Section";
 import { QuoteBlock } from "@/components/ui/quote-block";
-import spiritualImg from "@/assets/categories/spiritual-wing.jpg";
-
+import spiritualImg from "@/assets/categories/homepage-quote-bhagawan.jpeg";
 export function HeroQuote({ quote }) {
   return (
     <Section className="bg-soft-beige">

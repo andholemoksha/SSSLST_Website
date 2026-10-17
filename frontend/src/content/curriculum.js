@@ -4,7 +4,7 @@ export const curriculum = {
     title: "A Transformative Learning Journey",
     subtitle: "An integrated curriculum that combines spirituality, values, leadership, service and practical learning to nurture compassionate and responsible leaders.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
-    accentImage: "/assets/dhyana-vahini/hero/dhyana-vahini-hero.jpg"
+    accentImage: "/assets/overview/hero/overview-bhagawan-hero.jpg"
   },
   courseDetails: {
     eyebrow: "Programme Overview",
