@@ -16,13 +16,11 @@ const WATCH_GRADIENT_STYLE = {
 // <Button variant="heroPrimary" to="/courses" pill>Explore</Button>
 export function HeroButtons({ ctaPrimary, ctaSecondary, youtube }) {
   const { data: admissions } = useAdmissions();
-  // Admissions being active is the single switch for the secondary CTAs:
-  // when it's on (with an apply link set), BOTH "Watch Video" and "Apply"
-  // appear; when it's off, only "Explore" remains. The video URL is constant,
-  // but it's still gated on this toggle so the two buttons activate together.
-  const admissionsOn = Boolean(admissions?.is_active && admissions.apply_url);
-  const applyUrl = admissionsOn ? admissions.apply_url : null;
-  const showWatch = admissionsOn && youtube;
+  // Admissions being active (with an apply link set) is the single switch for
+  // the secondary CTAs: applyUrl drives the "Apply" button and gates "Watch
+  // Video" too, so both appear together when it's on and only "Explore" remains
+  // when it's off.
+  const applyUrl = admissions?.is_active ? admissions.apply_url : null;
   const watchIsLive = youtube?.url && youtube.url !== "#";
 
   return (
@@ -43,7 +41,7 @@ export function HeroButtons({ ctaPrimary, ctaSecondary, youtube }) {
         </Button>
       )}
 
-      {showWatch && (
+      {applyUrl && youtube && (
         <Button
           href={youtube.url}
           target={watchIsLive ? "_blank" : undefined}
