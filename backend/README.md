@@ -667,48 +667,60 @@ off. No React/code changes are needed.
 
 ## Samithi Connect Activity Photos (Carousel)
 
-The Samithi Connect page has three wings — **Spiritual, Service, Education** —
-each with activity cards (e.g. "Vedam", "Narayan Seva", "Vidya Jyoti"), and each
-activity has photos synced from a Google Drive folder. It reuses the Photo
-Gallery pattern (admin-managed, Drive-synced, read from the DB). Full details:
+The Samithi Connect page has three wings — **Spiritual, Service, Education**.
+Each wing is one activity backed by a single Google Drive folder, and the public
+page shows a **photo carousel** (below the Reflections section) that is
+filterable by wing. It reuses the Photo Gallery Drive helpers (admin-managed,
+Drive-synced, read from the DB). Full details:
 [`docs/samithi-connect-photos-integration.md`](../docs/samithi-connect-photos-integration.md).
 
-On the public page the wings are now shown as compact, non-clickable title +
-image cards, and a single **wallpaper carousel** below the Reflections section
-shows one representative image per activity, filterable by wing. The carousel is
-backed by one simplified read-only endpoint.
+> **This PR (feat/samithi-connect) simplified both the data and the API:**
+> - The old 16 named activity cards (Vedam, Narayan Seva, Vidya Jyoti, …) were
+>   replaced with **exactly three activities — one per wing** (Spiritual /
+>   Service / Education), each pointing at one Drive folder.
+> - The carousel now returns **every** photo of a wing (not one representative
+>   image per activity), so selecting a wing shows all of its photos.
+> - The dedicated serializer was removed; the view returns a plain list built by
+>   the service.
 
-### API endpoints (public, read-only)
+### API endpoint (public, read-only)
 
 ```
 GET /api/samithi-connect/photos/   -> [{ wing, title, image }]
 ```
 
-Returns one image (the first active photo, by order) per active activity that
-has photos, in canonical wing order (Spiritual → Service → Education). The
-frontend filters client-side by the selected wing chips. The existing
-`samithi-connect/text/*` reflection endpoints are a separate feature and
-unchanged.
+Returns **all** active photos, each tagged by wing, in canonical wing order
+(Spiritual → Service → Education) and by photo order within each. The frontend
+filters client-side by the selected wing chips and shows every photo for the
+selected wing(s). The existing `samithi-connect/text/*` (reflections) and
+`samithi-connect/videos/*` (video reflections) endpoints are separate features
+and unchanged.
 
 ### How data is managed (admin / CMS)
 
-- 16 activity cards + their synced photos are seeded automatically via migrations
-  `0022_seed_samithi_activities.py` and `0023_seed_samithi_photos.py` on
-  `python manage.py migrate` — the photos use public Drive CDN links, so a fresh
-  clone/production sees them **without any API key**.
+- The three wing activities **and all their photos** are seeded automatically by
+  migration `0038_reset_samithi_to_three_folders.py` on `python manage.py
+  migrate`. The photo rows carry static Drive file ids + public CDN links
+  (exported once into `migrations/seed_data/samithi_three_folders_seed.json`),
+  so a fresh clone/production shows every photo **with no Google API key and no
+  network call**. (This migration also removes the older 16-activity seeds from
+  `0022`/`0023`/`0037`.)
 - Ongoing content is managed from **Website → Samithi Connect Activities** in the
-  admin: set a Drive folder link and click **Sync from Drive**. On the live site,
-  synced photos are visible to all visitors immediately (shared production DB).
+  admin: open a wing's activity, confirm its Drive folder link, and click **Sync
+  from Drive** to refresh. On the live site, synced photos are visible to all
+  visitors immediately (shared production DB).
 
-### How to add / update photos
+### How to update a wing's photos
 
-1. Admin → **Samithi Connect Activities** → open (or add) an activity
-2. Choose the **Wing**, enter the **Activity title**, paste the **Drive folder link**
+1. Admin → **Samithi Connect Activities** → open the wing (Spiritual / Service /
+   Education)
+2. Confirm/replace the **Drive folder link** (folder shared "Anyone with the link
+   → Viewer")
 3. **Save** (auto-syncs) or click **Sync from Drive** on the list
 
-Syncing NEW photos requires `GOOGLE_API_KEY` in the backend `.env` (Google Drive
-API enabled) and the folder shared "Anyone with the link → Viewer". Viewing the
-already-seeded photos needs no key.
+Re-syncing from Drive requires `GOOGLE_API_KEY` in the backend `.env` (Google
+Drive API enabled). **Viewing the already-seeded photos needs no key** — the
+links point at Google's public CDN and all reads come from the database.
 
 ---
 
