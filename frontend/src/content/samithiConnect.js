@@ -150,7 +150,7 @@ export const samithiContent = {
     subtitle:
       "Samithi Connect is an integral part of the SSSLST journey, encouraging participants to engage regularly with the nearest Sri Sathya Sai Seva Samithi. \nIt provides an opportunity to experience the spirit of seva, participate in Samithi activities and connect the learnings from the programme with practical service.",
     quote:
-      "Young hearts. Meaningful service. Lasting change.",
+      "Building a lasting connection with the Sai Seva community.",
     backgroundImage: "/assets/pictures/hero-background.jpeg",
     accentImage: "/assets/samithi-connect/hero/samithi-connect-hero.jpg",
   },
