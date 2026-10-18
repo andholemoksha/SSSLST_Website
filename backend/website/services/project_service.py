@@ -72,6 +72,17 @@ def search_projects(*, search=None, year=None, state=None, gender=None, category
     return queryset
 
 
+def list_active_project_states():
+    """Return the distinct non-blank states among active projects, sorted alphabetically."""
+    return sorted(
+        Project.objects.filter(is_active=True)
+        .exclude(state='')
+        .order_by()  # clear the model's default ordering so distinct() collapses by state alone
+        .values_list('state', flat=True)
+        .distinct()
+    )
+
+
 # ─────────────────────────── CSV import ───────────────────────────
 
 REQUIRED_CSV_COLUMNS = {'title', 'year', 'state', 'gender', 'category', 'document_url'}

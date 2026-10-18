@@ -16,7 +16,7 @@ from .views.testimonials import get_testimonials
 from .views.prerna import prerna_editions
 from .views.apply import get_apply
 from .views.photo_gallery import gallery_years, gallery_albums, gallery_photos
-from .views.projects import projects
+from .views.projects import projects, project_filter_options
 
 urlpatterns = [
     path('health/', health_check, name='health'),
@@ -40,4 +40,5 @@ urlpatterns = [
     path('gallery/albums/', gallery_albums, name='gallery-albums'),
     path('gallery/photos/', gallery_photos, name='gallery-photos'),
     path('projects/', projects, name='projects'),
+    path('projects/filter-options/', project_filter_options, name='project-filter-options'),
 ]

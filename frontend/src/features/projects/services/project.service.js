@@ -36,6 +36,17 @@ export async function getProjects(params = {}) {
   return data;
 }
 
+/**
+ * Fetch the available filter options for the archive (states that actually
+ * have active projects).
+ *
+ * @returns {Promise<{states:string[]}>}
+ */
+export async function getProjectFilterOptions() {
+  const { data } = await apiClient.get("/projects/filter-options/");
+  return data;
+}
+
 function appendAll(query, key, values) {
   if (!values) return;
   const list = Array.isArray(values) ? values : [values];

@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/Button/button";
 import { Text } from "@/components/ui/Text/text";
 import { cn } from "@/lib/utils";
+import { useProjectFilterOptions } from "@/features/projects/hooks/useProjects";
 import {
   GENDERS,
   INDIAN_STATES,
@@ -166,12 +167,21 @@ function ChipRow({ options, selected, onToggle }) {
 /** State accordion body: a search box above the scrollable checkbox list. */
 function StateList({ selected, onToggle }) {
   const [filter, setFilter] = useState("");
+  const { data } = useProjectFilterOptions();
+
+  // Use the states that actually have active projects; fall back to the full
+  // INDIAN_STATES list while loading, on error, or if the API returns nothing,
+  // so the filter is never empty.
+  const states =
+    Array.isArray(data?.states) && data.states.length > 0
+      ? data.states
+      : INDIAN_STATES;
 
   const visible = useMemo(() => {
     const q = filter.trim().toLowerCase();
-    if (!q) return INDIAN_STATES;
-    return INDIAN_STATES.filter((s) => s.toLowerCase().includes(q));
-  }, [filter]);
+    if (!q) return states;
+    return states.filter((s) => s.toLowerCase().includes(q));
+  }, [filter, states]);
 
   return (
     <div className="flex flex-col gap-2">
