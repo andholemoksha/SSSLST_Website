@@ -1,5 +1,8 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getProjects } from "@/features/projects/services/project.service";
+import {
+  getProjects,
+  getProjectFilterOptions,
+} from "@/features/projects/services/project.service";
 
 /**
  * Fetch a page of projects for the given filters.
@@ -16,5 +19,15 @@ export function useProjects(filters, page) {
     // Keep showing the previous page's results while the next page loads, so
     // the grid doesn't flash empty during pagination/filtering.
     placeholderData: keepPreviousData,
+  });
+}
+
+/**
+ * Fetch the states that actually have active projects, for the state filter.
+ */
+export function useProjectFilterOptions() {
+  return useQuery({
+    queryKey: ["projects", "filter-options"],
+    queryFn: getProjectFilterOptions,
   });
 }

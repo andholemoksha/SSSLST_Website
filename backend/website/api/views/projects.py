@@ -18,7 +18,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from website.api.serializers.projects import ProjectSerializer
-from website.services.project_service import search_projects
+from website.services.project_service import list_active_project_states, search_projects
 
 
 class ProjectPagination(PageNumberPagination):
@@ -62,3 +62,10 @@ def projects(request):
     page = paginator.paginate_queryset(queryset, request)
     serialized = ProjectSerializer(page, many=True, context={'request': request}).data
     return paginator.get_paginated_response(serialized)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def project_filter_options(request):
+    """Return the distinct states available across active projects."""
+    return Response({'states': list_active_project_states()})
