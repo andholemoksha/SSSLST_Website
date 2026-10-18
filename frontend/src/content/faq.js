@@ -73,6 +73,11 @@ export const faq = {
             ],
           },
         },
+        {
+          question: "What is the evaluation criteria?",
+          answer: 
+           "Assessment of learning and understanding through a written examination and oral viva conducted by SSSIHL faculty."
+        },
       ],
     },
     {
