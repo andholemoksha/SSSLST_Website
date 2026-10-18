@@ -38,8 +38,8 @@ function useVisibleCount() {
 /**
  * Wing-filterable, auto-advancing photo carousel.
  *
- * - Three chips (Service / Education / Spiritual), all selected by default.
- * - Shows only images for the selected wings.
+ * - Three chips (Service / Education / Spiritual), single-select (one active).
+ * - Shows only images for the selected wing.
  * - Slides one card every few seconds with a smooth transition, looping
  *   seamlessly (clones of the leading cards are appended so the wrap is
  *   invisible).
@@ -49,17 +49,17 @@ export function SamithiPhotos() {
   const { items, isLoading, isError } = useSamithiPhotos();
   const visibleCount = useVisibleCount();
 
-  const [selectedWings, setSelectedWings] = useState(
-    () => new Set(WING_CHIPS.map((chip) => chip.slug)),
-  );
+  // Single-select: exactly one wing is active at a time (defaults to the first
+  // chip). Clicking a chip switches to that wing's photos.
+  const [selectedWing, setSelectedWing] = useState(WING_CHIPS[0].slug);
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   // While a "snap back" (no-transition reset at the loop seam) is in progress.
   const [isAnimating, setIsAnimating] = useState(true);
 
   const filtered = useMemo(
-    () => items.filter((item) => selectedWings.has(item.wing)),
-    [items, selectedWings],
+    () => items.filter((item) => item.wing === selectedWing),
+    [items, selectedWing],
   );
 
   const canScroll = filtered.length > visibleCount;
@@ -94,17 +94,8 @@ export function SamithiPhotos() {
     return () => clearTimeout(id);
   }, [index, canScroll, filtered.length]);
 
-  const toggleWing = (slug) => {
-    setSelectedWings((current) => {
-      const next = new Set(current);
-      if (next.has(slug)) {
-        // Keep at least one chip selected.
-        if (next.size > 1) next.delete(slug);
-      } else {
-        next.add(slug);
-      }
-      return next;
-    });
+  const selectWing = (slug) => {
+    setSelectedWing(slug);
     // Reset to the first image of the new filtered set (event handler, not effect).
     setIsAnimating(false);
     setIndex(0);
@@ -138,13 +129,13 @@ export function SamithiPhotos() {
       {/* Chips */}
       <div className="mb-5 flex flex-wrap gap-2">
         {WING_CHIPS.map((chip) => {
-          const active = selectedWings.has(chip.slug);
+          const active = selectedWing === chip.slug;
           return (
             <button
               key={chip.slug}
               type="button"
               aria-pressed={active}
-              onClick={() => toggleWing(chip.slug)}
+              onClick={() => selectWing(chip.slug)}
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                 active
@@ -169,7 +160,7 @@ export function SamithiPhotos() {
         </Text>
       ) : filtered.length === 0 ? (
         <Text variant="muted" className="py-12 text-center">
-          No photos for the selected categories yet.
+          No photos for the selected category yet.
         </Text>
       ) : (
         <div
