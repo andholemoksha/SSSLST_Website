@@ -8,7 +8,6 @@ import { getAdmissions } from "@/features/admissions/services/admissions.service
 export function useAdmissions() {
   return useQuery({
     queryKey: ["admissions"],
-    queryFn: getAdmissions,
-    staleTime: 5 * 60 * 1000,
+    queryFn: getAdmissions
   });
 }

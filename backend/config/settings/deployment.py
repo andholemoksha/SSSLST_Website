@@ -77,10 +77,19 @@ CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOWED_ORIGINS = _frontend_origins
 # Allow any Vercel deployment URL (production + preview builds) as a fallback,
 # so preview deploys and alternate Vercel domains are not blocked.
-CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://[a-z0-9-]+\.vercel\.app$']
+# Also allow the ssssoindia.org site (apex + any subdomain) over HTTPS.
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://[a-z0-9-]+\.vercel\.app$',
+    r'^https://([a-z0-9-]+\.)*ssssoindia\.org$',
+    r'^https://([a-z0-9-]+\.)*ssslst\.in$',
+]
 
 CSRF_TRUSTED_ORIGINS = list(_frontend_origins)
 CSRF_TRUSTED_ORIGINS.append('https://*.vercel.app')
+CSRF_TRUSTED_ORIGINS.append('https://*.ssssoindia.org')
+CSRF_TRUSTED_ORIGINS.append('https://ssssoindia.org')
+CSRF_TRUSTED_ORIGINS.append('https://*.ssslst.in')
+CSRF_TRUSTED_ORIGINS.append('https://ssslst.in')
 if _render_host:
     CSRF_TRUSTED_ORIGINS.append(f'https://{_render_host}')
 
