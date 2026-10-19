@@ -23,7 +23,7 @@ export function CurriculumLectures() {
   };
 
   return (
-    <Section id="lectures" className="scroll-mt-24 pt-8 sm:pt-10 xl:pt-12">
+    <Section id="lectures" className="scroll-mt-24 pb-0 pt-8 sm:pt-10 xl:pt-12">
       <section className="rounded-[2rem] border border-border bg-background p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
         <div className="max-w-3xl">
           <Text variant="eyebrow" size="xs">
