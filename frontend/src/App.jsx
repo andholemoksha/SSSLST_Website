@@ -99,7 +99,7 @@ function App() {
           <Route path="/prerna" element={<PrernaPage />} />
           <Route path="/gallery" element={<PhotoGalleryPage />} />
           <Route path="/faq" element={<FaqPage />} />
-          <Route path="/administration" element={<AdministrationPage />} />
+          <Route path="/programme/administration" element={<AdministrationPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
