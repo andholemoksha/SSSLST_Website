@@ -111,7 +111,10 @@ function App() {
           subtext={admissions.subtext}
         />
       ) : null}
-      <PublicationsPanel publications={home.hero.publications} />
+      <PublicationsPanel
+        publications={home.hero.publications}
+        hideOnMobile={Boolean(admissions?.is_active && admissions.apply_url)}
+      />
 
       <Footer />
     </div>

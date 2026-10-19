@@ -3,6 +3,7 @@ import samithiConnectImage from "@/assets/explore/samithiconnect.jpeg";
 import dhyanaVahiniImage from "@/assets/explore/jyothimeditation.jpg";
 import projectsImage from "@/assets/explore/projects.jpg";
 import photoGalleryImage from "@/assets/explore/photogallery.jpg";
+import heroMobileImage from "@/assets/home/hero.jpg";
 
 export const home = {
       hero: {
@@ -76,6 +77,7 @@ export const home = {
             src: "https://hackend.in/bgvideo.mp4",
             poster: null,
             fallbackSrc: "http://hackend.in/bgvideo.mp4",
+            mobileImage: heroMobileImage,
         },
     },
     highlights: [

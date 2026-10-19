@@ -13,7 +13,11 @@ export function HeroSection() {
 
   return (
     <section className="relative -mt-20 flex h-dvh items-center overflow-hidden text-white">
-      <HeroBackgroundVideo src={hero.backgroundMedia?.src} poster={hero.backgroundMedia?.poster} />
+      <HeroBackgroundVideo
+        src={hero.backgroundMedia?.src}
+        poster={hero.backgroundMedia?.poster}
+        mobileImage={hero.backgroundMedia?.mobileImage}
+      />
 
       <Container className="relative z-10 grid w-full gap-8 pt-28 pb-16 lg:pt-24 lg:pb-0">
         <div className="flex min-w-0 items-center">

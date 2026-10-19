@@ -1,16 +1,31 @@
 /**
- * Full-bleed background layer for the Hero: an optional autoplaying video
- * (falls back to the --hero-bg dark gradient when no src is supplied yet)
- * plus the dark overlay + translucent grey overlay stacked on top, in that
- * order, so hero content stays readable either way.
+ * Full-bleed background layer for the Hero.
+ *
+ * On mobile (< md) a static image is shown when `mobileImage` is provided,
+ * which keeps the hero light and avoids autoplaying video on small screens.
+ * From md up, an optional autoplaying video is shown. When neither the mobile
+ * image nor the video src is available, the --hero-bg dark gradient shows
+ * through. The dark + translucent grey overlays are always stacked on top so
+ * hero content stays readable.
  */
-export function HeroBackgroundVideo({ src, poster }) {
+export function HeroBackgroundVideo({ src, poster, mobileImage }) {
   const resolvedSrc = src || null;
+  // When a mobile image exists, hide the video below md so it doesn't load.
+  const videoVisibility = mobileImage ? "hidden md:block" : "block";
+
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden bg-hero-bg">
-      {src && (
+      {mobileImage && (
+        <img
+          className="h-full w-full object-cover md:hidden"
+          src={mobileImage}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
+      {resolvedSrc && (
         <video
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover ${videoVisibility}`}
           src={resolvedSrc}
           poster={poster}
           autoPlay

@@ -47,10 +47,12 @@ function PublicationItem({ publication, featured = false, imageSrc, to, href, on
   );
 }
 
-export function PublicationsPanel({ publications }) {
+export function PublicationsPanel({ publications, hideOnMobile = false }) {
   // Closed by default on every viewport — the panel only opens when the user
   // clicks the "Publications" tab (same behaviour on desktop and mobile).
   const [open, setOpen] = useState(false);
+  const mobileHiddenClass = hideOnMobile ? "hidden sm:block" : "";
+  const drawerMobileHiddenClass = hideOnMobile ? "hidden sm:flex" : "";
 
   useEffect(() => {
     const closeOnEscape = (event) => event.key === "Escape" && setOpen(false);
@@ -65,7 +67,7 @@ export function PublicationsPanel({ publications }) {
       <div
         aria-hidden="true"
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-40 bg-foreground/15 transition-opacity lg:pointer-events-none lg:bg-transparent ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-40 bg-foreground/15 transition-opacity lg:pointer-events-none lg:bg-transparent ${mobileHiddenClass} ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
 
       <button
@@ -74,7 +76,7 @@ export function PublicationsPanel({ publications }) {
         aria-expanded={open}
         aria-controls="publications-drawer"
         onClick={() => setOpen((value) => !value)}
-        className={`fixed right-0 top-1/2 z-50 -translate-y-1/2 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${open ? "translate-x-full" : "translate-x-0"}`}
+        className={`fixed right-0 top-1/2 z-50 -translate-y-1/2 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${mobileHiddenClass} ${open ? "translate-x-full" : "translate-x-0"}`}
       >
         <span className="relative flex h-48 w-14 items-center justify-center rounded-l-2xl border border-r-0 border-border bg-surface shadow-sm sm:h-56 sm:w-16">
           <Text as="span" variant="eyebrow" size="xs" className="absolute top-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap tracking-widest text-primary">
@@ -90,7 +92,7 @@ export function PublicationsPanel({ publications }) {
         id="publications-drawer"
         aria-label="Our publications"
         aria-hidden={!open}
-        className={`fixed right-0 top-0 z-50 flex h-dvh w-full max-w-md touch-none flex-col overflow-hidden border-l border-border bg-surface shadow-md transition-transform ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed right-0 top-0 z-50 flex h-dvh w-full max-w-md touch-none flex-col overflow-hidden border-l border-border bg-surface shadow-md transition-transform ${drawerMobileHiddenClass} ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="absolute right-16 top-0 flex h-20 w-12 items-center justify-center rounded-b-xl bg-primary text-primary-foreground shadow-sm">
           <Sparkles className="h-5 w-5" />
