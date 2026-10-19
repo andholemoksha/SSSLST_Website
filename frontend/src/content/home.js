@@ -17,9 +17,7 @@ export const home = {
         },
         ctaPrimary: { label: "Explore", to: "/programme/overview" },
         ctaSecondary: null,
-        // "Watch Video" button beside "Explore".
-        // TODO: replace with the specific YouTube video/channel URL later.
-        youtube: { url: "https://youtube.com", label: "Watch Video" },
+        youtube: { url: "https://www.youtube.com/watch?v=WDPPI92cFsw", label: "Watch Video" },
         publications: {
             title: "Our Publications",
             items: [
