@@ -9,17 +9,26 @@ import { cn } from "@/lib/utils";
  *
  * Props:
  * - to           destination route (whole card is a link)
+ * - onClick      when provided (and no `to`), the whole card becomes a button
+ *                that fires this handler — e.g. to open a modal
  * - title        heading text
+ * - eyebrow      optional small label shown above the title (e.g. a tag)
  * - description  optional supporting text
  * - image        optional image src; if omitted, `initials` shows on a brand panel
  * - initials     optional short text shown centered when there is no image
  * - meta         optional small text on the footer's left (e.g. a count)
  * - cta          footer call-to-action label (default "View")
+ * - ariaLabel    accessible label for the card when it is a button/link
+ * - mediaAspect  tailwind aspect-ratio class for the media frame
+ *                (default "aspect-[4/3]"; e.g. "aspect-square" / "aspect-[3/4]")
+ * - ctaAlign     footer CTA alignment: "right" (default) or "left"
  * - className    extra classes on the outer link (e.g. fixed width for scrollers)
  */
 export function TileCard({
   to,
+  onClick,
   title,
+  eyebrow,
   description,
   image,
   initials,
@@ -28,6 +37,9 @@ export function TileCard({
   cta = "View",
   showFooter = true,
   variant = "default",
+  ariaLabel,
+  mediaAspect = "aspect-[4/3]",
+  ctaAlign = "right",
   className,
   cardClassName,
   imageClassName,
@@ -36,18 +48,22 @@ export function TileCard({
 }) {
   const isCompact = variant === "compact";
   const isExternal = to && (to.startsWith("http://") || to.startsWith("https://"));
-  const Wrapper = to ? (isExternal ? "a" : Link) : "div";
+  const isButton = !to && typeof onClick === "function";
+  const Wrapper = to ? (isExternal ? "a" : Link) : isButton ? "button" : "div";
   const wrapperProps = to
     ? isExternal
       ? { href: to, target: "_blank", rel: "noopener noreferrer" }
       : { to }
-    : {};
+    : isButton
+      ? { type: "button", onClick, "aria-label": ariaLabel ?? title }
+      : {};
 
   return (
     <Wrapper
       {...wrapperProps}
       className={cn(
         "group block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        isButton && "w-full text-left",
         className
       )}
     >
@@ -58,7 +74,12 @@ export function TileCard({
         )}
       >
         {/* Media: image if provided, else initials on a brand panel */}
-        <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-primary">
+        <div
+          className={cn(
+            "flex items-center justify-center overflow-hidden bg-primary",
+            mediaAspect
+          )}
+        >
           {media ? (
             <div className="flex h-full w-full items-center justify-center p-6">
               {media}
@@ -96,6 +117,11 @@ export function TileCard({
           </div>
         ) : (
         <div className="flex flex-1 flex-col p-4">
+          {eyebrow ? (
+            <Text as="span" variant="eyebrow" size="xs" className="mb-1.5">
+              {eyebrow}
+            </Text>
+          ) : null}
           <Text as="h3" variant="heading" size="base">{title}</Text>
           {description ? (
             <div className="mt-1">
@@ -114,7 +140,12 @@ export function TileCard({
           ) : null}
 
           {showFooter ? (
-            <div className="mt-auto flex items-center justify-between pt-3">
+            <div
+              className={cn(
+                "mt-auto flex items-center pt-3",
+                ctaAlign === "left" ? "justify-start gap-3" : "justify-between"
+              )}
+            >
               {meta ? (
                 <Text
                   variant="body"
@@ -124,7 +155,7 @@ export function TileCard({
                 >
                   {meta}
                 </Text>
-              ) : (
+              ) : ctaAlign === "left" ? null : (
                 <span />
               )}
               {cta ? (
