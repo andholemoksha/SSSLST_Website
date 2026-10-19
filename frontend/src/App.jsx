@@ -24,6 +24,7 @@ import { NetritvamPage } from "@/pages/NetritvamPage";
 import { PrernaPage } from "@/pages/PrernaPage";
 import { PhotoGalleryPage } from "@/pages/PhotoGalleryPage";
 import { FaqPage } from "@/pages/FaqPage";
+import { AdministrationPage } from "@/pages/AdministrationPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 import { AdmissionsLotusCard } from "@/components/ui/admissions-lotus-card";
@@ -98,6 +99,7 @@ function App() {
           <Route path="/prerna" element={<PrernaPage />} />
           <Route path="/gallery" element={<PhotoGalleryPage />} />
           <Route path="/faq" element={<FaqPage />} />
+          <Route path="/administration" element={<AdministrationPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
