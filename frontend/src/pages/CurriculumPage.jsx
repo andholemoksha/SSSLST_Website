@@ -6,8 +6,8 @@ export function CurriculumPage() {
   return (
     <>
       <CurriculumIntro />
-      <CurriculumParts />
       <CurriculumLectures />
+      <CurriculumParts />
     </>
   );
 }

@@ -37,7 +37,7 @@ export function CurriculumParts() {
   const { parts } = useCurriculumPageContent();
 
   return (
-    <Section className="pb-0 pt-8 sm:pt-10 xl:pt-12">
+    <Section className="pt-6 sm:pt-6 xl:pt-8">
       <section className="relative overflow-hidden rounded-[2rem] border border-border bg-surface p-6 shadow-md sm:p-8 lg:p-12 xl:p-14 2xl:p-16">
         <div className="absolute inset-0 bg-gradient-to-br from-background/75 to-transparent" />
         <div className="relative">
