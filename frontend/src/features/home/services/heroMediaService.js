@@ -5,11 +5,13 @@ export function resolveHeroMedia(heroContent = {}) {
   const primarySrc = backgroundMedia.src || backgroundMedia.url || DEFAULT_HERO_VIDEO;
   const fallbackSrc = backgroundMedia.fallbackSrc || null;
   const poster = backgroundMedia.poster || null;
+  const mobileImage = backgroundMedia.mobileImage || null;
 
   return {
     src: primarySrc,
     fallbackSrc,
     poster,
+    mobileImage,
     hasFallback: Boolean(fallbackSrc),
   };
 }
