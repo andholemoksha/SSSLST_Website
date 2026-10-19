@@ -228,6 +228,12 @@
   background-image: var(--footer-gradient);
 }
 
+/* Purple → pink band. Used for highlight headers (e.g. the Administration
+ * member detail panel). Decorative only, not for primary buttons. */
+.bg-gradient-purple-to-pink {
+  background-image: var(--gradient-purple-to-pink);
+}
+
 /* Override Tailwind text-accent to use gradient text instead of flat orange. */
 .text-accent {
   color: transparent;
