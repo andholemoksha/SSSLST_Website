@@ -5,7 +5,7 @@ import { CurriculumIcon } from "@/features/curriculum/components/CurriculumIcon"
 import { useCurriculumContent } from "@/features/curriculum/hooks/useCurriculumContent";
 
 const desktopPath =
-  "M72 184 C122 184 174 248 224 248 S326 184 376 184 S478 248 528 248 S630 184 680 184 S782 248 832 248 S934 184 984 184 S1086 248 1136 248";
+  "M72 200 C122 200 174 264 224 264 S326 200 376 200 S478 264 528 264 S630 200 680 200 S782 264 832 264 S934 200 984 200 S1086 264 1136 264 S1240 200 1288 200";
 
 function JourneyIcon({ step }) {
   return (
@@ -52,7 +52,7 @@ function JourneyCard({ step }) {
 
 function MobileJourney({ steps, stepLabel }) {
   return (
-    <div className="relative mt-10 pl-14 md:hidden">
+    <div className="relative mt-10 pl-14 min-[1408px]:hidden">
       <div
         className="absolute bottom-6 left-6 top-6 w-px bg-primary/25"
         aria-hidden="true"
@@ -83,11 +83,11 @@ function MobileJourney({ steps, stepLabel }) {
 
 function DesktopJourney({ steps }) {
   return (
-    <div className="mt-10 hidden overflow-x-auto pb-4 md:block">
-      <div className="relative h-[28rem] min-w-[1208px]">
+    <div className="mt-10 hidden min-[1408px]:block">
+      <div className="relative mx-auto h-[30rem] w-full max-w-[1360px]">
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
-          viewBox="0 0 1208 448"
+          viewBox="0 0 1360 480"
           preserveAspectRatio="none"
           aria-hidden="true"
         >
@@ -101,7 +101,7 @@ function DesktopJourney({ steps }) {
           />
         </svg>
 
-        <div className="relative grid h-full grid-cols-8 gap-2">
+        <div className="relative grid h-full grid-cols-9 gap-1">
           {steps.map((step, index) => {
             const isOddStep = index % 2 === 0;
 
@@ -114,7 +114,7 @@ function DesktopJourney({ steps }) {
                   className={
                     isOddStep
                       ? "absolute top-0"
-                      : "absolute top-68"
+                      : "absolute top-76"
                   }
                 >
                   <JourneyCard step={step} />
@@ -123,8 +123,8 @@ function DesktopJourney({ steps }) {
                 <div
                   className={
                     isOddStep
-                      ? "absolute top-40"
-                      : "absolute top-56"
+                      ? "absolute top-44"
+                      : "absolute top-60"
                   }
                 >
                   <JourneyIcon step={step} />
@@ -145,6 +145,7 @@ export function CurriculumJourney() {
     <Section
       id="journey"
       className="bg-muted/50 pb-28 md:pb-16 xl:pb-24"
+      containerClassName="max-w-none"
     >
       <div className="mx-auto max-w-4xl text-center">
         <Text variant="eyebrow" size="xs">
